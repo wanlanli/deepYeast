@@ -26,31 +26,31 @@ import common
 
 layers = tf.keras.layers
 
-# _PREDICTION_WITH_NEAREST_UPSAMPLING = (
-#     common.PRED_INSTANCE_KEY,
-#     common.PRED_INSTANCE_CENTER_KEY,
-#     common.PRED_INSTANCE_SCORES_KEY,
-#     common.PRED_PANOPTIC_KEY,
-#     common.PRED_SEMANTIC_KEY,
-#     common.PRED_CENTER_HEATMAP_KEY,
-#     common.PRED_NEXT_PANOPTIC_KEY,
-#     common.PRED_CONCAT_NEXT_PANOPTIC_KEY,
-# )
+_PREDICTION_WITH_NEAREST_UPSAMPLING = (
+    common.PRED_INSTANCE_KEY,
+    common.PRED_INSTANCE_CENTER_KEY,
+    common.PRED_INSTANCE_SCORES_KEY,
+    common.PRED_PANOPTIC_KEY,
+    common.PRED_SEMANTIC_KEY,
+    common.PRED_CENTER_HEATMAP_KEY,
+    # common.PRED_NEXT_PANOPTIC_KEY,
+    # common.PRED_CONCAT_NEXT_PANOPTIC_KEY,
+)
 
-# _PREDICTION_WITH_BILINEAR_UPSAMPLING = (
-#     common.PRED_SEMANTIC_PROBS_KEY,
-#     common.PRED_DEPTH_KEY,
-#     common.PRED_OFFSET_MAP_KEY,
-# )
+_PREDICTION_WITH_BILINEAR_UPSAMPLING = (
+    common.PRED_SEMANTIC_PROBS_KEY,
+    # common.PRED_DEPTH_KEY,
+    common.PRED_OFFSET_MAP_KEY,
+)
 
-# _INPUT_WITH_NEAREST_UPSAMPLING = (
-#     common.GT_INSTANCE_CENTER_KEY,
-# )
+_INPUT_WITH_NEAREST_UPSAMPLING = (
+    common.GT_INSTANCE_CENTER_KEY,
+)
 
-# _INPUT_WITH_BILINEAR_UPSAMPLING = (
-#     common.IMAGE,
-#     common.GT_INSTANCE_REGRESSION_KEY
-# )
+_INPUT_WITH_BILINEAR_UPSAMPLING = (
+    common.IMAGE,
+    common.GT_INSTANCE_REGRESSION_KEY
+)
 
 
 def _scale_helper(value, scale):
@@ -95,73 +95,73 @@ def safe_setattr(obj, name, value):
     raise ValueError('The object already has an attribute with the same name.')
   setattr(obj, name, value)
 
-# def undo_image_preprocessing(image_in: tf.Tensor, method: str,
-#                              perform_crop: bool,
-#                              regions_to_crop: List[int],
-#                              output_shape: List[int]) -> tf.Tensor:
-#   """Undoes the image preprocessing.
+def undo_image_preprocessing(image_in: tf.Tensor, method: str,
+                             perform_crop: bool,
+                             regions_to_crop: List[int],
+                             output_shape: List[int]) -> tf.Tensor:
+  """Undoes the image preprocessing.
 
-#   In particular, this function slices out the valid regions (determined by
-#   `regions_to_crop`) in the input when perform_crop is True. After
-#   that, we resize the results to the desired `output_shape`.
+  In particular, this function slices out the valid regions (determined by
+  `regions_to_crop`) in the input when perform_crop is True. After
+  that, we resize the results to the desired `output_shape`.
 
-#   Args:
-#     image_in: Input image Tensor with shape [batch, height, width, n_channels].
-#     method: Image resize method.
-#     perform_crop: Boolean, performing crop or not.
-#     regions_to_crop: The regions to crop [height, width]. Will only apply
-#       cropping at the bottom right.
-#     output_shape: Desired shape after resizing [height, width].
+  Args:
+    image_in: Input image Tensor with shape [batch, height, width, n_channels].
+    method: Image resize method.
+    perform_crop: Boolean, performing crop or not.
+    regions_to_crop: The regions to crop [height, width]. Will only apply
+      cropping at the bottom right.
+    output_shape: Desired shape after resizing [height, width].
 
-#   Returns:
-#     Outputs after cropping (if perform_crop = True) and resizing.
-#   """
-#   if perform_crop:
-#     image_out = image_in[
-#         :, :regions_to_crop[0], :regions_to_crop[1], :]
-#   else:
-#     image_out = image_in
-#   return resize_align_corners(image_out, output_shape, method=method)
+  Returns:
+    Outputs after cropping (if perform_crop = True) and resizing.
+  """
+  if perform_crop:
+    image_out = image_in[
+        :, :regions_to_crop[0], :regions_to_crop[1], :]
+  else:
+    image_out = image_in
+  return resize_align_corners(image_out, output_shape, method=method)
 
 
-# def undo_preprocessing(input_or_prediction_dict: MutableMapping[str, Any],
-#                        regions_to_crop: List[int],
-#                        output_shape: List[int]) -> MutableMapping[str, Any]:
-#   """Undoes preprocessing for predictions.
+def undo_preprocessing(input_or_prediction_dict: MutableMapping[str, Any],
+                       regions_to_crop: List[int],
+                       output_shape: List[int]) -> MutableMapping[str, Any]:
+  """Undoes preprocessing for predictions.
 
-#   Args:
-#     input_or_prediction_dict: A dictionary storing different types of inputs or
-#       predictions.
-#     regions_to_crop: The regions to crop [height, width]. Will only apply
-#       cropping at the bottom right.
-#     output_shape: Desired shape after resizing [height, width].
+  Args:
+    input_or_prediction_dict: A dictionary storing different types of inputs or
+      predictions.
+    regions_to_crop: The regions to crop [height, width]. Will only apply
+      cropping at the bottom right.
+    output_shape: Desired shape after resizing [height, width].
 
-#   Returns:
-#     inputs or predictions after cropping (if perform_crop = True) and resizing.
-#   """
-#   for key in input_or_prediction_dict.keys():
-#     if key in _PREDICTION_WITH_NEAREST_UPSAMPLING or key in _INPUT_WITH_NEAREST_UPSAMPLING:
-#       input_or_prediction_dict[key] = tf.squeeze(
-#           undo_image_preprocessing(
-#               tf.expand_dims(input_or_prediction_dict[key], 3),
-#               'nearest',
-#               perform_crop=True,
-#               regions_to_crop=regions_to_crop,
-#               output_shape=output_shape),
-#           axis=3)
-#     elif key in _PREDICTION_WITH_BILINEAR_UPSAMPLING or key in _INPUT_WITH_BILINEAR_UPSAMPLING:
-#       input_or_prediction_dict[key] = undo_image_preprocessing(
-#           input_or_prediction_dict[key],
-#           'bilinear',
-#           perform_crop=True,
-#           regions_to_crop=regions_to_crop,
-#           output_shape=output_shape)
-#     else:
-#       # We only undo preprocessing for those defined in
-#       # _{PREDICTION,INPUT}_WITH_{NEAREST,BILINEAR}_UPSAMPLING.
-#       # Other intermediate results are skipped.
-#       continue
-#   return input_or_prediction_dict
+  Returns:
+    inputs or predictions after cropping (if perform_crop = True) and resizing.
+  """
+  for key in input_or_prediction_dict.keys():
+    if key in _PREDICTION_WITH_NEAREST_UPSAMPLING or key in _INPUT_WITH_NEAREST_UPSAMPLING:
+      input_or_prediction_dict[key] = tf.squeeze(
+          undo_image_preprocessing(
+              tf.expand_dims(input_or_prediction_dict[key], 3),
+              'nearest',
+              perform_crop=True,
+              regions_to_crop=regions_to_crop,
+              output_shape=output_shape),
+          axis=3)
+    elif key in _PREDICTION_WITH_BILINEAR_UPSAMPLING or key in _INPUT_WITH_BILINEAR_UPSAMPLING:
+      input_or_prediction_dict[key] = undo_image_preprocessing(
+          input_or_prediction_dict[key],
+          'bilinear',
+          perform_crop=True,
+          regions_to_crop=regions_to_crop,
+          output_shape=output_shape)
+    else:
+      # We only undo preprocessing for those defined in
+      # _{PREDICTION,INPUT}_WITH_{NEAREST,BILINEAR}_UPSAMPLING.
+      # Other intermediate results are skipped.
+      continue
+  return input_or_prediction_dict
 
 
 def add_zero_padding(input_tensor: tf.Tensor, kernel_size: int,

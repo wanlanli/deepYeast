@@ -21,6 +21,7 @@ from typing import Any, Dict, Text, Tuple
 from absl import logging
 import tensorflow as tf
 
+
 import common
 import config_yml
 from data import dataset
@@ -52,7 +53,7 @@ class DeepLab(tf.keras.Model):
       ValueError: If MaX-DeepLab is used with multi-scale inference.
     """
     super(DeepLab, self).__init__(name='DeepLab')
-
+    print("DEEPLAB INIT")
     if config.trainer_options.solver_options.use_sync_batchnorm:
       logging.info('Synchronized Batchnorm is used.')
       bn_layer = functools.partial(
@@ -74,7 +75,7 @@ class DeepLab(tf.keras.Model):
     # https://github.com/tensorflow/models/blob/68ee72ae785274156b9e943df4145b257cd78b32/official/vision/beta/tasks/image_classification.py#L41
     # https://www.tensorflow.org/api_docs/python/tf/keras/regularizers/l2
     # https://www.tensorflow.org/api_docs/python/tf/nn/l2_loss
-    
+
     self._encoder = builder.create_encoder(
         config.model_options.backbone, bn_layer,
         conv_kernel_weight_decay=(
@@ -89,12 +90,15 @@ class DeepLab(tf.keras.Model):
     # The ASPP pooling size is always set to train crop size, which is found to
     # be experimentally better.
     pool_size = config.train_dataset_options.crop_size
+    print("DEEPLAB INIT",pool_size)
     output_stride = float(config.model_options.backbone.output_stride)
+    print("DEEPLAB INIT",output_stride)
     pool_size = tuple(
         utils.scale_mutable_sequence(pool_size, 1.0 / output_stride))
+    print("DEEPLAB INIT",pool_size)
     logging.info('Setting pooling size to %s', pool_size)
     self.set_pool_size(pool_size)
-
+    print('Setting pooling size to %s', pool_size)
     # Variables for multi-scale inference.
     self._add_flipped_images = config.evaluator_options.add_flipped_images
     if not config.evaluator_options.eval_scales:
@@ -127,7 +131,8 @@ class DeepLab(tf.keras.Model):
     # preprocessing because it is faster on TPUs than on host CPUs. The
     # normalization should not increase TPU memory consumption because it does
     # not require gradient.
-    input_tensor = input_tensor / 127.5 - 1.0
+    ## 注意设置norm方法
+    input_tensor = input_tensor / 32767.5 - 1.0
     # Get the static spatial shape of the input tensor.
     _, input_h, input_w, _ = input_tensor.get_shape().as_list()
     if training:
@@ -141,6 +146,8 @@ class DeepLab(tf.keras.Model):
       result_dict = collections.defaultdict(list)
       # Evaluation mode where one could perform multi-scale inference.
       scale_1_pool_size = self.get_pool_size()
+      print('Getting pooling size to %s', scale_1_pool_size)
+      print('Eval with scales %s', self._eval_scales, scale_1_pool_size)
       logging.info('Eval with scales %s', self._eval_scales)
       for eval_scale in self._eval_scales:
         # Get the scaled images/pool_size for each scale.
@@ -150,7 +157,8 @@ class DeepLab(tf.keras.Model):
         # Update the ASPP pool size for different eval scales.
         self.set_pool_size(tuple(scaled_pool_size))
         logging.info('Eval scale %s; setting pooling size to %s',
-                     eval_scale, scaled_pool_size)
+                    eval_scale, scaled_pool_size)
+        print(scaled_images)
         pred_dict = self._decoder(
             self._encoder(scaled_images, training=training), training=training)
         # MaX-DeepLab skips this resizing and upsamples the mask outputs in

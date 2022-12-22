@@ -324,9 +324,9 @@ class PanopticSampleGenerator:
       sample[common.RESIZED_IMAGE] = resized_image
       sample[common.IMAGE_NAME] = image_name
       sample[common.GT_SIZE_RAW] = tf.stack([height, width], axis=0)
-      if self._dataset_info['is_video_dataset']:
-        sample[common.SEQUENCE_ID] = sequence
-      # Keep original labels for evaluation.
+      # if self._dataset_info['is_video_dataset']:
+      #   sample[common.SEQUENCE_ID] = sequence
+      # # Keep original labels for evaluation.
       if label is not None:
         orig_semantic_label, _, _, orig_crowd_region = (
             dataset_utils.get_semantic_and_panoptic_label(
@@ -335,9 +335,9 @@ class PanopticSampleGenerator:
         if not self._only_semantic_annotations:
           sample[common.GT_PANOPTIC_RAW] = tf.squeeze(original_label, axis=2)
           sample[common.GT_IS_CROWD_RAW] = tf.squeeze(orig_crowd_region)
-          if next_label is not None:
-            sample[common.GT_NEXT_PANOPTIC_RAW] = tf.squeeze(
-                original_next_label, axis=2)
+          # if next_label is not None:
+          #   sample[common.GT_NEXT_PANOPTIC_RAW] = tf.squeeze(
+          #       original_next_label, axis=2)
       # if depth is not None:
       #   sample[common.GT_DEPTH_RAW] = original_depth
     return sample

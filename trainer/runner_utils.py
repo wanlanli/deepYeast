@@ -14,9 +14,9 @@
 # # limitations under the License.
 
 # """Utility functions for the trainer and evaluator runner."""
-# from typing import Any
-# from typing import Mapping
-# from typing import Union
+from typing import Any
+from typing import Mapping
+from typing import Union
 
 import tensorflow as tf
 
@@ -41,36 +41,36 @@ from data.dataloader import input_reader
 #   return False
 
 
-# def maybe_load_checkpoint(initial_checkpoint: Union[str, None],
-#                           load_dict: Mapping[Any, Any]) -> None:
-#   """Maybe load a checkpoint.
+def maybe_load_checkpoint(initial_checkpoint: Union[str, None],
+                          load_dict: Mapping[Any, Any]) -> None:
+  """Maybe load a checkpoint.
 
-#   Args:
-#     initial_checkpoint: A string or None, specifying a path to a checkpoint.
-#     load_dict: A dictionary that defines what to load from the checkpoint.
+  Args:
+    initial_checkpoint: A string or None, specifying a path to a checkpoint.
+    load_dict: A dictionary that defines what to load from the checkpoint.
 
-#   Raises:
-#     ValueError: If load_dict does not contain the 'encoder'.
-#   """
-#   if not initial_checkpoint:
-#     return
+  Raises:
+    ValueError: If load_dict does not contain the 'encoder'.
+  """
+  if not initial_checkpoint:
+    return
 
-#   if 'encoder' not in load_dict:
-#     raise ValueError('Load_dict should contain the encoder, but it is missing.')
+  if 'encoder' not in load_dict:
+    raise ValueError('Load_dict should contain the encoder, but it is missing.')
 
-#   if tf.io.gfile.isdir(initial_checkpoint):
-#     initial_checkpoint = tf.train.latest_checkpoint(initial_checkpoint)
+  if tf.io.gfile.isdir(initial_checkpoint):
+    initial_checkpoint = tf.train.latest_checkpoint(initial_checkpoint)
 
-#   if _load_tf_model_garden_vision_checkpoint(initial_checkpoint):
-#     checkpoint = tf.train.Checkpoint(
-#         backbone=tf.train.Checkpoint(
-#             _encoder=load_dict['encoder']))
-#   else:
-#     checkpoint = tf.train.Checkpoint(**load_dict)
-#   status = checkpoint.read(initial_checkpoint)
-#   # Motion-DeepLab models require nontrivial_match, as the input channels for
-#   # the first convolution change.
-#   status.expect_partial().assert_nontrivial_match()
+  # if _load_tf_model_garden_vision_checkpoint(initial_checkpoint):
+  #   checkpoint = tf.train.Checkpoint(
+  #       backbone=tf.train.Checkpoint(
+  #           _encoder=load_dict['encoder']))
+  # else:
+  checkpoint = tf.train.Checkpoint(**load_dict)
+  status = checkpoint.read(initial_checkpoint)
+  # Motion-DeepLab models require nontrivial_match, as the input channels for
+  # the first convolution change.
+  status.expect_partial().assert_nontrivial_match()
 
 
 def create_dataset(dataset_config: config_yml.DatasetOptions,

@@ -24,7 +24,7 @@ from data.preprocessing import preprocess_utils
 # left-right during training
 _PROB_OF_FLIP = 0.5
 
-_MEAN_PIXEL = [127.5] #, 127.5, 127.5]
+_MEAN_PIXEL = [32767.7] #, 127.5, 127.5]
 
 
 def _pad_image_and_label(image,
@@ -190,9 +190,7 @@ def preprocess_image_and_label(image,
   #image = np.array(image)
   #image = (image-np.min(image))/(np.max(image)-np.min(image))
   processed_image = tf.cast(image, tf.float32)
-
   processed_prev_image = None
-
   if label is not None:
     label.get_shape().assert_is_compatible_with(tf.TensorShape([None, None, 1]))
     # if prev_label is not None:
@@ -282,7 +280,7 @@ def preprocess_image_and_label(image,
   #   depth = tf.cast(depth, tf.int32)
 
   # Apply autoaugment if any.
-  if None: #autoaugment_policy_name:
+  if autoaugment_policy_name:
     processed_image, label = _autoaugment_helper(processed_image, label,
                                                  ignore_label,
                                                  autoaugment_policy_name)
@@ -299,10 +297,10 @@ def preprocess_image_and_label(image,
 
   # Randomly crop the image and label.
   def _uniform_offset(margin):
-    return tf.random.uniform([],
-                             minval=0,
-                             maxval=tf.maximum(margin, 1),
-                             dtype=tf.int32)
+      return tf.random.uniform([],
+                              minval=0,
+                              maxval=tf.maximum(margin, 1),
+                              dtype=tf.int32)
 
   offset_height = _uniform_offset(crop_height - image_height)
   offset_width = _uniform_offset(crop_width - image_width)

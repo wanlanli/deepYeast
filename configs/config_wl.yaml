@@ -31,9 +31,10 @@
 
 # // # Use a unique experiment_name for each experiment.
 
-experiment_name: "test_cellseg_axial_005_gpu"
+experiment_name: "train_deepyeast_001"
 
 model_options:
+  initial_checkpoint: "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/project/model_gpu_test/test_cellseg_axial_008_gpu/ckpt-60000.index"
   backbone:
     name: "axial_swidernet"
     output_stride: 16
@@ -68,17 +69,17 @@ model_options:
       head_channels: 256
 
 trainer_options:
-  save_checkpoints_steps: 2000
-  save_summaries_steps: 2
-  steps_per_loop: 2
+  save_checkpoints_steps: 50
+  save_summaries_steps: 10
+  steps_per_loop: 10
   loss_options:
     semantic_loss:
       name: "softmax_cross_entropy"
-      weight: 1.0
+      weight: 2.0
       top_k_percent: 0.2
     center_loss:
       name: "mse"
-      weight: 200
+      weight: 20
     regression_loss:
       name: "l1"
       weight: 0.01
@@ -89,7 +90,7 @@ trainer_options:
 train_dataset_options:
   dataset: "cellfustion_panoptic"
   # Update the path to training set.
-  file_pattern: "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/project/deepyeast/tf/train*.tfrecord"
+  file_pattern: "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/project/tf/val/val*.tfrecord"
   #"/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set6/tf/train*.tfrecord"
   # "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/output/deep_lab_semantic/train*.tfrecord"
   # Adjust the batch_size accordingly to better fit your GPU/TPU memory.
@@ -110,11 +111,10 @@ train_dataset_options:
 eval_dataset_options:
   dataset: "cellfustion_panoptic"
   # Update the path to validation set.
-  file_pattern: "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set4_for_train_sematic/tf/val*.tfrecord"
+  file_pattern: "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/project/tf/train/train*.tfrecord"
   # "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/output/deep_lab_semantic/val*.tfrecord"
   batch_size: 1
-  crop_size: 256
-  crop_size: 256
+  crop_size: [256, 256]
   # Skip resizing.
   min_resize_value: 0
   max_resize_value: 0

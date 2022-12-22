@@ -46,7 +46,7 @@ _DATA_FORMAT_MAP = {
     'label': 'png',
 }
 
-_PANOPTIC_LABEL_FORMAT = 'png'
+_PANOPTIC_LABEL_FORMAT = 'raw'
 
 
 def _get_images(image_root, dataset_split):

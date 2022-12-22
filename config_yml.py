@@ -10,10 +10,12 @@ class ExperimentOptions:
         self.trainer_options = TrainerOptions(config['trainer_options'])
         self.evaluator_options = EvaluatorOptions(config['evaluator_options'])
         self.train_dataset_options = DatasetOptions(config['train_dataset_options'])
+        self.eval_dataset_options = DatasetOptions(config['eval_dataset_options'])
 
 
 class ModelOptions:
     def __init__(self, config) -> None:
+        self.initial_checkpoint = config['initial_checkpoint']
         self.backbone = BackboneOptions(config["backbone"])
         self.meta_architecture = "panoptic_deeplab"
         self.panoptic_deeplab = PanopticOptions(config['panoptic_deeplab'])
@@ -108,6 +110,9 @@ class EvaluatorOptions(ConfigBase):
         self.keep_k_centers = 400
         self.add_flipped_images = False
         self.eval_scales = []
+        self.use_tf_function = True
+        self.raw_panoptic_format = 'two_channel_png'
+        self.convert_raw_to_eval_ids = False
         super(EvaluatorOptions, self).__init__(config)
 
 
@@ -118,8 +123,16 @@ class DatasetOptions:
         self.resize_factor = None
         self.thing_id_mask_annotations = False
         self.max_thing_id = 128
+        self.augmentations = AugmentationsOptions()
         for key, v in config.items():
             if isinstance(v, dict):
                 setattr(self, key, ConfigBase(v))
             else:
                 setattr(self, key, v)
+
+class AugmentationsOptions:   
+    def __init__(self) -> None:
+        self.min_scale_factor = 1
+        self.max_scale_factor = 1
+        self.scale_factor_step_size = 1
+        self.autoaugment_policy_name = None

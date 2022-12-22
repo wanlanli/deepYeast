@@ -34,7 +34,7 @@ from data.preprocessing import autoaugment_policy
 # # This signifies the max integer that the controller RNN could predict for the
 # # augmentation scheme.
 _MAX_LEVEL = 10.
-
+_MAX_VALUE = 65535
 
 def blend(image1, image2, factor):
   """Blends image1 and image2 using 'factor'.
@@ -71,47 +71,47 @@ def blend(image1, image2, factor):
   # Interpolate
   if factor > 0.0 and factor < 1.0:
     # Interpolation means we always stay within 0 and 255.
-    return tf.cast(temp, tf.uint8)
+    temp # return tf.cast(temp, tf.float32)
 
   # Extrapolate:
   #
   # We need to clip and then cast.
-  return tf.cast(tf.clip_by_value(temp, 0.0, 255.0), tf.uint8)
+  return tf.cast(tf.clip_by_value(temp, 0.0, float(_MAX_VALUE)), tf.uint16)
 
 
-def solarize(image, threshold=128):
+def solarize(image, threshold=float(_MAX_VALUE)/2):
   # For each pixel in the image, select the pixel
   # if the value is less than the threshold.
   # Otherwise, subtract 255 from the pixel.
-  return tf.where(image < threshold, image, 255 - image)
+  return tf.where(image < threshold, image, _MAX_VALUE - image)
 
 
 def invert(image):
   """Inverts the image pixels."""
   image = tf.convert_to_tensor(image)
-  return 255 - image
+  return _MAX_VALUE - image
 
 
-def color(image, factor):
-  """Equivalent of PIL Color."""
-  degenerate = tf.image.grayscale_to_rgb(tf.image.rgb_to_grayscale(image))
-  return blend(degenerate, image, factor)
+# def color(image, factor):
+#   """Equivalent of PIL Color."""
+#   degenerate = tf.image.grayscale_to_rgb(tf.image.rgb_to_grayscale(image))
+#   return blend(degenerate, image, factor)
 
 
 def contrast(image, factor):
   """Equivalent of PIL Contrast."""
-  degenerate = tf.image.rgb_to_grayscale(image)
+  # degenerate = tf.image.rgb_to_grayscale(image)
   # Cast before calling tf.histogram.
-  degenerate = tf.cast(degenerate, tf.int32)
+  degenerate = tf.cast(image, tf.int32)
 
   # Compute the grayscale histogram, then compute the mean pixel value,
   # and create a constant image size of that value.  Use that as the
   # blending degenerate target of the original image.
-  hist = tf.histogram_fixed_width(degenerate, [0, 255], nbins=256)
-  mean = tf.reduce_sum(tf.cast(hist, tf.float32)) / 256.0
+  hist = tf.histogram_fixed_width(degenerate, [0, _MAX_VALUE], nbins=256)
+  mean = tf.reduce_sum(tf.cast(hist, tf.float32)) / float(_MAX_VALUE+1)
   degenerate = tf.ones_like(degenerate, dtype=tf.float32) * mean
-  degenerate = tf.clip_by_value(degenerate, 0.0, 255.0)
-  degenerate = tf.image.grayscale_to_rgb(tf.cast(degenerate, tf.uint8))
+  degenerate = tf.clip_by_value(degenerate, 0.0, float(_MAX_VALUE))
+  # degenerate = tf.image.grayscale_to_rgb(tf.cast(degenerate, tf.uint8))
   return blend(degenerate, image, factor)
 
 
@@ -121,49 +121,49 @@ def brightness(image, factor):
   return blend(degenerate, image, factor)
 
 
-def posterize(image, bits):
-  """Equivalent of PIL Posterize."""
-  shift = 8 - bits
-  return tf.bitwise.left_shift(tf.bitwise.right_shift(image, shift), shift)
+# def posterize(image, bits):
+#   """Equivalent of PIL Posterize."""
+#   shift = 32 - bits
+#   return tf.bitwise.left_shift(tf.bitwise.right_shift(image, shift), shift)
 
 
-def autocontrast(image):
-  """Implements Autocontrast function from PIL using TF ops.
+# def autocontrast(image):
+#   """Implements Autocontrast function from PIL using TF ops.
 
-  Args:
-    image: A 3D uint8 tensor.
+#   Args:
+#     image: A 3D uint8 tensor.
 
-  Returns:
-    The image after it has had autocontrast applied to it and will be of type
-    uint8.
-  """
+#   Returns:
+#     The image after it has had autocontrast applied to it and will be of type
+#     uint8.
+#   """
 
-  def scale_channel(image):
-    """Scale the 2D image using the autocontrast rule."""
-    # A possibly cheaper version can be done using cumsum/unique_with_counts
-    # over the histogram values, rather than iterating over the entire image.
-    # to compute mins and maxes.
-    lo = tf.cast(tf.reduce_min(image), tf.float32)
-    hi = tf.cast(tf.reduce_max(image), tf.float32)
+#   def scale_channel(image):
+#     """Scale the 2D image using the autocontrast rule."""
+#     # A possibly cheaper version can be done using cumsum/unique_with_counts
+#     # over the histogram values, rather than iterating over the entire image.
+#     # to compute mins and maxes.
+#     lo = tf.cast(tf.reduce_min(image), tf.float32)
+#     hi = tf.cast(tf.reduce_max(image), tf.float32)
 
-    # Scale the image, making the lowest value 0 and the highest value 255.
-    def scale_values(im):
-      scale = 255.0 / (hi - lo)
-      offset = -lo * scale
-      im = tf.cast(im, tf.float32) * scale + offset
-      im = tf.clip_by_value(im, 0.0, 255.0)
-      return tf.cast(im, tf.uint8)
+#     # Scale the image, making the lowest value 0 and the highest value 255.
+#     def scale_values(im):
+#       scale = 255.0 / (hi - lo)
+#       offset = -lo * scale
+#       im = tf.cast(im, tf.float32) * scale + offset
+#       im = tf.clip_by_value(im, 0.0, 255.0)
+#       return tf.cast(im, tf.uint8)
 
-    result = tf.cond(hi > lo, lambda: scale_values(image), lambda: image)
-    return result
+#     result = tf.cond(hi > lo, lambda: scale_values(image), lambda: image)
+#     return result
 
-  # Assumes RGB for now.  Scales each channel independently
-  # and then stacks the result.
-  s1 = scale_channel(image[:, :, 0])
-  s2 = scale_channel(image[:, :, 1])
-  s3 = scale_channel(image[:, :, 2])
-  image = tf.stack([s1, s2, s3], 2)
-  return image
+#   # Assumes RGB for now.  Scales each channel independently
+#   # and then stacks the result.
+#   s1 = scale_channel(image[:, :, 0])
+#   # s2 = scale_channel(image[:, :, 1])
+#   # s3 = scale_channel(image[:, :, 2])
+#   image = tf.stack([s1], 2)
+#   return image
 
 
 def sharpness(image, factor):
@@ -177,12 +177,12 @@ def sharpness(image, factor):
       [[1, 1, 1], [1, 5, 1], [1, 1, 1]], dtype=tf.float32,
       shape=[3, 3, 1, 1]) / 13.
   # Tile across channel dimension.
-  kernel = tf.tile(kernel, [1, 1, 3, 1])
+  kernel = tf.tile(kernel, [1, 1, 1, 1])
   strides = [1, 1, 1, 1]
   degenerate = tf.nn.depthwise_conv2d(
       image, kernel, strides, padding='VALID', dilations=[1, 1])
-  degenerate = tf.clip_by_value(degenerate, 0.0, 255.0)
-  degenerate = tf.squeeze(tf.cast(degenerate, tf.uint8), [0])
+  degenerate = tf.clip_by_value(degenerate, 0.0, float(_MAX_VALUE))
+  degenerate = tf.squeeze(tf.cast(degenerate, tf.uint16), [0])
 
   # For the borders of the resulting image, fill in the values of the
   # original image.
@@ -201,13 +201,12 @@ def equalize(image):
     """Scale the data in the channel to implement equalize."""
     im = tf.cast(im[:, :, c], tf.int32)
     # Compute the histogram of the image channel.
-    histo = tf.histogram_fixed_width(im, [0, 255], nbins=256)
+    histo = tf.histogram_fixed_width(im, [0, _MAX_VALUE], nbins=(_MAX_VALUE+1))
 
     # For the purposes of computing the step, filter out the nonzeros.
     nonzero = tf.where(tf.not_equal(histo, 0))
     nonzero_histo = tf.reshape(tf.gather(histo, nonzero), [-1])
-    step = (tf.reduce_sum(nonzero_histo) - nonzero_histo[-1]) // 255
-
+    step = (tf.reduce_sum(nonzero_histo) - nonzero_histo[-1]) // _MAX_VALUE#255
     def build_lut(histo, step):
       # Compute the cumulative sum, shifting by step // 2
       # and then normalization by step.
@@ -216,32 +215,31 @@ def equalize(image):
       lut = tf.concat([[0], lut[:-1]], 0)
       # Clip the counts to be in range.  This is done
       # in the C code for image.point.
-      return tf.clip_by_value(lut, 0, 255)
+      return tf.clip_by_value(lut, 0, _MAX_VALUE)
 
     # If step is zero, return the original image.  Otherwise, build
     # lut from the full histogram and step and then index from it.
     result = tf.cond(tf.equal(step, 0),
                      lambda: im,
                      lambda: tf.gather(build_lut(histo, step), im))
-
-    return tf.cast(result, tf.uint8)
+    return tf.cast(result, tf.uint16)
 
   # Assumes RGB for now.  Scales each channel independently
   # and then stacks the result.
   s1 = scale_channel(image, 0)
-  s2 = scale_channel(image, 1)
-  s3 = scale_channel(image, 2)
-  image = tf.stack([s1, s2, s3], 2)
+  # s2 = scale_channel(image, 1)
+  # s3 = scale_channel(image, 2)
+  image = tf.stack([s1], 2)
   return image
 
 
 NAME_TO_FUNC = {
-    'AutoContrast': autocontrast,
+    # 'AutoContrast': autocontrast,
     'Equalize': equalize,
     'Invert': invert,
-    'Posterize': posterize,
+    # 'Posterize': posterize,
     'Solarize': solarize,
-    'Color': color,
+    # 'Color': color,
     'Contrast': contrast,
     'Brightness': brightness,
     'Sharpness': sharpness,
@@ -356,7 +354,7 @@ def build_and_apply_autoaugment_policy(policies, image, label, ignore_label):
     the `policies` pass into the function. Additionally, returns bboxes if
     a value for them is passed in that is not None
   """
-  replace_value = [128, 128, 128]
+  replace_value = [0.5]#, 128, 128]
 
   # func is the string name of the augmentation function, prob is the
   # probability of applying the operation and level is the parameter associated

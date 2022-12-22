@@ -57,7 +57,7 @@ def convert_policy(policy,
 
 simple_classification_policy = [8, 2, 7, 7, 1, 10,
                                 1, 0, 9, 6, 1, 10,
-                                8, 1, 9, 5, 1, 9,
+                                8, 1, 9, 2, 1, 9,
                                 4, 1, 7, 1, 3, 9,
                                 8, 1, 1, 1, 1, 7]
 

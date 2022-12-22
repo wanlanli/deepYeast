@@ -50,10 +50,10 @@ GT_IS_CROWD = 'is_crowd_gt'
 # GT_DEPTH_KEY = 'depth_gt'
 
 # # Raw labels.
-# GT_PANOPTIC_RAW = 'panoptic_raw'
-# GT_SEMANTIC_RAW = 'semantic_raw'
-# GT_IS_CROWD_RAW = 'is_crowd_raw'
-# GT_SIZE_RAW = 'size_raw'
+GT_PANOPTIC_RAW = 'panoptic_raw'
+GT_SEMANTIC_RAW = 'semantic_raw'
+GT_IS_CROWD_RAW = 'is_crowd_raw'
+GT_SIZE_RAW = 'size_raw'
 # GT_NEXT_PANOPTIC_RAW = 'next_panoptic_raw'
 # GT_DEPTH_RAW = 'depth_raw'
 
@@ -81,10 +81,10 @@ REGRESSION_LOSS_WEIGHT_KEY = 'regression_loss_weight'
 # DEPTH_LOSS_WEIGHT_KEY = 'depth_loss_weight'
 
 # # Misc.
-# RESIZED_IMAGE = 'resized_image'
+RESIZED_IMAGE = 'resized_image'
 IMAGE = 'image'
-# IMAGE_NAME = 'image_name'
-# SEQUENCE_ID = 'sequence_id'
+IMAGE_NAME = 'image_name'
+SEQUENCE_ID = 'sequence_id'
 # NEXT_IMAGE = 'next_image'
 
 # # TfExample keys.

@@ -16,7 +16,7 @@
 """Contains common utility functions and classes for building dataset."""
 
 import collections
-# import io
+import io
 
 import numpy as np
 # from PIL import Image
@@ -37,11 +37,15 @@ def read_image(image_data):
       Decoded PIL.Image object.
     """
     # image = Image.open(io.BytesIO(image_data))
-    try:
+    try: ##读数据有问题需要重新做
         image = imread(image_data, plugin='imageio')
         # norm image to 0 to 1
-        image = image.astype(np.float32)
-        image = (image - np.min(image))/(np.max(image) - np.min(image))
+        print(np.max(image))
+        # image = image.astype(np.float32)
+        # image = (image - np.min(image))/(np.max(image) - np.min(image))
+    #    image_data = io.BytesIO()
+    #   image.save(image_data, format=image_format)
+    #   image_data = image_data.getvalue()
     except TypeError:
         # capture and ignore this bug:
         # https://github.com/python-pillow/Pillow/issues/3973
@@ -49,31 +53,22 @@ def read_image(image_data):
     return image
 
 
-# def get_image_dims(image_data, check_is_rgb=False, image_path=''):
-#   """Decodes image and return its height and width.
+# def get_image_dims(image_data):
+#     """Decodes image and return its height and width.
 
-#   Args:
-#     image_data: Bytes data representing encoded image.
-#     check_is_rgb: Whether to check encoded image is RGB.
+#     Args:
+#         image_data: Bytes data representing encoded image.
+#         check_is_rgb: Whether to check encoded image is RGB.
 
-#   Returns:
-#     Decoded image size as a tuple of (height, width)
+#     Returns:
+#         Decoded image size as a tuple of (height, width)
 
-#   Raises:
-#     ValueError: If check_is_rgb is set and input image has other format.
-#   """
-#   image = read_image(image_data, image_path=image_path)
-#   if image.mode != 'RGB':
-#     # image = image.convert('RGB')
-#     a = np.array(image)
-#     a = (a-a.min())/(a.max()-a.min())
-#     a = np.uint8(a*255)
-#     image = Image.fromarray(a).convert("RGB")
-#   if check_is_rgb and image.mode != 'RGB':
-#     raise ValueError('Expects RGB image data, gets mode: %s' % image.mode)
-
-#   width, height = image.size
-#   return height, width
+#     Raises:
+#         ValueError: If check_is_rgb is set and input image has other format.
+#     """
+#     image = read_image(image_data)
+#     width, height = image.shape
+#     return height, width
 
 
 def _int64_list_feature(values):
@@ -137,7 +132,6 @@ def create_features(image_data,
     #   a = (a-a.min())/(a.max()-a.min())
     #   a = np.uint8(a*255)
     #   image = Image.fromarray(a).convert("RGB")
-      
     #   image_data = io.BytesIO()
     #   image.save(image_data, format=image_format)
     #   image_data = image_data.getvalue()
@@ -157,7 +151,7 @@ def create_features(image_data,
         return feature_dict
 
     if label_format == 'png':
-        label_height, label_width = label_data.shape # get_image_dims(label_data, image_path=image_path)
+        label_height, label_width = np.fromstring(label_data, dtype=np.int32).shape # get_image_dims(label_data, image_path=image_path)
         if (label_height, label_width) != (height, width):
             raise ValueError('Image (%s) and label (%s) shape mismatch' %
                         ((height, width), (label_height, label_width)))
@@ -353,7 +347,7 @@ class SegmentationDecoder(object):
         image = tf.io.decode_image(
             parsed_tensors[key],
             channels=1,
-            dtype=tf.dtypes.float32,
+            dtype=tf.dtypes.uint16,
             expand_animations=False)
         image.set_shape([None, None, 1])
         return image
