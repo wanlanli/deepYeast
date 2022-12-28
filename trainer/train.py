@@ -29,7 +29,7 @@ import yaml
 from config_yml import ExperimentOptions
 from data import dataset
 from  trainer import distribution_utils
-from deeplab import DeepLab
+from project.deepyeast.model.deeplab import DeepLab
 from model.loss.loss_builder import DeepLabFamilyLoss
 from trainer import trainer as trainer_lib
 from trainer import evaluator as evaluator_lib

@@ -90,9 +90,7 @@ class DeepLab(tf.keras.Model):
     # The ASPP pooling size is always set to train crop size, which is found to
     # be experimentally better.
     pool_size = config.train_dataset_options.crop_size
-    print("DEEPLAB INIT",pool_size)
     output_stride = float(config.model_options.backbone.output_stride)
-    print("DEEPLAB INIT",output_stride)
     pool_size = tuple(
         utils.scale_mutable_sequence(pool_size, 1.0 / output_stride))
     print("DEEPLAB INIT",pool_size)
@@ -132,7 +130,11 @@ class DeepLab(tf.keras.Model):
     # normalization should not increase TPU memory consumption because it does
     # not require gradient.
     ## 注意设置norm方法
-    input_tensor = input_tensor / 32767.5 - 1.0
+    input_tensor = tf.divide(tf.subtract(input_tensor, tf.reduce_min(input_tensor)), 
+                             tf.subtract(tf.reduce_max(input_tensor), tf.reduce_min(input_tensor))/2.0) - 1.0
+    # tf.math.divide(tf.math.reduce_max(input_tensor),
+    # input_tensor = input_tensor / 32767.5 - 1.0
+    print("norm")
     # Get the static spatial shape of the input tensor.
     _, input_h, input_w, _ = input_tensor.get_shape().as_list()
     if training:
@@ -158,7 +160,7 @@ class DeepLab(tf.keras.Model):
         self.set_pool_size(tuple(scaled_pool_size))
         logging.info('Eval scale %s; setting pooling size to %s',
                     eval_scale, scaled_pool_size)
-        print(scaled_images)
+        # print(scaled_images)
         pred_dict = self._decoder(
             self._encoder(scaled_images, training=training), training=training)
         # MaX-DeepLab skips this resizing and upsamples the mask outputs in

@@ -359,7 +359,8 @@ class SegmentationDecoder(object):
                 parsed_tensors[label_key], out_type=tf.int32)
             label_shape = tf.stack([
                 parsed_tensors[common.KEY_IMAGE_HEIGHT],
-                parsed_tensors[common.KEY_IMAGE_WIDTH], 1
+                parsed_tensors[common.KEY_IMAGE_WIDTH],
+                1
             ])
             label = tf.reshape(flattened_label, label_shape)
             return label

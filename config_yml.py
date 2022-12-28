@@ -20,7 +20,8 @@ class ModelOptions:
         self.meta_architecture = "panoptic_deeplab"
         self.panoptic_deeplab = PanopticOptions(config['panoptic_deeplab'])
         self.decoder = DecoderOptions(config['decoder'])
-
+        self.restore_semantic_last_layer_from_initial_checkpoint = True
+        self.restore_instance_last_layer_from_initial_checkpoint = True
 
 class BackboneOptions:
     def __init__(self, backbone) -> None:
@@ -74,6 +75,7 @@ class TrainerOptions:
         self.save_checkpoints_steps = config['save_checkpoints_steps']
         self.save_summaries_steps = config['save_checkpoints_steps']
         self.steps_per_loop = config['steps_per_loop']
+        self.num_checkpoints_to_keep = 1
         self.loss_options = LossOptions(config['loss_options'])
         self.solver_options = SolverOptions(config['solver_options'])
 

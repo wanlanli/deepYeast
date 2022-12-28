@@ -41,7 +41,7 @@ model_options:
     stem_width_multiplier: 1
     backbone_width_multiplier: 1
     backbone_layer_multiplier: 4.5
-    drop_path_keep_prob: 0.8
+    drop_path_keep_prob: 1.0
     drop_path_schedule: "linear"
   decoder:
     feature_key: "res5"
@@ -69,20 +69,20 @@ model_options:
       head_channels: 256
 
 trainer_options:
-  save_checkpoints_steps: 50
-  save_summaries_steps: 10
-  steps_per_loop: 10
+  save_checkpoints_steps: 1000
+  save_summaries_steps: 100
+  steps_per_loop: 100
   loss_options:
     semantic_loss:
       name: "softmax_cross_entropy"
-      weight: 2.0
+      weight: 10
       top_k_percent: 0.2
     center_loss:
       name: "mse"
-      weight: 20
+      weight: 200
     regression_loss:
       name: "l1"
-      weight: 0.01
+      weight: 1
   solver_options:
     base_learning_rate: 0.000075
     training_number_of_steps: 60000
@@ -96,7 +96,7 @@ train_dataset_options:
   # Adjust the batch_size accordingly to better fit your GPU/TPU memory.
   # Also see Q1 in g3doc/faq.md.
   batch_size: 32
-  crop_size: [256, 256]
+  crop_size: [513, 513]
   # Skip resizing.
   min_resize_value: 0
   max_resize_value: 0
@@ -114,7 +114,7 @@ eval_dataset_options:
   file_pattern: "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/project/tf/train/train*.tfrecord"
   # "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/output/deep_lab_semantic/val*.tfrecord"
   batch_size: 1
-  crop_size: [256, 256]
+  crop_size: [513, 513]
   # Skip resizing.
   min_resize_value: 0
   max_resize_value: 0

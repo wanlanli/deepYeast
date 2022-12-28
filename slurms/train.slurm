@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J tf210M
+#SBATCH -J train_deepyeast_condatf210
 #SBATCH -o out/out_%J
 #SBATCH -e err/err_%J
 #SBATCH -p gpu
