@@ -1,0 +1,63 @@
+2022-12-23 12:15:08.087552: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-12-23 12:15:08.327240: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2022-12-23 12:15:24.013091: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2022-12-23 12:15:24.014209: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2022-12-23 12:15:24.014223: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2022-12-23 12:15:57.408604: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-12-23 12:15:58.404649: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38224 MB memory:  -> device: 0, name: NVIDIA A100-PCIE-40GB, pci bus id: 0000:21:00.0, compute capability: 8.0
+2022-12-23 12:15:58.406841: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /job:localhost/replica:0/task:0/device:GPU:1 with 38224 MB memory:  -> device: 1, name: NVIDIA A100-PCIE-40GB, pci bus id: 0000:e2:00.0, compute capability: 8.0
+INFO:tensorflow:Using MirroredStrategy with devices ('/job:localhost/replica:0/task:0/device:GPU:0', '/job:localhost/replica:0/task:0/device:GPU:1')
+I1223 12:15:58.773878 139818251589248 mirrored_strategy.py:374] Using MirroredStrategy with devices ('/job:localhost/replica:0/task:0/device:GPU:0', '/job:localhost/replica:0/task:0/device:GPU:1')
+I1223 12:15:58.781477 139818251589248 deeplab.py:58] Synchronized Batchnorm is used.
+I1223 12:15:58.782189 139818251589248 axial_resnet_instances.py:144] Axial-ResNet final config: {'num_blocks': [3, 6, 3, 3], 'backbone_layer_multiplier': 4.5, 'width_multiplier': 1, 'stem_width_multiplier': 1, 'output_stride': 16, 'classification_mode': True, 'backbone_type': 'wider_resnet', 'use_axial_beyond_stride': 16, 'backbone_use_transformer_beyond_stride': 0, 'extra_decoder_use_transformer_beyond_stride': 32, 'backbone_decoder_num_stacks': 0, 'backbone_decoder_blocks_per_stage': 1, 'extra_decoder_num_stacks': 0, 'extra_decoder_blocks_per_stage': 1, 'max_num_mask_slots': 128, 'num_mask_slots': 128, 'memory_channels': 256, 'base_transformer_expansion': 1.0, 'global_feed_forward_network_channels': 256, 'high_resolution_output_stride': 4, 'activation': 'relu', 'block_group_config': {'attention_bottleneck_expansion': 4, 'drop_path_keep_prob': 0.8, 'drop_path_beyond_stride': 4, 'drop_path_schedule': 'linear', 'positional_encoding_type': None, 'use_global_beyond_stride': 0, 'use_sac_beyond_stride': 0, 'use_squeeze_and_excite': False, 'conv_use_recompute_grad': True, 'axial_use_recompute_grad': True, 'recompute_within_stride': 0, 'transformer_use_recompute_grad': False, 'axial_layer_config': {'query_shape': (129, 129), 'key_expansion': 2, 'value_expansion': 4, 'memory_flange': (32, 32), 'double_global_attention': False, 'num_heads': 8, 'use_query_rpe_similarity': True, 'use_key_rpe_similarity': True, 'use_content_similarity': True, 'retrieve_value_rpe': True, 'retrieve_value_content': True, 'initialization_std_for_query_key_rpe': 1.0, 'initialization_std_for_value_rpe': 1.0, 'self_attention_activation': 'softmax'}, 'dual_path_transformer_layer_config': {'num_heads': 8, 'bottleneck_expansion': 2, 'key_expansion': 1, 'value_expansion': 2, 'feed_forward_network_channels': 2048, 'use_memory_self_attention': True, 'use_pixel2memory_feedback_attention': True, 'transformer_activation': 'softmax'}}, 'bn_layer': functools.partial(<class 'keras.layers.normalization.batch_normalization.SyncBatchNormalization'>, momentum=0.99, epsilon=0.001), 'conv_kernel_weight_decay': 0.0}
+I1223 12:15:59.224038 139818251589248 deeplab.py:99] Setting pooling size to (33, 33)
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1223 12:16:03.371355 139818251589248 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1223 12:16:03.374092 139818251589248 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1223 12:16:03.375962 139818251589248 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1223 12:16:03.376522 139818251589248 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1223 12:16:03.378881 139818251589248 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1223 12:16:03.379428 139818251589248 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1223 12:16:03.380900 139818251589248 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1223 12:16:03.381451 139818251589248 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1223 12:16:03.383684 139818251589248 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1223 12:16:03.384223 139818251589248 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1223 12:16:03.419713 139818251589248 controller.py:391] restoring or initializing model...
+I1223 12:16:03.732095 139818251589248 controller.py:395] restored model from ../model_dir/ckpt-10000.
+I1223 12:16:03.732244 139818251589248 controller.py:217] restored from checkpoint: ../model_dir/ckpt-10000
+I1223 12:16:03.732438 139818251589248 controller.py:236] train | step:  10000 | training until step 30000...
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1223 12:16:05.354876 139818251589248 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1223 12:16:05.373817 139818251589248 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1223 12:16:05.388462 139818251589248 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1223 12:16:06.477873 139818251589248 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1223 12:16:06.492618 139818251589248 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1223 12:16:06.506952 139818251589248 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1223 12:16:06.676840 139818251589248 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1223 12:16:06.691354 139818251589248 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1223 12:16:06.705689 139818251589248 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1223 12:16:06.807334 139818251589248 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+2022-12-23 12:26:17.903536: I tensorflow/stream_executor/cuda/cuda_dnn.cc:384] Loaded cuDNN version 8401
+2022-12-23 12:26:17.999036: I tensorflow/stream_executor/cuda/cuda_dnn.cc:384] Loaded cuDNN version 8401
+2022-12-23 12:26:27.611764: I tensorflow/core/platform/default/subprocess.cc:304] Start cannot spawn child process: No such file or directory
+2022-12-23 12:26:28.647239: I tensorflow/stream_executor/cuda/cuda_blas.cc:1614] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
