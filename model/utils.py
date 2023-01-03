@@ -301,34 +301,6 @@ def resize_bilinear(images,
   return tf.cast(images, dtype)
 
 
-# def make_divisible(value: float,
-#                    divisor: int,
-#                    min_value: Optional[float] = None) -> int:
-#   """Ensures all layers have channels that are divisible by the divisor.
-
-#   Args:
-#     value: A `float` of original value.
-#     divisor: An `int` of the divisor that needs to be checked upon.
-#     min_value: A `float` of  minimum value threshold.
-
-#   Returns:
-#     The adjusted value in `int` that is divisible by divisor.
-
-#   Raises:
-#     ValueError: Minimual value should be divisible by divisor.
-#   """
-#   if min_value is None:
-#     min_value = divisor
-#   elif min_value % divisor != 0:
-#     raise ValueError('Minimual value should be divisible by divisor.')
-
-#   new_value = max(min_value, int(value + divisor / 2) // divisor * divisor)
-#   # Make sure that round down does not go down by more than 10%.
-#   if new_value < 0.9 * value:
-#     new_value += divisor
-#   return int(new_value)
-
-
 def transpose_and_reshape_for_attention_operation(inputs):
   """Sequentially transposes and reshapes the tensor.
 
@@ -341,25 +313,6 @@ def transpose_and_reshape_for_attention_operation(inputs):
   _, num_heads, length, channel = inputs.get_shape().as_list()
   transposed_inputs = tf.transpose(inputs, [0, 2, 1, 3])
   return tf.reshape(transposed_inputs, [-1, length, num_heads * channel])
-
-
-# def reshape_and_transpose_for_attention_operation(inputs, num_heads):
-#   """Sequentially reshapes and transposes the tensor.
-
-#   Args:
-#     inputs: An input [batch, length, num_heads * channel] tensor.
-#     num_heads: An integer, the number of attention heads.
-
-#   Returns:
-#     output: An output [batch, num_heads, length, channel] tensor.
-#   """
-#   _, length, channels = inputs.get_shape().as_list()
-#   inputs = tf.reshape(inputs, [-1, length, num_heads, channels // num_heads])
-#   return tf.transpose(inputs, [0, 2, 1, 3])
-
-
-# def get_stem_current_name(index):
-#   return '_basic_block{}'.format(index + 1)
 
 
 def get_low_level_conv_fusion_conv_current_names(index):
@@ -380,76 +333,6 @@ def get_conv_bn_act_current_name(index, use_bn, activation):
 
 def pad_sequence_with_none(sequence, target_length):
   return list(sequence) + [None] * (target_length - len(sequence))
-
-
-# def strided_downsample(input_tensor, target_size):
-#   """Strided downsamples a tensor to the target size.
-
-#   The stride_height and stride_width is computed by (height - 1) //
-#   (target_height - 1) and (width - 1) // (target_width - 1). We raise an error
-#   if stride_height != stride_width, since this is not intended in our current
-#   use cases. But this check can be removed if different strides are desired.
-#   This function supports static shape only.
-
-#   Args:
-#     input_tensor: A [batch, height, width] tf.Tensor to be downsampled.
-#     target_size: A list of two integers, [target_height, target_width], the
-#       target size after downsampling.
-
-#   Returns:
-#     output_tensor: A [batch, target_height, target_width] tf.Tensor, the
-#       downsampled result.
-
-#   Raises:
-#     ValueError: If the input cannot be downsampled with integer stride, i.e.,
-#       (height - 1) % (target_height - 1) != 0, or (width - 1) % (target_width -
-#       1) != 0.
-#     ValueError: If the height axis stride does not equal to the width axis
-#       stride.
-#   """
-#   input_height, input_width = input_tensor.get_shape().as_list()[1:3]
-#   target_height, target_width = target_size
-
-#   if ((input_height - 1) % (target_height - 1) or
-#       (input_width - 1) % (target_width - 1)):
-#     raise ValueError('The input cannot be downsampled with integer striding. '
-#                      'Please ensure (height - 1) % (target_height - 1) == 0 '
-#                      'and (width - 1) % (target_width - 1) == 0.')
-#   stride_height = (input_height - 1) // (target_height - 1)
-#   stride_width = (input_width - 1) // (target_width - 1)
-#   if stride_height != stride_width:
-#     raise ValueError('The height axis stride does not equal to the width axis '
-#                      'stride.')
-#   if stride_height > 1 or stride_width > 1:
-#     return input_tensor[:, ::stride_height, ::stride_width]
-#   return input_tensor
-
-
-# def get_stuff_class_ids(num_thing_stuff_classes: int,
-#                         thing_class_ids: List[int],
-#                         void_label: int) -> List[int]:
-#   """Computes stuff_class_ids.
-
-#   The stuff_class_ids are computed from the num_thing_stuff_classes, the
-#   thing_class_ids and the void_label.
-
-#   Args:
-#     num_thing_stuff_classes: An integer specifying the number of stuff and thing
-#       classes, not including `void` class.
-#     thing_class_ids: A List of integers of length [num_thing_classes] containing
-#       thing class indices.
-#     void_label: An integer specifying the void label.
-
-#   Returns:
-#     stuff_class_ids: A sorted List of integers of shape [num_stuff_classes]
-#       containing stuff class indices.
-#   """
-#   if void_label >= num_thing_stuff_classes:
-#     thing_stuff_class_ids = list(range(num_thing_stuff_classes))
-#   else:
-#     thing_stuff_class_ids = [_ for _ in range(num_thing_stuff_classes + 1)
-#                              if _ is not void_label]
-#   return sorted(set(thing_stuff_class_ids) - set(thing_class_ids))
 
 
 def get_supported_tasks(

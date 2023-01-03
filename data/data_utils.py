@@ -196,122 +196,13 @@ def create_tfexample(image_data,
     return tf.train.Example(features=tf.train.Features(feature=feature_dict))
 
 
-# def create_video_tfexample(image_data,
-#                            image_format,
-#                            filename,
-#                            sequence_id,
-#                            image_id,
-#                            label_data=None,
-#                            label_format=None,
-#                            prev_image_data=None,
-#                            prev_label_data=None,
-#                            image_path=''):
-#   """Converts one video frame/panoptic segmentation pair to TF example.
-
-#   Args:
-#     image_data: String or byte stream of encoded image data.
-#     image_format: String, image data format, should be either 'jpeg' or 'png'.
-#     filename: String, image filename.
-#     sequence_id: ID of the video sequence as a string.
-#     image_id: ID of the image as a string.
-#     label_data: String or byte stream of (potentially) encoded label data. If
-#       None, we skip to write it to tf.train.Example.
-#     label_format: String, label data format, should be either 'png' or 'raw'. If
-#       None, we skip to write it to tf.train.Example.
-#     prev_image_data: An optional string or byte stream of encoded previous image
-#       data.
-#     prev_label_data: An optional string or byte stream of (potentially) encoded
-#       previous label data.
-
-#   Returns:
-#     TF example proto.
-#   """
-#   feature_dict = create_features(image_data, image_format, filename, label_data,
-#                                  label_format, image_path)
-#   feature_dict.update({
-#       common.KEY_SEQUENCE_ID: _bytes_list_feature(sequence_id),
-#       common.KEY_FRAME_ID: _bytes_list_feature(image_id)
-#   })
-#   if prev_image_data is not None:
-#     feature_dict[common.KEY_ENCODED_PREV_IMAGE] = _bytes_list_feature(
-#         prev_image_data)
-#   if prev_label_data is not None:
-#     feature_dict[common.KEY_ENCODED_PREV_LABEL] = _bytes_list_feature(
-#         prev_label_data)
-#   return tf.train.Example(features=tf.train.Features(feature=feature_dict))
-
-
-# def create_video_and_depth_tfexample(image_data,
-#                                      image_format,
-#                                      filename,
-#                                      sequence_id,
-#                                      image_id,
-#                                      label_data=None,
-#                                      label_format=None,
-#                                      next_image_data=None,
-#                                      next_label_data=None,
-#                                      depth_data=None,
-#                                      depth_format=None):
-#   """Converts an image/segmentation pair and depth of first frame to TF example.
-
-#     The image pair contains the current frame and the next frame with the
-#     current frame including depth label.
-
-#   Args:
-#     image_data: String or byte stream of encoded image data.
-#     image_format: String, image data format, should be either 'jpeg' or 'png'.
-#     filename: String, image filename.
-#     sequence_id: ID of the video sequence as a string.
-#     image_id: ID of the image as a string.
-#     label_data: String or byte stream of (potentially) encoded label data. If
-#       None, we skip to write it to tf.train.Example.
-#     label_format: String, label data format, should be either 'png' or 'raw'. If
-#       None, we skip to write it to tf.train.Example.
-#     next_image_data: An optional string or byte stream of encoded next image
-#       data.
-#     next_label_data: An optional string or byte stream of (potentially) encoded
-#       next label data.
-#     depth_data: An optional string or byte sream of encoded depth data.
-#     depth_format: String, depth data format, should be either 'png' or 'raw'.
-
-#   Returns:
-#     TF example proto.
-#   """
-#   feature_dict = create_features(image_data, image_format, filename, label_data,
-#                                  label_format)
-#   feature_dict.update({
-#       common.KEY_SEQUENCE_ID: _bytes_list_feature(sequence_id),
-#       common.KEY_FRAME_ID: _bytes_list_feature(image_id)
-#   })
-#   if next_image_data is not None:
-#     feature_dict[common.KEY_ENCODED_NEXT_IMAGE] = _bytes_list_feature(
-#         next_image_data)
-#   if next_label_data is not None:
-#     feature_dict[common.KEY_ENCODED_NEXT_LABEL] = _bytes_list_feature(
-#         next_label_data)
-#   if depth_data is not None:
-#     feature_dict[common.KEY_ENCODED_DEPTH] = _bytes_list_feature(
-#         depth_data)
-#     feature_dict[common.KEY_DEPTH_FORMAT] = _bytes_list_feature(
-#         depth_format)
-#   return tf.train.Example(features=tf.train.Features(feature=feature_dict))
-
-
 class SegmentationDecoder(object):
     """Basic parser to decode serialized tf.Example."""
 
     def __init__(self,
                 is_panoptic_dataset=True,
-                # is_video_dataset=False,
-                # is_depth_dataset=False,
-                # use_two_frames=False,
-                # use_next_frame=False,
                 decode_groundtruth_label=True):
         self._is_panoptic_dataset = is_panoptic_dataset
-        # self._is_video_dataset = is_video_dataset
-        # self._is_depth_dataset = is_depth_dataset
-        # self._use_two_frames = use_two_frames
-        # self._use_next_frame = use_next_frame
         self._decode_groundtruth_label = decode_groundtruth_label
         string_feature = tf.io.FixedLenFeature((), tf.string)
         int_feature = tf.io.FixedLenFeature((), tf.int64)
@@ -325,22 +216,6 @@ class SegmentationDecoder(object):
         }
         if decode_groundtruth_label:
             self._keys_to_features[common.KEY_ENCODED_LABEL] = string_feature
-    # if self._is_video_dataset:
-    #   self._keys_to_features[common.KEY_SEQUENCE_ID] = string_feature
-    #   self._keys_to_features[common.KEY_FRAME_ID] = string_feature
-    # Two-frame specific processing.
-    # if self._use_two_frames:
-    #   self._keys_to_features[common.KEY_ENCODED_PREV_IMAGE] = string_feature
-    #   if decode_groundtruth_label:
-    #     self._keys_to_features[common.KEY_ENCODED_PREV_LABEL] = string_feature
-    # Next-frame specific processing.
-    # if self._use_next_frame:
-    #   self._keys_to_features[common.KEY_ENCODED_NEXT_IMAGE] = string_feature
-    #   if decode_groundtruth_label:
-    #     self._keys_to_features[common.KEY_ENCODED_NEXT_LABEL] = string_feature
-    # Depth specific processing.
-    # if self._is_depth_dataset and decode_groundtruth_label:
-    #   self._keys_to_features[common.KEY_ENCODED_DEPTH] = string_feature
 
     def _decode_image(self, parsed_tensors, key):
         """Decodes image udner key from parsed tensors."""
@@ -385,21 +260,4 @@ class SegmentationDecoder(object):
         if self._decode_groundtruth_label:
             return_dict['label'] = self._decode_label(parsed_tensors,
                                                     common.KEY_ENCODED_LABEL)
-        # if self._is_video_dataset:
-        #   return_dict['sequence'] = parsed_tensors[common.KEY_SEQUENCE_ID]
-        # if self._use_two_frames:
-        #   return_dict['prev_image'] = self._decode_image(
-        #       parsed_tensors, common.KEY_ENCODED_PREV_IMAGE)
-        #   if self._decode_groundtruth_label:
-        #     return_dict['prev_label'] = self._decode_label(
-        #         parsed_tensors, common.KEY_ENCODED_PREV_LABEL)
-        # if self._use_next_frame:
-        #   return_dict['next_image'] = self._decode_image(
-        #       parsed_tensors, common.KEY_ENCODED_NEXT_IMAGE)
-        #   if self._decode_groundtruth_label:
-        #     return_dict['next_label'] = self._decode_label(
-        #         parsed_tensors, common.KEY_ENCODED_NEXT_LABEL)
-        # if self._is_depth_dataset and self._decode_groundtruth_label:
-        #   return_dict['depth'] = self._decode_label(
-        #       parsed_tensors, common.KEY_ENCODED_DEPTH)
         return return_dict

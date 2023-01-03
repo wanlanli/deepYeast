@@ -218,11 +218,6 @@ class PanopticSampleGenerator:
     sample = {
         common.IMAGE: image
     }
-    # if prev_image is not None:
-    #   sample[common.IMAGE] = tf.concat([image, prev_image], axis=2)
-    # if next_image is not None:
-    #   sample[common.NEXT_IMAGE] = next_image
-    #   sample[common.IMAGE] = tf.concat([image, next_image], axis=2)
     if label is not None:
       # Panoptic label for crowd regions will be ignore_label.
       semantic_label, panoptic_label, thing_mask, crowd_region = (
@@ -251,14 +246,6 @@ class PanopticSampleGenerator:
 
         prev_panoptic_label = None
         next_panoptic_label = None
-        # if prev_label is not None:
-        #   _, prev_panoptic_label, _, _ = (
-        #       dataset_utils.get_semantic_and_panoptic_label(
-        #           self._dataset_info, prev_label, self._ignore_label))
-        # if next_label is not None:
-        #   _, next_panoptic_label, _, _ = (
-        #       dataset_utils.get_semantic_and_panoptic_label(
-        #           self._dataset_info, next_label, self._ignore_label))
         (sample[common.GT_INSTANCE_CENTER_KEY],
          sample[common.GT_INSTANCE_REGRESSION_KEY],
          sample[common.SEMANTIC_LOSS_WEIGHT_KEY],
@@ -271,32 +258,12 @@ class PanopticSampleGenerator:
         sample[common.GT_INSTANCE_REGRESSION_KEY] = tf.cast(
             sample[common.GT_INSTANCE_REGRESSION_KEY], tf.float32)
 
-        # if next_label is not None:
-        #   sample[common.GT_NEXT_INSTANCE_REGRESSION_KEY] = tf.cast(
-        #       next_offset, tf.float32)
-        #   sample[common.NEXT_REGRESSION_LOSS_WEIGHT_KEY] = tf.cast(
-        #       tf.greater(tf.reduce_sum(tf.abs(next_offset), axis=2), 0),
-        #       tf.float32)
-
         # Only squeeze center map and semantic loss weights, as regression map
         # has two channels (x and y offsets).
         sample[common.GT_INSTANCE_CENTER_KEY] = tf.squeeze(
             sample[common.GT_INSTANCE_CENTER_KEY], axis=2)
         sample[common.SEMANTIC_LOSS_WEIGHT_KEY] = tf.squeeze(
             sample[common.SEMANTIC_LOSS_WEIGHT_KEY], axis=2)
-
-        # if prev_label is not None:
-        #   sample[common.GT_FRAME_OFFSET_KEY] = frame_center_offsets
-        #   sample[common.GT_FRAME_OFFSET_KEY] = tf.cast(
-        #       sample[common.GT_FRAME_OFFSET_KEY], tf.float32)
-        #   frame_offsets_present = tf.logical_or(
-        #       tf.not_equal(frame_center_offsets[..., 0], 0),
-        #       tf.not_equal(frame_center_offsets[..., 1], 0))
-        #   sample[common.FRAME_REGRESSION_LOSS_WEIGHT_KEY] = tf.cast(
-        #       frame_offsets_present, tf.float32)
-        #   if self._is_training:
-        #     sample[common.IMAGE] = tf.concat(
-        #         [sample[common.IMAGE], prev_center_map], axis=2)
 
         if self._thing_id_mask_annotations:
           if any([prev_image is not None,
@@ -313,19 +280,11 @@ class PanopticSampleGenerator:
               thing_id_mask, axis=2)
           sample[common.GT_THING_ID_CLASS_KEY] = thing_id_class
 
-    # if depth is not None:
-    #   # Depth maps are stored as an array of integers of depth * 256.
-    #   depth = tf.cast(depth, tf.float32)
-    #   depth = depth / 256
-    #   sample[common.GT_DEPTH_KEY] = depth
-
     if not self._is_training:
       # Resized image is only used during visualization.
       sample[common.RESIZED_IMAGE] = resized_image
       sample[common.IMAGE_NAME] = image_name
       sample[common.GT_SIZE_RAW] = tf.stack([height, width], axis=0)
-      # if self._dataset_info['is_video_dataset']:
-      #   sample[common.SEQUENCE_ID] = sequence
       # # Keep original labels for evaluation.
       if label is not None:
         orig_semantic_label, _, _, orig_crowd_region = (
@@ -335,11 +294,6 @@ class PanopticSampleGenerator:
         if not self._only_semantic_annotations:
           sample[common.GT_PANOPTIC_RAW] = tf.squeeze(original_label, axis=2)
           sample[common.GT_IS_CROWD_RAW] = tf.squeeze(orig_crowd_region)
-          # if next_label is not None:
-          #   sample[common.GT_NEXT_PANOPTIC_RAW] = tf.squeeze(
-          #       original_next_label, axis=2)
-      # if depth is not None:
-      #   sample[common.GT_DEPTH_RAW] = original_depth
     return sample
 
   def _generate_thing_id_mask_and_class(self,

@@ -181,8 +181,6 @@ def equalize(image):
   # Assumes RGB for now.  Scales each channel independently
   # and then stacks the result.
   s1 = scale_channel(image, 0)
-  # s2 = scale_channel(image, 1)
-  # s3 = scale_channel(image, 2)
   image = tf.stack([s1], 2)
   return image
 
