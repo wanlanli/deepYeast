@@ -104,6 +104,7 @@ def _create_panoptic_label(cityscapes_root, dataset_split, city_name, annotation
     with tf.io.gfile.GFile(panoptic_annotation_file, 'rb') as f:
         panoptic_data = f.read()
     panoptic_label = _generate_panoptic_label(panoptic_data)
+    print(np.max(panoptic_label))
     return panoptic_label.tostring(), _PANOPTIC_LABEL_FORMAT
 
 
@@ -122,7 +123,7 @@ def _convert_dataset(image_root, dataset_split, output_dir, create_panoptic_data
     image_files = _get_images(image_root, dataset_split)
 
     num_images = len(image_files)
-    print(num_images)
+    # print(num_images)
     # expected_dataset_size = _SPLITS_TO_SIZES[_convert_split_name(dataset_split)]
     # if num_images != expected_dataset_size:
     #   raise ValueError('Expects %d images, gets %d' %

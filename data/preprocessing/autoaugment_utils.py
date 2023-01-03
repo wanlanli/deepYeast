@@ -259,7 +259,7 @@ def level_to_arg():
       'Invert':
           lambda level: (),
       'Posterize': lambda level: (int((level/_MAX_LEVEL) * 4),),
-      'Solarize': lambda level: (int((level/_MAX_LEVEL) * 256),),
+      'Solarize': lambda level: (int((level/_MAX_LEVEL) * (_MAX_VALUE+1)),),
       'Color':
           _enhance_level_to_arg,
       'Contrast':
@@ -354,7 +354,7 @@ def build_and_apply_autoaugment_policy(policies, image, label, ignore_label):
     the `policies` pass into the function. Additionally, returns bboxes if
     a value for them is passed in that is not None
   """
-  replace_value = [0.5]#, 128, 128]
+  replace_value = [int((_MAX_VALUE+1)/2)]#, 128, 128]
 
   # func is the string name of the augmentation function, prob is the
   # probability of applying the operation and level is the parameter associated

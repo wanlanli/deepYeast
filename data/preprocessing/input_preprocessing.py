@@ -264,7 +264,8 @@ def preprocess_image_and_label(image,
   # Data augmentation by randomly scaling the inputs.
   scale = preprocess_utils.get_random_scale(min_scale_factor, max_scale_factor,
                                             scale_factor_step_size)
-  image_before_scaling = processed_image
+  # image_before_scaling = processed_image
+  # print("get randowm scale:", scale)
   processed_image, label = preprocess_utils.randomly_scale_image_and_label(
       processed_image, label, scale)
   # if processed_prev_image is not None:
@@ -305,7 +306,7 @@ def preprocess_image_and_label(image,
   offset_height = _uniform_offset(crop_height - image_height)
   offset_width = _uniform_offset(crop_width - image_width)
   image_before_padding = processed_image
-  print("00000",processed_image.shape)
+  # print("00000",processed_image.shape)
   processed_image, label = _pad_image_and_label(processed_image, label,
                                                 offset_height, offset_width,
                                                 target_height, target_width,
@@ -344,14 +345,14 @@ def preprocess_image_and_label(image,
   #          _PROB_OF_FLIP,
   #          dim=1)
   # else:
-  print("1111",processed_image.shape)
+  # print("1111",processed_image.shape)
   processed_image, label = preprocess_utils.random_crop(
       [processed_image, label], crop_height, crop_width)
   # Randomly left-right flip the image and label.
-  print("2222",processed_image.shape)
+  # print("2222",processed_image.shape)
   processed_image, label, _ = preprocess_utils.flip_dim(
       [processed_image, label], _PROB_OF_FLIP, dim=1)
-  print("33333",processed_image.shape)
+  # print("33333",processed_image.shape)
   return (resized_image, processed_image, label, processed_prev_image,
           prev_label, depth)
 

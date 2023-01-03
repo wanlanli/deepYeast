@@ -53,7 +53,7 @@ class DeepLab(tf.keras.Model):
       ValueError: If MaX-DeepLab is used with multi-scale inference.
     """
     super(DeepLab, self).__init__(name='DeepLab')
-    print("DEEPLAB INIT")
+    # print("DEEPLAB INIT")
     if config.trainer_options.solver_options.use_sync_batchnorm:
       logging.info('Synchronized Batchnorm is used.')
       bn_layer = functools.partial(
@@ -93,10 +93,10 @@ class DeepLab(tf.keras.Model):
     output_stride = float(config.model_options.backbone.output_stride)
     pool_size = tuple(
         utils.scale_mutable_sequence(pool_size, 1.0 / output_stride))
-    print("DEEPLAB INIT",pool_size)
+    # print("DEEPLAB INIT",pool_size)
     logging.info('Setting pooling size to %s', pool_size)
     self.set_pool_size(pool_size)
-    print('Setting pooling size to %s', pool_size)
+    # print('Setting pooling size to %s', pool_size)
     # Variables for multi-scale inference.
     self._add_flipped_images = config.evaluator_options.add_flipped_images
     if not config.evaluator_options.eval_scales:
@@ -134,7 +134,7 @@ class DeepLab(tf.keras.Model):
                              tf.subtract(tf.reduce_max(input_tensor), tf.reduce_min(input_tensor))/2.0) - 1.0
     # tf.math.divide(tf.math.reduce_max(input_tensor),
     # input_tensor = input_tensor / 32767.5 - 1.0
-    print("norm")
+    # print("norm")
     # Get the static spatial shape of the input tensor.
     _, input_h, input_w, _ = input_tensor.get_shape().as_list()
     if training:
@@ -148,8 +148,8 @@ class DeepLab(tf.keras.Model):
       result_dict = collections.defaultdict(list)
       # Evaluation mode where one could perform multi-scale inference.
       scale_1_pool_size = self.get_pool_size()
-      print('Getting pooling size to %s', scale_1_pool_size)
-      print('Eval with scales %s', self._eval_scales, scale_1_pool_size)
+      # print('Getting pooling size to %s', scale_1_pool_size)
+      # print('Eval with scales %s', self._eval_scales, scale_1_pool_size)
       logging.info('Eval with scales %s', self._eval_scales)
       for eval_scale in self._eval_scales:
         # Get the scaled images/pool_size for each scale.

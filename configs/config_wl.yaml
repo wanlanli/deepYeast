@@ -31,7 +31,7 @@
 
 # // # Use a unique experiment_name for each experiment.
 
-experiment_name: "train_deepyeast_001"
+experiment_name: "deepyeast_001"
 
 model_options:
   initial_checkpoint: "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/project/model_gpu_test/test_cellseg_axial_008_gpu/ckpt-60000.index"
@@ -41,7 +41,7 @@ model_options:
     stem_width_multiplier: 1
     backbone_width_multiplier: 1
     backbone_layer_multiplier: 4.5
-    drop_path_keep_prob: 1.0
+    drop_path_keep_prob: 0.8
     drop_path_schedule: "linear"
   decoder:
     feature_key: "res5"
@@ -79,18 +79,18 @@ trainer_options:
       top_k_percent: 0.2
     center_loss:
       name: "mse"
-      weight: 200
+      weight: 2000
     regression_loss:
       name: "l1"
       weight: 1
   solver_options:
     base_learning_rate: 0.000075
-    training_number_of_steps: 60000
+    training_number_of_steps: 80000
 
 train_dataset_options:
   dataset: "cellfustion_panoptic"
   # Update the path to training set.
-  file_pattern: "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/project/tf/val/val*.tfrecord"
+  file_pattern: "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set7/tf/train*.tfrecord"
   #"/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set6/tf/train*.tfrecord"
   # "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/output/deep_lab_semantic/train*.tfrecord"
   # Adjust the batch_size accordingly to better fit your GPU/TPU memory.
@@ -111,7 +111,7 @@ train_dataset_options:
 eval_dataset_options:
   dataset: "cellfustion_panoptic"
   # Update the path to validation set.
-  file_pattern: "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/project/tf/train/train*.tfrecord"
+  file_pattern: "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set7/tf/val*.tfrecord"
   # "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/output/deep_lab_semantic/val*.tfrecord"
   batch_size: 1
   crop_size: [513, 513]

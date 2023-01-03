@@ -138,7 +138,7 @@ DatasetDescriptor = collections.namedtuple(
 
 CELL_FUSTION_PANOPTIC_INFOMATION = DatasetDescriptor(
   dataset_name=_CELL_FUSTION_PANOPTIC,
-  splits_to_sizes={'train': 7,  # Sequence 9.
+  splits_to_sizes={'train': 8,  # Sequence 9.
                   'val': 1,  # Sequence 2.
                   'test': 1},
   num_classes=6,

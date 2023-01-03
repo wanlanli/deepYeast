@@ -16,4 +16,4 @@ cd /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/project/deepyeast
 eval "$(conda shell.bash hook)"
 conda activate tf210
 #Run
-python train.py --mode='train' --model_dir='../model_dir/' --config_file="./configs/config_wl.yaml" --num_gpus=2
+python run_model_training.py --mode='train' --model_dir='../model_dir/' --config_file="./configs/config_wl.yaml" --num_gpus=2

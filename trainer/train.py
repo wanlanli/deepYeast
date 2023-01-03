@@ -14,121 +14,136 @@
 # limitations under the License.
 
 """This file contains code to run a model."""
-import sys
-sys.path.append("/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/project/deepyeast/")
-
 import os
-from absl import app
-from absl import flags
 import functools
 
 import tensorflow as tf
 import orbit
-import yaml
 
-from config_yml import ExperimentOptions
 from data import dataset
-from  trainer import distribution_utils
-from project.deepyeast.model.deeplab import DeepLab
+from trainer import distribution_utils
+from model.deeplab import DeepLab
 from model.loss.loss_builder import DeepLabFamilyLoss
+from model import utils
 from trainer import trainer as trainer_lib
-from trainer import evaluator as evaluator_lib
 from trainer import runner_utils
+from data.preprocessing import input_preprocessing
 
 
-flags.DEFINE_enum(
-    'mode',
-    default=None,
-    enum_values=['train', 'eval', 'train_and_eval'],
-    help='Mode to run: `train`, `eval`, `train_and_eval`.')
+class DeepCellModule():
+    def __init__(self, mode, model_dir, config, num_gpus) -> None:
+        global_step = orbit.utils.create_global_step()
+        strategy = distribution_utils.create_strategy(num_gpus)
+        dataset_name = config.train_dataset_options.dataset
+        datasets = dataset.MAP_NAME_TO_DATASET_INFO[dataset_name]   
 
-flags.DEFINE_string(
-    'model_dir',
-    default=None,
-    help='The base directory where the model and training/evaluation summaries'
-    'are stored. The path will be combined with the `experiment_name` defined '
-    'in the config file to create a folder under which all files are stored.')
+        with strategy.scope():
+            model = DeepLab(config, datasets)
 
-flags.DEFINE_string(
-    'config_file',
-    default=None,
-    help='Proto file which specifies the experiment configuration. The proto '
-    'definition of ExperimentOptions is specified in config.proto.')
+            losses = DeepLabFamilyLoss(
+                        loss_options=config.trainer_options.loss_options,
+                        num_classes=datasets.num_classes,
+                        ignore_label=datasets.ignore_label,
+                        ignore_depth=datasets.ignore_depth,
+                        thing_class_ids=datasets.class_has_instances_list)
+            trainer = None
+            evaluator = None
+            if "train" in mode:
+                trainer = trainer_lib.Trainer(config, model, losses, global_step)
+            if "evl" in mode:
+                from trainer import evaluator as evaluator_lib
+                evaluator = evaluator_lib.Evaluator(config, model, losses, global_step, model_dir)
+            if (trainer is None) and (evaluator is None):
+                from trainer import evaluator as evaluator_lib
+                evaluator = evaluator_lib.Evaluator(config, model, losses, global_step, model_dir)
 
-flags.DEFINE_integer(
-    'num_gpus',
-    default=0,
-    help='The number of GPUs to use for. If `master` flag is not set, this'
-    'parameter specifies whether GPUs should be used and how many of them '
-    '(default: 0).')
+            checkpoint_dict = dict(global_step=global_step)
+        
+        checkpoint_dict.update(model.checkpoint_items)
+        if trainer is not None:
+            checkpoint_dict['optimizer'] = trainer.optimizer
+            if trainer.backbone_optimizer is not None:
+                checkpoint_dict['backbone_optimizer'] = trainer.backbone_optimizer
+        checkpoint = tf.train.Checkpoint(**checkpoint_dict)
+        init_dict = model.checkpoint_items
+        init_fn = functools.partial(runner_utils.maybe_load_checkpoint,
+                                    config.model_options.initial_checkpoint,
+                                    init_dict)
+        checkpoint_manager = tf.train.CheckpointManager(
+            checkpoint,
+            directory=model_dir,
+            max_to_keep=config.trainer_options.num_checkpoints_to_keep,
+            step_counter=global_step,
+            checkpoint_interval=config.trainer_options.save_checkpoints_steps,
+            init_fn=init_fn)
 
-FLAGS = flags.FLAGS
+        self.controller = orbit.Controller(
+            strategy=strategy,
+            trainer=trainer,
+            evaluator=evaluator,
+            global_step=global_step,
+            steps_per_loop=config.trainer_options.steps_per_loop,
+            checkpoint_manager=checkpoint_manager,
+            summary_interval=config.trainer_options.save_summaries_steps,
+            summary_dir=os.path.join(model_dir, 'train'),
+            eval_summary_dir=os.path.join(model_dir, 'eval')
+        )
+        self.model = model
+        self.config = config
 
+        dataset_options = config.eval_dataset_options
+        crop_height, crop_width = dataset_options.crop_size
+        self._preprocess_fn = functools.partial(
+            input_preprocessing.preprocess_image_and_label,
+            label=None,
+            crop_height=crop_height,
+            crop_width=crop_width,
+            prev_label=None,
+            min_resize_value=dataset_options.min_resize_value,
+            max_resize_value=dataset_options.max_resize_value,
+            resize_factor=dataset_options.resize_factor,
+            is_training=False)
+    
+    def train(self):
+        self.controller.train(steps=self.config.trainer_options.solver_options.training_number_of_steps)
 
-def main(_):
-    with open("./configs/config_wl.yaml", 'r') as f:
-        config_data = yaml.load(f, Loader=yaml.FullLoader)
-    config = ExperimentOptions(config_data)
+    def evaluta(self, steps=-1):
+        self.controller.evaluate(steps=steps)
 
-    controller = run_experiment(FLAGS.model_dir, FLAGS.num_gpus, config)
-    if FLAGS.mode == 'train':
-        controller.train(steps=config.trainer_options.solver_options.training_number_of_steps)
-    elif FLAGS.mode == 'evl':
-        controller.evaluate(steps=-1)
+    def predict(self, image):
+        """Performs a forward pass.
 
+        Args:
+        input_tensor: An uint16 input tensor of type tf.Tensor with shape [height,
+            width, channels].
 
-def run_experiment(model_dir, num_gpus, config):
-    global_step = orbit.utils.create_global_step()
-    strategy = distribution_utils.create_strategy(num_gpus)
+        Returns:
+        A dictionary containing the results of the specified DeepLab architecture.
+        The results are bilinearly upsampled to input size before returning.
+        """
+        if len(image.shape) == 2:
+            input_tensor = tf.cast(image.reshape(image.shape[0], image.shape[1], 1), dtype=tf.float32)
+        elif len(image.shape) == 3:
+            input_tensor = tf.cast(image.reshape(image.shape[0], image.shape[1], image.shape[2], 1), dtype=tf.float32)
+        # output = self.model.predict(image)
+        # return output
 
-    dataset_name = config.train_dataset_options.dataset
-    datasets = dataset.MAP_NAME_TO_DATASET_INFO[dataset_name]
-    with strategy.scope():
-        model = DeepLab(config, datasets)
+        input_size = [tf.shape(input_tensor)[0], tf.shape(input_tensor)[1]]
+        (resized_image, processed_image, _, _, _, _) = self._preprocess_fn(
+            image=input_tensor)
 
-        losses = DeepLabFamilyLoss(
-                    loss_options=config.trainer_options.loss_options,
-                    num_classes=datasets.num_classes,
-                    ignore_label=datasets.ignore_label,
-                    ignore_depth=datasets.ignore_depth,
-                    thing_class_ids=datasets.class_has_instances_list)
+        resized_size = tf.shape(resized_image)[0:2]
+        # Making input tensor to 4D to fit model input requirements.
+        outputs = self.model(tf.expand_dims(processed_image, 0), training=False)
+        # We only undo-preprocess for those defined in tuples in model/utils.py.
+        return utils.undo_preprocessing(outputs, resized_size,
+                                        input_size)
+    
+    def save_weight(self, save_path):
+        self.model.save_weights(save_path)
 
-        trainer = trainer_lib.Trainer(config, model, losses, global_step)
-
-        evaluator = evaluator_lib.Evaluator(config, model, losses, global_step, model_dir)
-
-    checkpoint_dict = dict(global_step=global_step)
-    checkpoint_dict.update(model.checkpoint_items)
-    if trainer is not None:
-        checkpoint_dict['optimizer'] = trainer.optimizer
-        if trainer.backbone_optimizer is not None:
-            checkpoint_dict['backbone_optimizer'] = trainer.backbone_optimizer
-    checkpoint = tf.train.Checkpoint(**checkpoint_dict)
-    init_dict = model.checkpoint_items
-    init_fn = functools.partial(runner_utils.maybe_load_checkpoint,
-                                config.model_options.initial_checkpoint,
-                                init_dict)
-    checkpoint_manager = tf.train.CheckpointManager(
-        checkpoint,
-        directory=model_dir,
-        max_to_keep=1,  # configs.trainer_options.num_checkpoints_to_keep,
-        step_counter=global_step,
-        checkpoint_interval=config.trainer_options.save_checkpoints_steps,
-        init_fn=init_fn)
-
-    controller = orbit.Controller(
-        strategy=strategy,
-        trainer=trainer,
-        evaluator=evaluator,
-        global_step=global_step,
-        steps_per_loop=config.trainer_options.steps_per_loop,
-        checkpoint_manager=checkpoint_manager,
-        summary_interval=config.trainer_options.save_summaries_steps,
-        summary_dir=os.path.join(model_dir, 'train'),
-        eval_summary_dir=os.path.join(model_dir, 'eval')
-    )
-    return controller
-
-
-if __name__ == '__main__':
-  app.run(main)
+    def save_model(self, save_path):
+        self.model.save(save_path)
+        # tf.saved_model.save(module, "../model_dir/saved_model/", signatures=signatures)
+        ## load
+        # module = tf.saved_model.load("../model_dir/saved_model/")

@@ -7,6 +7,7 @@ class ConfigBase:
 class ExperimentOptions:
     def __init__(self, config) -> None:
         self.model_options = ModelOptions(config['model_options'])
+        self.experiment_name = config['experiment_name']
         self.trainer_options = TrainerOptions(config['trainer_options'])
         self.evaluator_options = EvaluatorOptions(config['evaluator_options'])
         self.train_dataset_options = DatasetOptions(config['train_dataset_options'])

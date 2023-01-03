@@ -40,7 +40,7 @@ def read_image(image_data):
     try: ##读数据有问题需要重新做
         image = imread(image_data, plugin='imageio')
         # norm image to 0 to 1
-        print(np.max(image))
+        # print(np.max(image))
         # image = image.astype(np.float32)
         # image = (image - np.min(image))/(np.max(image) - np.min(image))
     #    image_data = io.BytesIO()
@@ -120,12 +120,12 @@ def create_features(image_data,
     Returns:
       A dictionary of feature name to tf.train.Feature maaping.
     """
-    if image_format not in ('jpeg', 'png', 'jpg', 'tif'):
+    if image_format not in ('jpeg', 'png', 'jpg'):
         raise ValueError('Unsupported image format: %s' % image_format)
 
     # Check color mode, and convert grey image to rgb image.
     image = read_image(image_data)
-    print("max:", np.max(image))
+    # print("max:", np.max(image))
     # if image.mode != 'RGB':
     #   # image = image.convert('RGB')
     #   a = np.array(image)
