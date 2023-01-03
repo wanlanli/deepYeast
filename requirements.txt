@@ -1,11 +1,11 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: linux-64
-numpy>=1.15.0
+numpy>=1.24.0
+tensorflow=2.10
 # jupyterlab
 scikit-image
 scipy
-tensorflow=2.10
 # tensorflow-datasets=4.7.0=pypi_0
 tqdm
 yaml
