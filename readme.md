@@ -13,19 +13,14 @@
 ### Git Clone Project
 <code> 
 mkdir ${YOUR_PROJECT_NAME}
-
 cd ${YOUR_PROJECT_NAME}
-
 git clone https://github.com/wanlanli/deepYeast.git
-
 </code>
 
 ### Install Environment via conda
 <code>
 conda create -n deepyeast python=3.9
-
 conda activate deepyeast
-
 conda install --file requirements.txt --channel=conda-forge --yes 
 </code>
 
