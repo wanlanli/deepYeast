@@ -25,20 +25,6 @@ from data import data_utils
 from data import dataset
 from data import sample_generator
 from data.dataloader import input_reader
-# from deeplab2.model.encoder import axial_resnet
-# from deeplab2.model.layers import axial_block_groups
-
-
-# def _load_tf_model_garden_vision_checkpoint(initial_checkpoint):
-#   # Determine whether the initial_checkpoint is trained by TensorFlow Model
-#   # Garden Vision trainer. This trainer applies a hardcoded prefix "backbone" to
-#   # DeepLab model variables that start with "_encoder".
-#   checkpoint_reader = tf.train.load_checkpoint(initial_checkpoint)
-#   variable_to_shape_map = checkpoint_reader.get_variable_to_shape_map()
-#   for variable in variable_to_shape_map:
-#     if variable.startswith('backbone/_encoder/'):
-#       return True
-#   return False
 
 
 def maybe_load_checkpoint(initial_checkpoint: Union[str, None],
@@ -61,15 +47,8 @@ def maybe_load_checkpoint(initial_checkpoint: Union[str, None],
   if tf.io.gfile.isdir(initial_checkpoint):
     initial_checkpoint = tf.train.latest_checkpoint(initial_checkpoint)
 
-  # if _load_tf_model_garden_vision_checkpoint(initial_checkpoint):
-  #   checkpoint = tf.train.Checkpoint(
-  #       backbone=tf.train.Checkpoint(
-  #           _encoder=load_dict['encoder']))
-  # else:
   checkpoint = tf.train.Checkpoint(**load_dict)
   status = checkpoint.read(initial_checkpoint)
-  # Motion-DeepLab models require nontrivial_match, as the input channels for
-  # the first convolution change.
   status.expect_partial().assert_nontrivial_match()
 
 
@@ -89,10 +68,6 @@ def create_dataset(dataset_config: config_yml.DatasetOptions,
   dataset_info = dataset.MAP_NAME_TO_DATASET_INFO[dataset_config.dataset]
   decoder = data_utils.SegmentationDecoder(
       is_panoptic_dataset=True,
-      # is_video_dataset=dataset_info.is_video_dataset,
-      # is_depth_dataset=dataset_info.is_depth_dataset,
-      # use_two_frames=dataset_config.use_two_frames,
-      # use_next_frame=dataset_config.use_next_frame,
       decode_groundtruth_label=dataset_config.decode_groundtruth_label)
 
   focus_small_instances = None

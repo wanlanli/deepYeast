@@ -1,9 +1,8 @@
-def load_model(model_dir, config_file):
+def load_model(model_dir, config_file, num_gpus):
     import yaml
     from config_yml import ExperimentOptions
     from trainer.train import DeepCellModule
     mode = 'test'
-    num_gpus=1
     with open(config_file, 'r') as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
     configs = ExperimentOptions(config)

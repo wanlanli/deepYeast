@@ -28,7 +28,7 @@ from data.preprocessing import input_preprocessing as preprocessing
 def _compute_gaussian_from_std(sigma):
   """Computes the Gaussian and its size from a given standard deviation."""
   size = int(6 * sigma + 3)
-  x = np.arange(size, dtype=np.float)
+  x = np.arange(size, dtype=np.float_)
   y = x[:, np.newaxis]
   x0, y0 = 3 * sigma + 1, 3 * sigma + 1
   return np.exp(-((x - x0)**2 + (y - y0)**2) / (2 * sigma**2)), size

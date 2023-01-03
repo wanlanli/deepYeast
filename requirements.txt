@@ -1,17 +1,12 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: linux-64
-_libgcc_mutex=0.1=conda_forge
-_openmp_mutex=4.5=2_kmp_llvm
-
-python=3.9.13=haa1d7c7_2
-numpy=1.23.4=py39h14f4228_0
-cudatoolkit=11.2.2=hbe64b41_10
-cudnn=8.4.1.50=hed8a83a_0
-jupyterlab=3.5.0=py39h06a4308_0
-scikit-image=0.19.3=py39h6a678d5_1
-scipy=1.9.3=py39h14f4228_0
-tensorflow=2.10.0=pypi_0
-tensorflow-datasets=4.7.0=pypi_0
-tqdm=4.64.1=pypi_0
-yaml=0.2.5=h7b6447c_0
+numpy>=1.15.0
+# jupyterlab
+scikit-image
+scipy
+tensorflow=2.10
+# tensorflow-datasets=4.7.0=pypi_0
+tqdm
+yaml
+matplotlib

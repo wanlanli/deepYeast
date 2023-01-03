@@ -28,11 +28,7 @@ import tensorflow as tf
 
 import common
 from data import dataset
-# from deeplab2.evaluation import coco_instance_ap as instance_ap
-# from deeplab2.evaluation import depth_metrics
 from evaluation import panoptic_quality
-# from deeplab2.evaluation import segmentation_and_tracking_quality as stq
-# from deeplab2.evaluation import video_panoptic_quality as vpq
 from model import utils
 from trainer import runner_utils
 from trainer import vis
@@ -131,14 +127,6 @@ class Evaluator(orbit.StandardEvaluator):
     self._eval_iou_metric.reset_states()
     if common.TASK_PANOPTIC_SEGMENTATION in self._supported_tasks:
       self._eval_pq_metric.reset_states()
-    # if common.TASK_INSTANCE_SEGMENTATION in self._supported_tasks:
-    #   self._eval_ap_metric.reset_states()
-    # if common.TASK_VIDEO_PANOPTIC_SEGMENTATION in self._supported_tasks:
-    #   self._eval_tracking_metric.reset_states()
-    # if (common.TASK_DEPTH_AWARE_VIDEO_PANOPTIC_SEGMENTATION
-    #     in self._supported_tasks):
-    #   self._eval_vpq_metric.reset_states()
-    #   self._eval_depth_metric.reset_states()
     self._sample_counter = 0
 
   def eval_begin(self):
@@ -223,20 +211,6 @@ class Evaluator(orbit.StandardEvaluator):
       if common.TASK_PANOPTIC_SEGMENTATION in self._supported_tasks:
         step_outputs[self._eval_pq_metric.name] = (
             inputs[common.GT_PANOPTIC_RAW], outputs[common.PRED_PANOPTIC_KEY])
-      # if common.TASK_INSTANCE_SEGMENTATION in self._supported_tasks:
-      #   step_outputs[self._eval_ap_metric.name] = (
-      #       inputs[common.GT_PANOPTIC_RAW], outputs[common.PRED_PANOPTIC_KEY],
-      #       outputs[common.PRED_SEMANTIC_PROBS_KEY],
-      #       outputs[common.PRED_INSTANCE_SCORES_KEY],
-      #       inputs[common.GT_IS_CROWD_RAW])
-      # if (common.TASK_DEPTH_AWARE_VIDEO_PANOPTIC_SEGMENTATION
-      #     in self._supported_tasks):
-      #   step_outputs[self._eval_vpq_metric.name] = (
-      #       inputs[common.GT_PANOPTIC_RAW], inputs[common.GT_NEXT_PANOPTIC_RAW],
-      #       outputs[common.PRED_PANOPTIC_KEY],
-      #       outputs[common.PRED_NEXT_PANOPTIC_KEY])
-      #   step_outputs[self._eval_depth_metric.name] = (
-      #       inputs[common.GT_DEPTH_RAW], outputs[common.PRED_DEPTH_KEY])
     else:
       # We only undo-preprocess for those defined in tuples in model/utils.py.
       outputs = utils.undo_preprocessing(outputs, resized_size,
@@ -278,41 +252,6 @@ class Evaluator(orbit.StandardEvaluator):
       eval_logs['evaluation/pq/FN'] = pq_results[4]
       eval_logs['evaluation/pq/FP'] = pq_results[5]
 
-    # if common.TASK_INSTANCE_SEGMENTATION in self._supported_tasks:
-    #   ap_results = self._eval_ap_metric.result()
-    #   eval_logs['evaluation/ap/AP_Mask'] = ap_results[0]
-    #   if self._config.evaluator_options.detailed_ap_metrics:
-    #     eval_logs['evaluation/ap/AP_Mask_@IoU=0.5'] = ap_results[1]
-    #     eval_logs['evaluation/ap/AP_Mask_@IoU=0.75'] = ap_results[2]
-    #     eval_logs['evaluation/ap/AP_Mask_small'] = ap_results[3]
-    #     eval_logs['evaluation/ap/AP_Mask_medium'] = ap_results[4]
-    #     eval_logs['evaluation/ap/AP_Mask_large'] = ap_results[5]
-    #     eval_logs['evaluation/ap/AR_Mask_maxdets=1'] = ap_results[6]
-    #     eval_logs['evaluation/ap/AR_Mask_maxdets=10'] = ap_results[7]
-    #     eval_logs['evaluation/ap/AR_Mask_maxdets=100'] = ap_results[8]
-    #     eval_logs['evaluation/ap/AR_Mask_small'] = ap_results[9]
-    #     eval_logs['evaluation/ap/AR_Mask_medium'] = ap_results[10]
-    #     eval_logs['evaluation/ap/AR_Mask_large'] = ap_results[11]
-
-    # if common.TASK_VIDEO_PANOPTIC_SEGMENTATION in self._supported_tasks:
-    #   tracking_results = self._eval_tracking_metric.result()
-    #   eval_logs['evaluation/step/STQ'] = tracking_results['STQ']
-    #   eval_logs['evaluation/step/AQ'] = tracking_results['AQ']
-    #   eval_logs['evaluation/step/IoU'] = tracking_results['IoU']
-    # if (common.TASK_DEPTH_AWARE_VIDEO_PANOPTIC_SEGMENTATION
-    #     in self._supported_tasks):
-    #   vpq_results = self._eval_vpq_metric.result()
-    #   eval_logs['evaluation/vpq_2frames/PQ'] = vpq_results[0]
-    #   eval_logs['evaluation/vpq_2frames/SQ'] = vpq_results[1]
-    #   eval_logs['evaluation/vpq_2frames/RQ'] = vpq_results[2]
-    #   eval_logs['evaluation/vpq_2frames/TP'] = vpq_results[3]
-    #   eval_logs['evaluation/vpq_2frames/FN'] = vpq_results[4]
-    #   eval_logs['evaluation/vpq_2frames/FP'] = vpq_results[5]
-    #   depth_results = self._eval_depth_metric.result()
-    #   eval_logs['evaluation/depth/SILog'] = depth_results[0]
-    #   eval_logs['evaluation/depth/SqErrorRel'] = depth_results[1]
-    #   eval_logs['evaluation/depth/AbsErrorRel'] = depth_results[2]
-    #   eval_logs['evaluation/depth/DepthInlier'] = depth_results[3]
     return eval_logs
 
   def eval_reduce(self, state=None, step_outputs=None):
@@ -366,38 +305,4 @@ class Evaluator(orbit.StandardEvaluator):
         batch_size = tf.shape(gt_panoptic)[0]
         for i in range(batch_size):
           self._eval_pq_metric.update_state(gt_panoptic[i], pred_panoptic[i])
-          # STQ.
-          # if common.TASK_VIDEO_PANOPTIC_SEGMENTATION in self._supported_tasks:
-          #   self._eval_tracking_metric.update_state(
-          #       gt_panoptic[i], pred_panoptic[i],
-          #       step_outputs[common.SEQUENCE_ID][0][0].numpy())
-    # if common.TASK_INSTANCE_SEGMENTATION in self._supported_tasks:
-    #   # AP_Mask.
-    #   for ap_result in zip(*tuple(step_outputs[self._eval_ap_metric.name])):
-    #     (gt_panoptic, pred_panoptic, pred_semantic_probs, pred_instance_scores,
-    #      gt_is_crowd) = ap_result
-    #     batch_size = tf.shape(gt_panoptic)[0]
-    #     for i in range(batch_size):
-    #       self._eval_ap_metric.update_state(gt_panoptic[i], pred_panoptic[i],
-    #                                         pred_semantic_probs[i],
-    #                                         pred_instance_scores[i],
-    #                                         gt_is_crowd[i])
-    # if (common.TASK_DEPTH_AWARE_VIDEO_PANOPTIC_SEGMENTATION
-    #     in self._supported_tasks):
-    #   for vpq_result in zip(*tuple(step_outputs[self._eval_vpq_metric.name])):
-    #     (gt_panoptic, gt_next_panoptic, pred_panoptic,
-    #      pred_next_panoptic) = vpq_result
-    #     batch_size = tf.shape(gt_panoptic)[0]
-    #     for i in range(batch_size):
-    #       self._eval_vpq_metric.update_state(
-    #           [gt_panoptic[i], gt_next_panoptic[i]],
-    #           [pred_panoptic[i], pred_next_panoptic[i]])
-    #   for depth_result in zip(
-    #       *tuple(step_outputs[self._eval_depth_metric.name])):
-    #     gt_depth, pred_depth = depth_result
-    #     batch_size = tf.shape(gt_depth)[0]
-    #     for i in range(batch_size):
-    #       self._eval_depth_metric.update_state(gt_depth[i], pred_depth[i])
-    # We simply return state as it is, since our current implementation does not
-    # keep track of state between steps.
     return state
