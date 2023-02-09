@@ -1,0 +1,735 @@
+DEEPLAB INIT
+DEEPLAB INIT [513, 513]
+DEEPLAB INIT 16.0
+DEEPLAB INIT (33, 33)
+Setting pooling size to %s (33, 33)
+00000 (None, None, 1)
+1111 (None, None, 1)
+2222 (513, 513, 1)
+33333 (513, 513, 1)
+restoring or initializing model...
+restored model from ../model_dir/ckpt-10000.
+restored from checkpoint: ../model_dir/ckpt-10000
+train | step:  10000 | training until step 30000...
+create training loop!
+self._train_iter is None
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  10200 | steps/sec:    0.1 | output: 
+    {'learning_rate': 0.00051600125,
+     'losses/train_center_loss': 0.52334726,
+     'losses/train_regression_loss': 2.1682987,
+     'losses/train_semantic_loss': 3.2361767,
+     'losses/train_total_loss': 5.927823}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  10400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00051130797,
+     'losses/train_center_loss': 0.5018248,
+     'losses/train_regression_loss': 2.1608503,
+     'losses/train_semantic_loss': 3.3130698,
+     'losses/train_total_loss': 5.9757433}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  10600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0005066099,
+     'losses/train_center_loss': 0.4835473,
+     'losses/train_regression_loss': 2.0940216,
+     'losses/train_semantic_loss': 3.2219086,
+     'losses/train_total_loss': 5.7994776}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  10800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00050190696,
+     'losses/train_center_loss': 0.4872589,
+     'losses/train_regression_loss': 2.0784178,
+     'losses/train_semantic_loss': 3.099591,
+     'losses/train_total_loss': 5.6652675}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  11000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0004971992,
+     'losses/train_center_loss': 0.43789452,
+     'losses/train_regression_loss': 1.9770354,
+     'losses/train_semantic_loss': 2.986015,
+     'losses/train_total_loss': 5.4009457}
+saved checkpoint to ../model_dir/ckpt-11000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  11200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0004924863,
+     'losses/train_center_loss': 0.6291495,
+     'losses/train_regression_loss': 2.387433,
+     'losses/train_semantic_loss': 3.5265741,
+     'losses/train_total_loss': 6.5431566}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  11400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00048776856,
+     'losses/train_center_loss': 0.47921875,
+     'losses/train_regression_loss': 2.1347897,
+     'losses/train_semantic_loss': 3.1997437,
+     'losses/train_total_loss': 5.8137527}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  11600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00048304565,
+     'losses/train_center_loss': 0.44217902,
+     'losses/train_regression_loss': 2.0543168,
+     'losses/train_semantic_loss': 3.0809515,
+     'losses/train_total_loss': 5.5774465}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  11800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0004783176,
+     'losses/train_center_loss': 0.42925727,
+     'losses/train_regression_loss': 2.0187159,
+     'losses/train_semantic_loss': 2.984767,
+     'losses/train_total_loss': 5.4327397}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  12000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00047358443,
+     'losses/train_center_loss': 0.41768196,
+     'losses/train_regression_loss': 2.004355,
+     'losses/train_semantic_loss': 2.9170427,
+     'losses/train_total_loss': 5.3390794}
+saved checkpoint to ../model_dir/ckpt-12000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  12200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00046884594,
+     'losses/train_center_loss': 0.46228507,
+     'losses/train_regression_loss': 2.0027752,
+     'losses/train_semantic_loss': 3.0760555,
+     'losses/train_total_loss': 5.5411153}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  12400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00046410214,
+     'losses/train_center_loss': 0.42556113,
+     'losses/train_regression_loss': 1.9407343,
+     'losses/train_semantic_loss': 2.9018373,
+     'losses/train_total_loss': 5.268132}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  12600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00045935292,
+     'losses/train_center_loss': 0.5011377,
+     'losses/train_regression_loss': 2.101687,
+     'losses/train_semantic_loss': 3.1329124,
+     'losses/train_total_loss': 5.7357373}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  12800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00045459822,
+     'losses/train_center_loss': 0.43664664,
+     'losses/train_regression_loss': 1.9975358,
+     'losses/train_semantic_loss': 3.0069811,
+     'losses/train_total_loss': 5.4411645}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  13000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00044983806,
+     'losses/train_center_loss': 0.43350372,
+     'losses/train_regression_loss': 1.9249529,
+     'losses/train_semantic_loss': 2.827553,
+     'losses/train_total_loss': 5.1860104}
+saved checkpoint to ../model_dir/ckpt-13000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  13200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00044507222,
+     'losses/train_center_loss': 0.49609834,
+     'losses/train_regression_loss': 2.0381403,
+     'losses/train_semantic_loss': 2.9374628,
+     'losses/train_total_loss': 5.4717016}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  13400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00044030076,
+     'losses/train_center_loss': 0.43055993,
+     'losses/train_regression_loss': 2.0252194,
+     'losses/train_semantic_loss': 2.9591913,
+     'losses/train_total_loss': 5.414972}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  13600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00043552346,
+     'losses/train_center_loss': 0.4315239,
+     'losses/train_regression_loss': 2.0348992,
+     'losses/train_semantic_loss': 2.9516227,
+     'losses/train_total_loss': 5.4180455}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  13800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00043074042,
+     'losses/train_center_loss': 0.3504669,
+     'losses/train_regression_loss': 1.8382455,
+     'losses/train_semantic_loss': 2.7190173,
+     'losses/train_total_loss': 4.90773}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  14000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00042595144,
+     'losses/train_center_loss': 0.3212405,
+     'losses/train_regression_loss': 1.7745187,
+     'losses/train_semantic_loss': 2.6643403,
+     'losses/train_total_loss': 4.7600994}
+saved checkpoint to ../model_dir/ckpt-14000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  14200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00042115652,
+     'losses/train_center_loss': 0.431876,
+     'losses/train_regression_loss': 1.9868642,
+     'losses/train_semantic_loss': 2.8216352,
+     'losses/train_total_loss': 5.2403746}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  14400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00041635547,
+     'losses/train_center_loss': 0.36413825,
+     'losses/train_regression_loss': 1.8520335,
+     'losses/train_semantic_loss': 2.7365797,
+     'losses/train_total_loss': 4.9527516}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  14600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00041154827,
+     'losses/train_center_loss': 0.33650005,
+     'losses/train_regression_loss': 1.8098675,
+     'losses/train_semantic_loss': 2.6357622,
+     'losses/train_total_loss': 4.7821302}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  14800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00040673482,
+     'losses/train_center_loss': 0.32115775,
+     'losses/train_regression_loss': 1.7183844,
+     'losses/train_semantic_loss': 2.5997725,
+     'losses/train_total_loss': 4.6393137}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  15000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00040191508,
+     'losses/train_center_loss': 0.34479323,
+     'losses/train_regression_loss': 1.7216144,
+     'losses/train_semantic_loss': 2.5815742,
+     'losses/train_total_loss': 4.6479816}
+saved checkpoint to ../model_dir/ckpt-15000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  15200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00039708885,
+     'losses/train_center_loss': 0.33993068,
+     'losses/train_regression_loss': 1.7502421,
+     'losses/train_semantic_loss': 2.6513605,
+     'losses/train_total_loss': 4.741534}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  15400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00039225613,
+     'losses/train_center_loss': 0.33561355,
+     'losses/train_regression_loss': 1.8023627,
+     'losses/train_semantic_loss': 2.7811146,
+     'losses/train_total_loss': 4.9190907}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  15600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00038741675,
+     'losses/train_center_loss': 0.57256585,
+     'losses/train_regression_loss': 2.2169917,
+     'losses/train_semantic_loss': 3.236543,
+     'losses/train_total_loss': 6.0260997}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  15800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00038257067,
+     'losses/train_center_loss': 0.391978,
+     'losses/train_regression_loss': 1.8823377,
+     'losses/train_semantic_loss': 2.7436643,
+     'losses/train_total_loss': 5.0179796}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  16000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00037771775,
+     'losses/train_center_loss': 0.36963955,
+     'losses/train_regression_loss': 1.8180923,
+     'losses/train_semantic_loss': 2.65516,
+     'losses/train_total_loss': 4.8428926}
+saved checkpoint to ../model_dir/ckpt-16000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  16200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00037285784,
+     'losses/train_center_loss': 0.31917086,
+     'losses/train_regression_loss': 1.735701,
+     'losses/train_semantic_loss': 2.5699859,
+     'losses/train_total_loss': 4.6248574}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  16400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00036799096,
+     'losses/train_center_loss': 0.33792296,
+     'losses/train_regression_loss': 1.7686343,
+     'losses/train_semantic_loss': 2.5618696,
+     'losses/train_total_loss': 4.6684265}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  16600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0003631169,
+     'losses/train_center_loss': 0.36386132,
+     'losses/train_regression_loss': 1.7285117,
+     'losses/train_semantic_loss': 2.5261807,
+     'losses/train_total_loss': 4.618554}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  16800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00035823556,
+     'losses/train_center_loss': 0.29762608,
+     'losses/train_regression_loss': 1.6359932,
+     'losses/train_semantic_loss': 2.4481194,
+     'losses/train_total_loss': 4.3817387}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  17000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0003533468,
+     'losses/train_center_loss': 0.29063028,
+     'losses/train_regression_loss': 1.6444886,
+     'losses/train_semantic_loss': 2.4315643,
+     'losses/train_total_loss': 4.3666825}
+saved checkpoint to ../model_dir/ckpt-17000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  17200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00034845053,
+     'losses/train_center_loss': 0.26689622,
+     'losses/train_regression_loss': 1.6018006,
+     'losses/train_semantic_loss': 2.377439,
+     'losses/train_total_loss': 4.2461367}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  17400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0003435466,
+     'losses/train_center_loss': 0.27450386,
+     'losses/train_regression_loss': 1.5819598,
+     'losses/train_semantic_loss': 2.347433,
+     'losses/train_total_loss': 4.203896}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  17600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00033863485,
+     'losses/train_center_loss': 0.7492882,
+     'losses/train_regression_loss': 2.4515674,
+     'losses/train_semantic_loss': 3.883264,
+     'losses/train_total_loss': 7.08412}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  17800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00033371523,
+     'losses/train_center_loss': 0.42553258,
+     'losses/train_regression_loss': 1.9439365,
+     'losses/train_semantic_loss': 2.9500082,
+     'losses/train_total_loss': 5.319476}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  18000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00032878746,
+     'losses/train_center_loss': 0.33568284,
+     'losses/train_regression_loss': 1.7657586,
+     'losses/train_semantic_loss': 2.6324987,
+     'losses/train_total_loss': 4.73394}
+saved checkpoint to ../model_dir/ckpt-18000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  18200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00032385153,
+     'losses/train_center_loss': 0.29413715,
+     'losses/train_regression_loss': 1.6602973,
+     'losses/train_semantic_loss': 2.5341468,
+     'losses/train_total_loss': 4.4885817}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  18400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0003189072,
+     'losses/train_center_loss': 0.2729419,
+     'losses/train_regression_loss': 1.5863782,
+     'losses/train_semantic_loss': 2.4289489,
+     'losses/train_total_loss': 4.2882695}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  18600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00031395437,
+     'losses/train_center_loss': 0.26824594,
+     'losses/train_regression_loss': 1.5903589,
+     'losses/train_semantic_loss': 2.4274542,
+     'losses/train_total_loss': 4.286059}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  18800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0003089928,
+     'losses/train_center_loss': 0.2626978,
+     'losses/train_regression_loss': 1.5780154,
+     'losses/train_semantic_loss': 2.3634493,
+     'losses/train_total_loss': 4.204163}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  19000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00030402237,
+     'losses/train_center_loss': 0.3311612,
+     'losses/train_regression_loss': 1.6245475,
+     'losses/train_semantic_loss': 2.408193,
+     'losses/train_total_loss': 4.363901}
+saved checkpoint to ../model_dir/ckpt-19000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  19200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00029904293,
+     'losses/train_center_loss': 0.278755,
+     'losses/train_regression_loss': 1.5965344,
+     'losses/train_semantic_loss': 2.3424788,
+     'losses/train_total_loss': 4.2177687}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  19400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00029405422,
+     'losses/train_center_loss': 0.26306593,
+     'losses/train_regression_loss': 1.5903882,
+     'losses/train_semantic_loss': 2.4005234,
+     'losses/train_total_loss': 4.253977}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  19600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00028905613,
+     'losses/train_center_loss': 0.29327947,
+     'losses/train_regression_loss': 1.7063141,
+     'losses/train_semantic_loss': 2.4782424,
+     'losses/train_total_loss': 4.477835}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  19800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00028404835,
+     'losses/train_center_loss': 0.27433342,
+     'losses/train_regression_loss': 1.5409507,
+     'losses/train_semantic_loss': 2.3325176,
+     'losses/train_total_loss': 4.1478024}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  20000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0002790308,
+     'losses/train_center_loss': 0.24010463,
+     'losses/train_regression_loss': 1.5277145,
+     'losses/train_semantic_loss': 2.2784927,
+     'losses/train_total_loss': 4.046313}
+saved checkpoint to ../model_dir/ckpt-20000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  20200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0002740032,
+     'losses/train_center_loss': 0.3415888,
+     'losses/train_regression_loss': 1.5898099,
+     'losses/train_semantic_loss': 2.2647772,
+     'losses/train_total_loss': 4.1961756}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  20400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0002689653,
+     'losses/train_center_loss': 0.3044822,
+     'losses/train_regression_loss': 1.5566173,
+     'losses/train_semantic_loss': 2.2791777,
+     'losses/train_total_loss': 4.140277}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  20600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0002639169,
+     'losses/train_center_loss': 0.30634594,
+     'losses/train_regression_loss': 1.6315364,
+     'losses/train_semantic_loss': 2.38392,
+     'losses/train_total_loss': 4.321802}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  20800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00025885776,
+     'losses/train_center_loss': 0.30825385,
+     'losses/train_regression_loss': 1.5640831,
+     'losses/train_semantic_loss': 2.2994714,
+     'losses/train_total_loss': 4.1718082}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  21000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0002537876,
+     'losses/train_center_loss': 0.25961062,
+     'losses/train_regression_loss': 1.5239575,
+     'losses/train_semantic_loss': 2.251729,
+     'losses/train_total_loss': 4.0352964}
+saved checkpoint to ../model_dir/ckpt-21000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  21200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00024870614,
+     'losses/train_center_loss': 0.25708154,
+     'losses/train_regression_loss': 1.4948449,
+     'losses/train_semantic_loss': 2.2309785,
+     'losses/train_total_loss': 3.9829047}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  21400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00024361318,
+     'losses/train_center_loss': 0.24347223,
+     'losses/train_regression_loss': 1.466531,
+     'losses/train_semantic_loss': 2.2120707,
+     'losses/train_total_loss': 3.9220746}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  21600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00023850829,
+     'losses/train_center_loss': 0.3191718,
+     'losses/train_regression_loss': 1.5257324,
+     'losses/train_semantic_loss': 2.3311987,
+     'losses/train_total_loss': 4.176103}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  21800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00023339124,
+     'losses/train_center_loss': 0.25128117,
+     'losses/train_regression_loss': 1.476743,
+     'losses/train_semantic_loss': 2.2345467,
+     'losses/train_total_loss': 3.962571}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  22000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00022826175,
+     'losses/train_center_loss': 0.24116226,
+     'losses/train_regression_loss': 1.458957,
+     'losses/train_semantic_loss': 2.2159045,
+     'losses/train_total_loss': 3.9160235}
+saved checkpoint to ../model_dir/ckpt-22000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  22200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00022311936,
+     'losses/train_center_loss': 0.22476944,
+     'losses/train_regression_loss': 1.4118725,
+     'losses/train_semantic_loss': 2.1471586,
+     'losses/train_total_loss': 3.7838006}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  22400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00021796381,
+     'losses/train_center_loss': 0.21917166,
+     'losses/train_regression_loss': 1.4417206,
+     'losses/train_semantic_loss': 2.1434937,
+     'losses/train_total_loss': 3.804386}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  22600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00021279464,
+     'losses/train_center_loss': 0.21973576,
+     'losses/train_regression_loss': 1.4167563,
+     'losses/train_semantic_loss': 2.1410906,
+     'losses/train_total_loss': 3.7775824}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  22800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00020761152,
+     'losses/train_center_loss': 0.20811999,
+     'losses/train_regression_loss': 1.4352878,
+     'losses/train_semantic_loss': 2.132924,
+     'losses/train_total_loss': 3.7763321}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  23000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00020241394,
+     'losses/train_center_loss': 0.24491139,
+     'losses/train_regression_loss': 1.4448377,
+     'losses/train_semantic_loss': 2.1503115,
+     'losses/train_total_loss': 3.8400602}
+saved checkpoint to ../model_dir/ckpt-23000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  23200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0001972015,
+     'losses/train_center_loss': 0.23002993,
+     'losses/train_regression_loss': 1.428462,
+     'losses/train_semantic_loss': 2.1199813,
+     'losses/train_total_loss': 3.7784736}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  23400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00019197368,
+     'losses/train_center_loss': 0.1938268,
+     'losses/train_regression_loss': 1.3857203,
+     'losses/train_semantic_loss': 2.1234837,
+     'losses/train_total_loss': 3.7030315}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  23600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00018672999,
+     'losses/train_center_loss': 0.22558187,
+     'losses/train_regression_loss': 1.4128156,
+     'losses/train_semantic_loss': 2.086393,
+     'losses/train_total_loss': 3.7247903}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  23800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00018146992,
+     'losses/train_center_loss': 0.29873946,
+     'losses/train_regression_loss': 1.4728036,
+     'losses/train_semantic_loss': 2.121142,
+     'losses/train_total_loss': 3.892685}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  24000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00017619283,
+     'losses/train_center_loss': 0.22739302,
+     'losses/train_regression_loss': 1.4384097,
+     'losses/train_semantic_loss': 2.2565506,
+     'losses/train_total_loss': 3.9223533}
+saved checkpoint to ../model_dir/ckpt-24000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  24200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00017089814,
+     'losses/train_center_loss': 0.23655578,
+     'losses/train_regression_loss': 1.4663244,
+     'losses/train_semantic_loss': 2.2401898,
+     'losses/train_total_loss': 3.9430695}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  24400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00016558515,
+     'losses/train_center_loss': 0.29579514,
+     'losses/train_regression_loss': 1.566965,
+     'losses/train_semantic_loss': 2.3551438,
+     'losses/train_total_loss': 4.2179027}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  24600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00016025316,
+     'losses/train_center_loss': 0.32011396,
+     'losses/train_regression_loss': 1.6724559,
+     'losses/train_semantic_loss': 2.618296,
+     'losses/train_total_loss': 4.6108646}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  24800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00015490135,
+     'losses/train_center_loss': 0.24312198,
+     'losses/train_regression_loss': 1.487991,
+     'losses/train_semantic_loss': 2.2153883,
+     'losses/train_total_loss': 3.9465015}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  25000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00014952892,
+     'losses/train_center_loss': 0.44511178,
+     'losses/train_regression_loss': 1.8147153,
+     'losses/train_semantic_loss': 2.7478964,
+     'losses/train_total_loss': 5.007725}
+saved checkpoint to ../model_dir/ckpt-25000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  25200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00014413496,
+     'losses/train_center_loss': 0.287171,
+     'losses/train_regression_loss': 1.50426,
+     'losses/train_semantic_loss': 2.2991774,
+     'losses/train_total_loss': 4.090608}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  25400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00013871842,
+     'losses/train_center_loss': 0.24672814,
+     'losses/train_regression_loss': 1.4596738,
+     'losses/train_semantic_loss': 2.2030976,
+     'losses/train_total_loss': 3.9094992}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  25600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00013327831,
+     'losses/train_center_loss': 0.2510798,
+     'losses/train_regression_loss': 1.4140921,
+     'losses/train_semantic_loss': 2.223154,
+     'losses/train_total_loss': 3.8883264}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  25800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00012781343,
+     'losses/train_center_loss': 0.2182754,
+     'losses/train_regression_loss': 1.3796277,
+     'losses/train_semantic_loss': 2.1564274,
+     'losses/train_total_loss': 3.7543306}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  26000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00012232242,
+     'losses/train_center_loss': 0.22875477,
+     'losses/train_regression_loss': 1.3772142,
+     'losses/train_semantic_loss': 2.1006463,
+     'losses/train_total_loss': 3.7066157}
+saved checkpoint to ../model_dir/ckpt-26000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  26200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0001168039,
+     'losses/train_center_loss': 0.21121638,
+     'losses/train_regression_loss': 1.3774985,
+     'losses/train_semantic_loss': 2.0786822,
+     'losses/train_total_loss': 3.6673975}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  26400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00011125627,
+     'losses/train_center_loss': 0.19583523,
+     'losses/train_regression_loss': 1.3400158,
+     'losses/train_semantic_loss': 2.048822,
+     'losses/train_total_loss': 3.5846734}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  26600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.000105677675,
+     'losses/train_center_loss': 0.22513658,
+     'losses/train_regression_loss': 1.366058,
+     'losses/train_semantic_loss': 2.0948195,
+     'losses/train_total_loss': 3.6860137}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  26800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00010006616,
+     'losses/train_center_loss': 0.21518444,
+     'losses/train_regression_loss': 1.3379364,
+     'losses/train_semantic_loss': 2.0352187,
+     'losses/train_total_loss': 3.5883393}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  27000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 9.441945e-05,
+     'losses/train_center_loss': 0.2701742,
+     'losses/train_regression_loss': 1.4004359,
+     'losses/train_semantic_loss': 2.0404525,
+     'losses/train_total_loss': 3.7110627}
+saved checkpoint to ../model_dir/ckpt-27000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  27200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 8.8734865e-05,
+     'losses/train_center_loss': 0.1890675,
+     'losses/train_regression_loss': 1.3230325,
+     'losses/train_semantic_loss': 2.0489285,
+     'losses/train_total_loss': 3.5610285}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  27400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 8.300955e-05,
+     'losses/train_center_loss': 0.19115911,
+     'losses/train_regression_loss': 1.321658,
+     'losses/train_semantic_loss': 2.0330262,
+     'losses/train_total_loss': 3.5458422}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  27600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 7.723998e-05,
+     'losses/train_center_loss': 0.18569344,
+     'losses/train_regression_loss': 1.3206159,
+     'losses/train_semantic_loss': 2.0169425,
+     'losses/train_total_loss': 3.523252}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  27800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 7.142208e-05,
+     'losses/train_center_loss': 0.18758236,
+     'losses/train_regression_loss': 1.3289707,
+     'losses/train_semantic_loss': 1.98629,
+     'losses/train_total_loss': 3.5028424}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  28000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 6.555097e-05,
+     'losses/train_center_loss': 0.17346245,
+     'losses/train_regression_loss': 1.2930969,
+     'losses/train_semantic_loss': 1.974441,
+     'losses/train_total_loss': 3.4409997}
+saved checkpoint to ../model_dir/ckpt-28000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  28200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 5.9620757e-05,
+     'losses/train_center_loss': 0.2104725,
+     'losses/train_regression_loss': 1.3156915,
+     'losses/train_semantic_loss': 1.9880368,
+     'losses/train_total_loss': 3.5142007}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  28400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 5.3624124e-05,
+     'losses/train_center_loss': 0.21859345,
+     'losses/train_regression_loss': 1.3206389,
+     'losses/train_semantic_loss': 2.0178723,
+     'losses/train_total_loss': 3.5571058}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  28600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 4.755186e-05,
+     'losses/train_center_loss': 0.19675787,
+     'losses/train_regression_loss': 1.3568074,
+     'losses/train_semantic_loss': 2.0379522,
+     'losses/train_total_loss': 3.5915177}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  28800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 4.1391908e-05,
+     'losses/train_center_loss': 0.17983238,
+     'losses/train_regression_loss': 1.2889057,
+     'losses/train_semantic_loss': 1.9807681,
+     'losses/train_total_loss': 3.4495068}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  29000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 3.512792e-05,
+     'losses/train_center_loss': 0.17802252,
+     'losses/train_regression_loss': 1.2769626,
+     'losses/train_semantic_loss': 1.9792866,
+     'losses/train_total_loss': 3.4342716}
+saved checkpoint to ../model_dir/ckpt-29000.
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  29200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 2.8736426e-05,
+     'losses/train_center_loss': 0.17542404,
+     'losses/train_regression_loss': 1.2754058,
+     'losses/train_semantic_loss': 1.95361,
+     'losses/train_total_loss': 3.4044404}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  29400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 2.2181348e-05,
+     'losses/train_center_loss': 0.15885186,
+     'losses/train_regression_loss': 1.2546222,
+     'losses/train_semantic_loss': 1.9438876,
+     'losses/train_total_loss': 3.357361}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  29600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 1.539947e-05,
+     'losses/train_center_loss': 0.1663734,
+     'losses/train_regression_loss': 1.2713368,
+     'losses/train_semantic_loss': 1.9620596,
+     'losses/train_total_loss': 3.3997698}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  29800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 8.252371e-06,
+     'losses/train_center_loss': 0.17872381,
+     'losses/train_regression_loss': 1.2943857,
+     'losses/train_semantic_loss': 1.9667287,
+     'losses/train_total_loss': 3.4398386}
+run _train_iter, numsteps: <tensorflow.python.distribute.input_lib.DistributedIterator object at 0x7f28d7a0e220> tf.Tensor(100, shape=(), dtype=int32)
+train | step:  30000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0,
+     'losses/train_center_loss': 0.22958015,
+     'losses/train_regression_loss': 1.3418814,
+     'losses/train_semantic_loss': 2.035515,
+     'losses/train_total_loss': 3.6069763}
+saved checkpoint to ../model_dir/ckpt-30000.

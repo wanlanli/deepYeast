@@ -1,6 +1,6 @@
 def load_model(model_dir, config_file):
     import yaml
-    from config_yml import ExperimentOptions
+    from deeplab.config_yml import ExperimentOptions
     from trainer.train import DeepCellModule
     mode = 'test'
     num_gpus=1

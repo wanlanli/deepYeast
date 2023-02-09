@@ -1,0 +1,292 @@
+[I 2023-01-02 00:21:28.346 ServerApp] jupyterlab | extension was successfully linked.
+[I 2023-01-02 00:21:28.354 ServerApp] nbclassic | extension was successfully linked.
+[I 2023-01-02 00:21:33.372 ServerApp] notebook_shim | extension was successfully linked.
+[I 2023-01-02 00:21:33.444 ServerApp] notebook_shim | extension was successfully loaded.
+[I 2023-01-02 00:21:33.445 LabApp] JupyterLab extension loaded from /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/python3.9/site-packages/jupyterlab
+[I 2023-01-02 00:21:33.445 LabApp] JupyterLab application directory is /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/share/jupyter/lab
+[I 2023-01-02 00:21:33.462 ServerApp] jupyterlab | extension was successfully loaded.
+[I 2023-01-02 00:21:33.496 ServerApp] nbclassic | extension was successfully loaded.
+[I 2023-01-02 00:21:33.496 ServerApp] Serving notebooks from local directory: /work/FAC/FBM/DMF/smartin/cellfusion/wanlan
+[I 2023-01-02 00:21:33.496 ServerApp] Jupyter Server 1.18.1 is running at:
+[I 2023-01-02 00:21:33.496 ServerApp] http://dnagpu003:8880/lab?token=5d62006887597295ce7062d25826410f730e5b6d08744969
+[I 2023-01-02 00:21:33.496 ServerApp]  or http://127.0.0.1:8880/lab?token=5d62006887597295ce7062d25826410f730e5b6d08744969
+[I 2023-01-02 00:21:33.496 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 2023-01-02 00:21:33.660 ServerApp] 
+    
+    To access the server, open this file in a browser:
+        file:///users/wli6/.local/share/jupyter/runtime/jpserver-853054-open.html
+    Or copy and paste one of these URLs:
+        http://dnagpu003:8880/lab?token=5d62006887597295ce7062d25826410f730e5b6d08744969
+     or http://127.0.0.1:8880/lab?token=5d62006887597295ce7062d25826410f730e5b6d08744969
+[W 2023-01-02 00:21:35.425 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615295359 (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:35.425 ServerApp] Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:35.425 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615295359 (10.203.101.101) 0.82ms referer=http://localhost:8880/lab/tree/project/deepyeast/test_main.ipynb
+[W 2023-01-02 00:21:35.616 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:35.725 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101) 110.13ms referer=None
+[W 2023-01-02 00:21:35.746 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615295696 (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:35.746 ServerApp] Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:35.746 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615295696 (10.203.101.101) 0.45ms referer=http://localhost:8880/lab/tree/project/deepyeast/test_main.ipynb
+[W 2023-01-02 00:21:38.655 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:38.656 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101) 1.57ms referer=None
+[W 2023-01-02 00:21:38.675 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615298625 (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:38.675 ServerApp] Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:38.675 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615298625 (10.203.101.101) 0.45ms referer=http://localhost:8880/lab/tree/project/deepyeast/test_main.ipynb
+[W 2023-01-02 00:21:40.467 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:40.467 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101) 1.26ms referer=None
+[W 2023-01-02 00:21:40.486 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615300436 (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:40.486 ServerApp] Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:40.486 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615300436 (10.203.101.101) 0.43ms referer=http://localhost:8880/lab/tree/project/deepyeast/test_main.ipynb
+[W 2023-01-02 00:21:42.415 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:42.415 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101) 1.00ms referer=None
+[W 2023-01-02 00:21:42.435 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615302384 (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:42.435 ServerApp] Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:21:42.435 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615302384 (10.203.101.101) 0.44ms referer=http://localhost:8880/lab/tree/project/deepyeast/test_main.ipynb
+[W 2023-01-02 00:22:10.624 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:22:10.625 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101) 1.10ms referer=None
+[W 2023-01-02 00:22:10.645 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615330594 (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:22:10.645 ServerApp] Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:22:10.645 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615330594 (10.203.101.101) 0.44ms referer=http://localhost:8880/lab/tree/project/deepyeast/test_main.ipynb
+[W 2023-01-02 00:22:38.167 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:22:38.168 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0/channels?session_id=905f529b-211b-498f-95b3-2a5290da1ded (10.203.101.101) 1.31ms referer=None
+[W 2023-01-02 00:22:38.187 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615358137 (10.203.101.101): Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:22:38.187 ServerApp] Kernel does not exist: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[W 2023-01-02 00:22:38.187 ServerApp] 404 GET /api/kernels/4356f478-3efb-426c-9b37-bb62aa0927a0?1672615358137 (10.203.101.101) 0.47ms referer=http://localhost:8880/lab/tree/project/deepyeast/test_main.ipynb
+[W 2023-01-02 00:23:16.213 LabApp] Could not determine jupyterlab build status without nodejs
+[I 2023-01-02 00:23:21.903 ServerApp] Kernel started: b397affd-1566-4d9d-84cf-0d7bee26ebc6
+[W 2023-01-02 00:23:50.308 ServerApp] Notebook project/deepyeast/example/01_DEMO_CELLSEGMENTATION_PREDICTION.ipynb is not trusted
+[I 2023-01-02 00:23:50.689 ServerApp] Kernel started: 816308c3-82bb-4069-9b92-8a8707bb9358
+2023-01-02 00:24:05.125049: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-02 00:24:09.067410: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2023-01-02 00:24:21.323246: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 00:24:21.323380: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 00:24:21.323387: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2023-01-02 00:25:01.317020: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-02 00:25:05.793323: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38224 MB memory:  -> device: 0, name: NVIDIA A100-PCIE-40GB, pci bus id: 0000:21:00.0, compute capability: 8.0
+[I 2023-01-02 00:25:50.695 ServerApp] Saving file at /project/deepyeast/example/01_DEMO_CELLSEGMENTATION_PREDICTION.ipynb
+[W 2023-01-02 00:25:50.696 ServerApp] Notebook project/deepyeast/example/01_DEMO_CELLSEGMENTATION_PREDICTION.ipynb is not trusted
+2023-01-02 00:28:53.042329: I tensorflow/stream_executor/cuda/cuda_dnn.cc:384] Loaded cuDNN version 8401
+2023-01-02 00:29:00.230157: I tensorflow/core/platform/default/subprocess.cc:304] Start cannot spawn child process: No such file or directory
+2023-01-02 00:29:00.583709: I tensorflow/stream_executor/cuda/cuda_blas.cc:1614] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
+[I 2023-01-02 00:29:34.125 ServerApp] Creating new directory in /output
+[I 2023-01-02 00:29:50.847 ServerApp] Saving file at /project/deepyeast/example/01_DEMO_CELLSEGMENTATION_PREDICTION.ipynb
+[W 2023-01-02 00:29:50.847 ServerApp] Notebook project/deepyeast/example/01_DEMO_CELLSEGMENTATION_PREDICTION.ipynb is not trusted
+[I 2023-01-02 00:31:51.098 ServerApp] Saving file at /project/deepyeast/example/01_DEMO_CELLSEGMENTATION_PREDICTION.ipynb
+[I 2023-01-02 00:33:51.321 ServerApp] Saving file at /project/deepyeast/example/01_DEMO_CELLSEGMENTATION_PREDICTION.ipynb
+[I 2023-01-02 00:35:51.496 ServerApp] Saving file at /project/deepyeast/example/01_DEMO_CELLSEGMENTATION_PREDICTION.ipynb
+[I 2023-01-02 00:37:51.720 ServerApp] Saving file at /project/deepyeast/example/01_DEMO_CELLSEGMENTATION_PREDICTION.ipynb
+[I 2023-01-02 00:39:51.947 ServerApp] Saving file at /project/deepyeast/example/01_DEMO_CELLSEGMENTATION_PREDICTION.ipynb
+2023-01-02 01:37:24.199089: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-02 01:37:24.484875: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+[I 2023-01-02 01:37:35.158 ServerApp] Starting buffering for 816308c3-82bb-4069-9b92-8a8707bb9358:61c49f8c-2ffc-44d7-84f7-6e851818c0f4
+2023-01-02 01:37:37.742414: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 01:37:37.742539: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 01:37:37.742547: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2023-01-02 01:38:20.942626: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-02 01:38:21.522040: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 219 MB memory:  -> device: 0, name: NVIDIA A100-PCIE-40GB, pci bus id: 0000:21:00.0, compute capability: 8.0
+2023-01-02 01:38:21.548458: I tensorflow/stream_executor/cuda/cuda_driver.cc:733] failed to allocate 219.56M (230227968 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+[I 2023-01-02 01:39:22.042 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[W 2023-01-02 12:43:06.209 ServerApp] IOPub message rate exceeded.
+    The Jupyter server will temporarily stop sending output
+    to the client in order to avoid crashing it.
+    To change this limit, set the config variable
+    `--ServerApp.iopub_msg_rate_limit`.
+    
+    Current values:
+    ServerApp.iopub_msg_rate_limit=1000.0 (msgs/sec)
+    ServerApp.rate_limit_window=3.0 (secs)
+    
+[W 2023-01-02 12:43:06.232 ServerApp] IOPub message rate exceeded.
+    The Jupyter server will temporarily stop sending output
+    to the client in order to avoid crashing it.
+    To change this limit, set the config variable
+    `--ServerApp.iopub_msg_rate_limit`.
+    
+    Current values:
+    ServerApp.iopub_msg_rate_limit=1000.0 (msgs/sec)
+    ServerApp.rate_limit_window=3.0 (secs)
+    
+[W 2023-01-02 12:43:07.206 ServerApp] iopub messages resumed
+[W 2023-01-02 12:43:07.208 ServerApp] iopub messages resumed
+[I 2023-01-02 12:43:23.710 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+2023-01-02 12:43:43.779286: E tensorflow/stream_executor/cuda/cuda_dnn.cc:389] Could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR
+2023-01-02 12:43:43.779414: W tensorflow/core/framework/op_kernel.cc:1780] OP_REQUIRES failed at conv_ops.cc:1134 : UNIMPLEMENTED: DNN library is not found.
+2023-01-02 12:44:44.600335: E tensorflow/stream_executor/cuda/cuda_dnn.cc:389] Could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR
+2023-01-02 12:44:44.600436: W tensorflow/core/framework/op_kernel.cc:1780] OP_REQUIRES failed at conv_ops.cc:1134 : UNIMPLEMENTED: DNN library is not found.
+[I 2023-01-02 12:45:25.188 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 17:52:53.349 ServerApp] Starting buffering for b397affd-1566-4d9d-84cf-0d7bee26ebc6:e804f085-8801-416d-a3d3-714cc6807511
+[W 2023-01-02 17:52:57.028 LabApp] Could not determine jupyterlab build status without nodejs
+[I 2023-01-02 17:54:59.954 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 18:26:13.027 ServerApp] Creating new notebook in /project/deepyeast/example
+[I 2023-01-02 18:26:13.683 ServerApp] Kernel started: 8c541106-02d1-4daa-99d1-5dd0370f9ba8
+[I 2023-01-02 18:28:13.322 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[W 2023-01-02 18:29:25.316 ServerApp] Notebook project/yeast_seg/file_process.ipynb is not trusted
+[I 2023-01-02 18:29:25.494 ServerApp] Kernel started: cad16a1c-85f1-4402-8f67-d2eb106d4f46
+[I 2023-01-02 18:30:13.428 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 18:31:14.511 ServerApp] Starting buffering for cad16a1c-85f1-4402-8f67-d2eb106d4f46:64d80b1a-5b10-4818-94fa-a7130bd1f7dd
+2023-01-02 18:31:46.070745: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-02 18:31:46.250163: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2023-01-02 18:31:58.482792: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 18:31:58.482919: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 18:31:58.482925: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+[I 2023-01-02 18:32:55.491 ServerApp] Starting buffering for b397affd-1566-4d9d-84cf-0d7bee26ebc6:3d97cc91-a25e-41a7-98a9-6cfb29d1d7b7
+[I 2023-01-02 18:32:55.491 ServerApp] Starting buffering for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:a984da35-b589-4963-874c-8e90c2724679
+[I 2023-01-02 18:33:08.073 ServerApp] Restoring connection for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:a984da35-b589-4963-874c-8e90c2724679
+[I 2023-01-02 18:33:10.726 ServerApp] Starting buffering for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:a984da35-b589-4963-874c-8e90c2724679
+[W 2023-01-02 18:33:13.873 LabApp] Could not determine jupyterlab build status without nodejs
+[E 2023-01-02 18:33:13.883 ServerApp] Uncaught exception GET /lab/api/settings/@jupyterlab/cell-toolbar-extension:plugin?1672680793716 (10.203.101.101)
+    HTTPServerRequest(protocol='http', host='localhost:8880', method='GET', uri='/lab/api/settings/@jupyterlab/cell-toolbar-extension:plugin?1672680793716', version='HTTP/1.1', remote_ip='10.203.101.101')
+    Traceback (most recent call last):
+      File "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/python3.9/site-packages/tornado/web.py", line 1713, in _execute
+        result = await result
+    tornado.iostream.StreamClosedError: Stream is closed
+[E 2023-01-02 18:33:13.910 ServerApp] Uncaught exception GET /lab/api/settings/@jupyterlab/shortcuts-extension:shortcuts?1672680793716 (10.203.101.101)
+    HTTPServerRequest(protocol='http', host='localhost:8880', method='GET', uri='/lab/api/settings/@jupyterlab/shortcuts-extension:shortcuts?1672680793716', version='HTTP/1.1', remote_ip='10.203.101.101')
+    Traceback (most recent call last):
+      File "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/python3.9/site-packages/tornado/web.py", line 1713, in _execute
+        result = await result
+    tornado.iostream.StreamClosedError: Stream is closed
+[E 2023-01-02 18:33:13.912 ServerApp] Uncaught exception GET /lab/api/settings/@jupyterlab/docmanager-extension:plugin?1672680793717 (10.203.101.101)
+    HTTPServerRequest(protocol='http', host='localhost:8880', method='GET', uri='/lab/api/settings/@jupyterlab/docmanager-extension:plugin?1672680793717', version='HTTP/1.1', remote_ip='10.203.101.101')
+    Traceback (most recent call last):
+      File "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/python3.9/site-packages/tornado/web.py", line 1713, in _execute
+        result = await result
+    tornado.iostream.StreamClosedError: Stream is closed
+[E 2023-01-02 18:33:13.914 ServerApp] Uncaught exception GET /lab/api/settings/@jupyterlab/mainmenu-extension:plugin?1672680793717 (10.203.101.101)
+    HTTPServerRequest(protocol='http', host='localhost:8880', method='GET', uri='/lab/api/settings/@jupyterlab/mainmenu-extension:plugin?1672680793717', version='HTTP/1.1', remote_ip='10.203.101.101')
+    Traceback (most recent call last):
+      File "/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/python3.9/site-packages/tornado/web.py", line 1713, in _execute
+        result = await result
+    tornado.iostream.StreamClosedError: Stream is closed
+[W 2023-01-02 18:33:15.373 LabApp] Could not determine jupyterlab build status without nodejs
+[I 2023-01-02 18:45:16.423 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 18:45:18.415 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 18:47:16.568 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 18:53:16.652 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 18:53:46.026 ServerApp] Creating new directory in /data/set7
+[I 2023-01-02 18:55:16.742 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 18:58:12.233 ServerApp] Uploading file to /data/set7/instance_maps/train/3_100_1x1/100x_bin1x1_2040x2040_DV_WT_05_gtFine_instanceIds.png
+[W 2023-01-02 19:12:03.865 ServerApp] delete /data/set7/instance_maps/train/3_100_1x1/100x_bin1x1_2040x2040_DV_WT_05.png
+[W 2023-01-02 19:12:03.865 ServerApp] Skipping trash for /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set7/instance_maps/train/3_100_1x1/100x_bin1x1_2040x2040_DV_WT_05.png, on different device to home directory
+[I 2023-01-02 19:12:48.275 ServerApp] Kernel restarted: 8c541106-02d1-4daa-99d1-5dd0370f9ba8
+[I 2023-01-02 19:12:48.307 ServerApp] Starting buffering for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:6b0cc742-2dbf-49b4-8259-f193a8b6c55d
+[I 2023-01-02 19:12:48.336 ServerApp] Restoring connection for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:6b0cc742-2dbf-49b4-8259-f193a8b6c55d
+[W 2023-01-02 19:12:52.845 ServerApp] Nudge: attempt 10 on kernel 8c541106-02d1-4daa-99d1-5dd0370f9ba8
+[W 2023-01-02 19:12:57.856 ServerApp] Nudge: attempt 20 on kernel 8c541106-02d1-4daa-99d1-5dd0370f9ba8
+[I 2023-01-02 19:13:16.880 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+2023-01-02 19:13:23.307651: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-02 19:13:23.460616: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2023-01-02 19:13:35.371334: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:13:35.371455: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:13:35.371461: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+[W 2023-01-02 19:15:15.555 ServerApp] delete /data/set7/images/train/3_100_1x1/100x_bin1x1_2040x2040_DV_WT_05.png
+[W 2023-01-02 19:15:15.555 ServerApp] Skipping trash for /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set7/images/train/3_100_1x1/100x_bin1x1_2040x2040_DV_WT_05.png, on different device to home directory
+[I 2023-01-02 19:15:17.005 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 19:15:40.842 ServerApp] Kernel restarted: 8c541106-02d1-4daa-99d1-5dd0370f9ba8
+[I 2023-01-02 19:15:40.861 ServerApp] Starting buffering for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:6b0cc742-2dbf-49b4-8259-f193a8b6c55d
+[I 2023-01-02 19:15:40.892 ServerApp] Restoring connection for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:6b0cc742-2dbf-49b4-8259-f193a8b6c55d
+2023-01-02 19:15:44.764575: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-02 19:15:44.917550: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2023-01-02 19:15:46.719108: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:15:46.719227: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:15:46.719233: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+[W 2023-01-02 19:16:47.258 ServerApp] Notebook project/yeast_seg/file_process.ipynb is not trusted
+[I 2023-01-02 19:17:17.186 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 19:18:47.378 ServerApp] Saving file at /project/yeast_seg/file_process.ipynb
+[W 2023-01-02 19:18:47.378 ServerApp] Notebook project/yeast_seg/file_process.ipynb is not trusted
+[I 2023-01-02 19:19:17.280 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[W 2023-01-02 19:20:04.833 ServerApp] delete /data/set7/images/val/val/YSM3911_cdc42mChSW_24h_04_R3D.png
+[W 2023-01-02 19:20:04.834 ServerApp] Skipping trash for /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set7/images/val/val/YSM3911_cdc42mChSW_24h_04_R3D.png, on different device to home directory
+[W 2023-01-02 19:20:19.977 ServerApp] delete /data/set7/images/val/val/YSM3911_cdc42mChSW_24h_05_R3D.png
+[W 2023-01-02 19:20:19.977 ServerApp] Skipping trash for /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set7/images/val/val/YSM3911_cdc42mChSW_24h_05_R3D.png, on different device to home directory
+[I 2023-01-02 19:20:47.455 ServerApp] Saving file at /project/yeast_seg/file_process.ipynb
+[W 2023-01-02 19:20:47.456 ServerApp] Notebook project/yeast_seg/file_process.ipynb is not trusted
+[I 2023-01-02 19:21:17.439 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 19:23:17.518 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 19:24:52.832 ServerApp] AsyncIOLoopKernelRestarter: restarting kernel (1/5), keep random ports
+[W 2023-01-02 19:24:52.832 ServerApp] kernel 8c541106-02d1-4daa-99d1-5dd0370f9ba8 restarted
+[I 2023-01-02 19:24:52.898 ServerApp] Starting buffering for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:6b0cc742-2dbf-49b4-8259-f193a8b6c55d
+[I 2023-01-02 19:24:52.908 ServerApp] Restoring connection for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:6b0cc742-2dbf-49b4-8259-f193a8b6c55d
+[I 2023-01-02 19:25:01.676 ServerApp] Starting buffering for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:6b0cc742-2dbf-49b4-8259-f193a8b6c55d
+[I 2023-01-02 19:25:01.676 ServerApp] Starting buffering for cad16a1c-85f1-4402-8f67-d2eb106d4f46:80a6cb31-1176-455e-b0b1-ec2eeb522ab4
+[I 2023-01-02 19:25:01.676 ServerApp] Starting buffering for b397affd-1566-4d9d-84cf-0d7bee26ebc6:b2ecc149-29c9-4fb4-8e3e-614065114bc0
+[W 2023-01-02 19:25:03.970 LabApp] Could not determine jupyterlab build status without nodejs
+[W 2023-01-02 19:25:04.949 ServerApp] Notebook project/yeast_seg/file_process.ipynb is not trusted
+[I 2023-01-02 19:25:05.822 ServerApp] Discarding 3 buffered messages for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:6b0cc742-2dbf-49b4-8259-f193a8b6c55d
+2023-01-02 19:25:08.051957: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-02 19:25:08.225632: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2023-01-02 19:25:16.118929: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:25:16.119055: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:25:16.119061: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+[I 2023-01-02 19:26:37.899 ServerApp] AsyncIOLoopKernelRestarter: restarting kernel (1/5), keep random ports
+[W 2023-01-02 19:26:37.899 ServerApp] kernel 8c541106-02d1-4daa-99d1-5dd0370f9ba8 restarted
+[I 2023-01-02 19:26:37.972 ServerApp] Starting buffering for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:609cc9d5-326f-4158-bbab-1510b3e4bc96
+[I 2023-01-02 19:26:38.016 ServerApp] Restoring connection for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:609cc9d5-326f-4158-bbab-1510b3e4bc96
+[I 2023-01-02 19:27:04.488 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+2023-01-02 19:28:42.733515: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-02 19:28:42.896638: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2023-01-02 19:28:46.771910: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:28:46.772049: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:28:46.772056: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+[I 2023-01-02 19:29:04.585 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 19:29:06.781 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 19:29:19.952 ServerApp] AsyncIOLoopKernelRestarter: restarting kernel (1/5), keep random ports
+[W 2023-01-02 19:29:19.953 ServerApp] kernel 8c541106-02d1-4daa-99d1-5dd0370f9ba8 restarted
+[I 2023-01-02 19:29:20.052 ServerApp] Starting buffering for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:609cc9d5-326f-4158-bbab-1510b3e4bc96
+[I 2023-01-02 19:29:20.063 ServerApp] Restoring connection for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:609cc9d5-326f-4158-bbab-1510b3e4bc96
+[I 2023-01-02 19:31:04.654 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 19:31:08.127 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 19:33:05.236 ServerApp] Saving file at /project/yeast_seg/file_process.ipynb
+[W 2023-01-02 19:33:05.236 ServerApp] Notebook project/yeast_seg/file_process.ipynb is not trusted
+[I 2023-01-02 19:33:09.428 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 19:35:05.351 ServerApp] Saving file at /project/yeast_seg/file_process.ipynb
+[W 2023-01-02 19:35:05.351 ServerApp] Notebook project/yeast_seg/file_process.ipynb is not trusted
+2023-01-02 19:38:31.111739: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-02 19:38:31.304285: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2023-01-02 19:38:40.364092: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:38:40.364215: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:38:40.364222: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+[I 2023-01-02 19:39:04.781 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 19:39:05.454 ServerApp] Saving file at /project/yeast_seg/file_process.ipynb
+[W 2023-01-02 19:40:22.819 ServerApp] delete /data/set7/images/train/3_100_1x1/100x_bin1x1_2040x2040_DV_WT_05.png
+[W 2023-01-02 19:40:22.820 ServerApp] Skipping trash for /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set7/images/train/3_100_1x1/100x_bin1x1_2040x2040_DV_WT_05.png, on different device to home directory
+[I 2023-01-02 19:41:04.885 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[W 2023-01-02 19:41:32.685 ServerApp] delete /data/set7/instance_maps/train/5_100_2x2
+[W 2023-01-02 19:41:32.686 ServerApp] Skipping trash for /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set7/instance_maps/train/5_100_2x2, on different device to home directory
+[W 2023-01-02 19:41:32.686 ServerApp] 400 DELETE /api/contents/data/set7/instance_maps/train/5_100_2x2?1672684892638 (10.203.101.101): Directory /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set7/instance_maps/train/5_100_2x2 not empty
+[W 2023-01-02 19:41:32.686 ServerApp] Directory /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/data/set7/instance_maps/train/5_100_2x2 not empty
+[W 2023-01-02 19:41:32.687 ServerApp] 400 DELETE /api/contents/data/set7/instance_maps/train/5_100_2x2?1672684892638 (10.203.101.101) 1.63ms referer=http://localhost:8880/lab/tree/project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 19:42:41.054 ServerApp] AsyncIOLoopKernelRestarter: restarting kernel (1/5), keep random ports
+[W 2023-01-02 19:42:41.054 ServerApp] kernel 8c541106-02d1-4daa-99d1-5dd0370f9ba8 restarted
+[I 2023-01-02 19:42:41.130 ServerApp] Starting buffering for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:609cc9d5-326f-4158-bbab-1510b3e4bc96
+[I 2023-01-02 19:42:41.140 ServerApp] Restoring connection for 8c541106-02d1-4daa-99d1-5dd0370f9ba8:609cc9d5-326f-4158-bbab-1510b3e4bc96
+[I 2023-01-02 19:43:04.985 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 19:43:10.583 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+2023-01-02 19:43:20.468813: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-02 19:43:20.632406: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2023-01-02 19:43:26.339494: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:43:26.339615: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2023-01-02 19:43:26.339621: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+[I 2023-01-02 19:45:05.318 ServerApp] Saving file at /project/deepyeast/example/02_CREATE_DATA_AND_TRAIN.ipynb
+[I 2023-01-02 19:45:12.169 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 19:51:13.524 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 19:53:14.946 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 19:55:16.350 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 19:59:17.676 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 20:05:19.132 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 20:07:20.486 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 20:11:21.812 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 20:13:23.217 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 20:15:24.549 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-02 20:17:26.255 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+slurmstepd: error: *** JOB 23148579 ON dnagpu003 CANCELLED AT 2023-01-02T20:21:17 DUE TO TIME LIMIT ***

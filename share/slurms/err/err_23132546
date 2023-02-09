@@ -1,0 +1,96 @@
+[I 2022-12-31 22:55:38.319 ServerApp] jupyterlab | extension was successfully linked.
+[I 2022-12-31 22:55:38.326 ServerApp] nbclassic | extension was successfully linked.
+[I 2022-12-31 22:55:42.601 ServerApp] notebook_shim | extension was successfully linked.
+[I 2022-12-31 22:55:42.663 ServerApp] notebook_shim | extension was successfully loaded.
+[I 2022-12-31 22:55:42.665 LabApp] JupyterLab extension loaded from /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/python3.9/site-packages/jupyterlab
+[I 2022-12-31 22:55:42.665 LabApp] JupyterLab application directory is /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/share/jupyter/lab
+[I 2022-12-31 22:55:42.681 ServerApp] jupyterlab | extension was successfully loaded.
+[I 2022-12-31 22:55:42.756 ServerApp] nbclassic | extension was successfully loaded.
+[I 2022-12-31 22:55:42.756 ServerApp] Serving notebooks from local directory: /work/FAC/FBM/DMF/smartin/cellfusion/wanlan
+[I 2022-12-31 22:55:42.756 ServerApp] Jupyter Server 1.18.1 is running at:
+[I 2022-12-31 22:55:42.756 ServerApp] http://dnagpu003:8880/lab?token=6ad86527fa822077002c35f8d2ec1805f940e93039431cb6
+[I 2022-12-31 22:55:42.756 ServerApp]  or http://127.0.0.1:8880/lab?token=6ad86527fa822077002c35f8d2ec1805f940e93039431cb6
+[I 2022-12-31 22:55:42.757 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 2022-12-31 22:55:42.922 ServerApp] 
+    
+    To access the server, open this file in a browser:
+        file:///users/wli6/.local/share/jupyter/runtime/jpserver-781848-open.html
+    Or copy and paste one of these URLs:
+        http://dnagpu003:8880/lab?token=6ad86527fa822077002c35f8d2ec1805f940e93039431cb6
+     or http://127.0.0.1:8880/lab?token=6ad86527fa822077002c35f8d2ec1805f940e93039431cb6
+[W 2022-12-31 22:55:48.269 LabApp] Could not determine jupyterlab build status without nodejs
+[I 2022-12-31 22:55:52.947 ServerApp] Kernel started: 4356f478-3efb-426c-9b37-bb62aa0927a0
+2022-12-31 22:57:35.972425: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-12-31 22:57:40.060638: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+[I 2022-12-31 22:57:53.018 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+2022-12-31 22:57:53.244058: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2022-12-31 22:57:53.244210: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2022-12-31 22:57:53.244218: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2022-12-31 22:58:25.112134: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-12-31 22:58:28.259204: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38224 MB memory:  -> device: 0, name: NVIDIA A100-PCIE-40GB, pci bus id: 0000:21:00.0, compute capability: 8.0
+2022-12-31 22:58:41.799288: I tensorflow/stream_executor/cuda/cuda_dnn.cc:384] Loaded cuDNN version 8401
+2022-12-31 22:58:49.625200: I tensorflow/core/platform/default/subprocess.cc:304] Start cannot spawn child process: No such file or directory
+2022-12-31 22:58:49.991336: I tensorflow/stream_executor/cuda/cuda_blas.cc:1614] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
+[I 2022-12-31 22:59:54.769 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:05:56.075 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:07:56.762 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:11:57.414 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:13:58.108 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:25:58.830 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:29:59.590 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:32:00.245 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:32:54.236 ServerApp] Kernel interrupted: 4356f478-3efb-426c-9b37-bb62aa0927a0
+[I 2022-12-31 23:34:00.852 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:36:01.531 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:38:02.235 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:40:02.902 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:42:03.573 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:46:04.288 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:48:04.940 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:50:05.567 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-31 23:52:06.241 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 00:14:06.953 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 00:16:07.643 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 00:24:08.309 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 00:26:08.994 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 00:28:09.672 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 00:30:10.390 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 00:39:47.882 ServerApp] Starting buffering for 4356f478-3efb-426c-9b37-bb62aa0927a0:975f3a1b-fa4d-433d-8108-797d2aed1ce4
+[W 2023-01-01 09:43:47.594 LabApp] Could not determine jupyterlab build status without nodejs
+[I 2023-01-01 09:45:50.224 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 09:46:35.727 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 09:46:42.976 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 09:48:43.615 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 09:49:22.167 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 09:51:22.826 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 09:53:23.478 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 09:59:24.200 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:01:24.908 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:03:25.583 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:05:26.430 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:07:27.208 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:15:28.006 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:17:28.868 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:19:29.641 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:21:30.408 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:39:31.184 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:41:32.035 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:51:32.925 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 10:53:33.852 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:01:34.672 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:03:35.537 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:19:36.421 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:21:37.313 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:23:38.157 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:25:39.022 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:27:39.871 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:33:40.727 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:35:41.631 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:37:42.691 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:39:43.584 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:41:44.420 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:43:45.252 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2023-01-01 11:45:46.236 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+slurmstepd: error: *** JOB 23132546 ON dnagpu003 CANCELLED AT 2023-01-01T18:55:43 DUE TO TIME LIMIT ***

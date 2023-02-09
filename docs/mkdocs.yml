@@ -1,0 +1,9 @@
+site_name: My Docs
+# site_url: https://example.com/
+nav:
+    - Home:
+        - 'Getting started': index.md
+        - Examples: examples.md
+    - About: about.md
+    
+theme: readthedocs

@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from tqdm import tqdm
 
-from analysis.multi_fluorescent_image_feature import FluorescentImage, FluorescentClassification
-from analysis.utils import file_traverse
+from analyser.multi_fluorescent_image_feature import FluorescentImage, FluorescentClassification
+from analyser.utils import file_traverse
 from postprocess.post_process_utils import post_process_panoptic
 
 LABELMAP = {0:[0], 1:[1, 3], 2:[2]}
@@ -17,7 +17,7 @@ LABELCOLOR = {0:'w', 1:'r', 2:'g'}
 
 def load_model(model_dir, config_file):
     import yaml
-    from config_yml import ExperimentOptions
+    from deeplab.config_yml import ExperimentOptions
     from trainer.train import DeepCellModule
     mode = 'test'
     num_gpus=1

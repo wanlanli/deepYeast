@@ -1,0 +1,37 @@
+[I 2022-12-25 10:21:12.951 ServerApp] jupyterlab | extension was successfully linked.
+[I 2022-12-25 10:21:12.959 ServerApp] nbclassic | extension was successfully linked.
+[I 2022-12-25 10:21:17.611 ServerApp] notebook_shim | extension was successfully linked.
+[I 2022-12-25 10:21:17.708 ServerApp] notebook_shim | extension was successfully loaded.
+[I 2022-12-25 10:21:17.709 LabApp] JupyterLab extension loaded from /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/python3.9/site-packages/jupyterlab
+[I 2022-12-25 10:21:17.709 LabApp] JupyterLab application directory is /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/share/jupyter/lab
+[I 2022-12-25 10:21:17.713 ServerApp] jupyterlab | extension was successfully loaded.
+[I 2022-12-25 10:21:17.868 ServerApp] nbclassic | extension was successfully loaded.
+[I 2022-12-25 10:21:17.869 ServerApp] Serving notebooks from local directory: /work/FAC/FBM/DMF/smartin/cellfusion/wanlan
+[I 2022-12-25 10:21:17.869 ServerApp] Jupyter Server 1.18.1 is running at:
+[I 2022-12-25 10:21:17.869 ServerApp] http://dnagpu004:8880/lab?token=30827870c9accb9dd638fd51f16fde7da642ba8ea0be166e
+[I 2022-12-25 10:21:17.869 ServerApp]  or http://127.0.0.1:8880/lab?token=30827870c9accb9dd638fd51f16fde7da642ba8ea0be166e
+[I 2022-12-25 10:21:17.869 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 2022-12-25 10:21:18.584 ServerApp] 
+    
+    To access the server, open this file in a browser:
+        file:///users/wli6/.local/share/jupyter/runtime/jpserver-80429-open.html
+    Or copy and paste one of these URLs:
+        http://dnagpu004:8880/lab?token=30827870c9accb9dd638fd51f16fde7da642ba8ea0be166e
+     or http://127.0.0.1:8880/lab?token=30827870c9accb9dd638fd51f16fde7da642ba8ea0be166e
+[W 2022-12-25 10:21:22.844 LabApp] Could not determine jupyterlab build status without nodejs
+[I 2022-12-25 10:21:27.285 ServerApp] Kernel started: 12f2f6b8-7b3c-49db-974a-aa636224eb4e
+2022-12-25 10:21:31.136004: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-12-25 10:21:35.866363: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2022-12-25 10:21:48.644836: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2022-12-25 10:21:48.644960: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2022-12-25 10:21:48.644967: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2022-12-25 10:22:08.719093: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-12-25 10:22:11.846042: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38224 MB memory:  -> device: 0, name: NVIDIA A100-PCIE-40GB, pci bus id: 0000:21:00.0, compute capability: 8.0
+2022-12-25 10:23:02.971558: I tensorflow/stream_executor/cuda/cuda_dnn.cc:384] Loaded cuDNN version 8401
+2022-12-25 10:23:09.578647: I tensorflow/core/platform/default/subprocess.cc:304] Start cannot spawn child process: No such file or directory
+2022-12-25 10:23:09.693318: I tensorflow/stream_executor/cuda/cuda_blas.cc:1614] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
+[I 2022-12-25 10:23:26.857 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+[I 2022-12-25 10:25:26.956 ServerApp] Saving file at /project/deepyeast/test_main.ipynb
+slurmstepd: error: *** JOB 23022219 ON dnagpu004 CANCELLED AT 2022-12-26T06:21:14 DUE TO TIME LIMIT ***

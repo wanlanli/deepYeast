@@ -1,0 +1,789 @@
+2022-12-24 11:38:40.190043: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-12-24 11:38:40.377027: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2022-12-24 11:38:52.859074: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2022-12-24 11:38:52.859213: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib64:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen/gcc-8.4.1/gcc-10.4.0-7fjdev7tbifqfonsjwlqmr6qcnza2ezu/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/mpfr-4.1.0-4owr5jskgrebkppacvwkfa7tdtlqjalg/lib:/dcsrsoft/spack/arolle/v1.0/spack/opt/spack/linux-rhel8-zen2/gcc-10.4.0/gmp-6.2.1-rg3gv5myy7lt46cjxvmdmsghhyhxguqo/lib:/work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/
+2022-12-24 11:38:52.859225: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2022-12-24 11:39:13.975438: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-12-24 11:39:14.989647: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38224 MB memory:  -> device: 0, name: NVIDIA A100-PCIE-40GB, pci bus id: 0000:21:00.0, compute capability: 8.0
+2022-12-24 11:39:14.991715: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /job:localhost/replica:0/task:0/device:GPU:1 with 38224 MB memory:  -> device: 1, name: NVIDIA A100-PCIE-40GB, pci bus id: 0000:e2:00.0, compute capability: 8.0
+INFO:tensorflow:Using MirroredStrategy with devices ('/job:localhost/replica:0/task:0/device:GPU:0', '/job:localhost/replica:0/task:0/device:GPU:1')
+I1224 11:39:15.360465 139754333439616 mirrored_strategy.py:374] Using MirroredStrategy with devices ('/job:localhost/replica:0/task:0/device:GPU:0', '/job:localhost/replica:0/task:0/device:GPU:1')
+I1224 11:39:15.368011 139754333439616 deeplab.py:58] Synchronized Batchnorm is used.
+I1224 11:39:15.368728 139754333439616 axial_resnet_instances.py:144] Axial-ResNet final config: {'num_blocks': [3, 6, 3, 3], 'backbone_layer_multiplier': 4.5, 'width_multiplier': 1, 'stem_width_multiplier': 1, 'output_stride': 16, 'classification_mode': True, 'backbone_type': 'wider_resnet', 'use_axial_beyond_stride': 16, 'backbone_use_transformer_beyond_stride': 0, 'extra_decoder_use_transformer_beyond_stride': 32, 'backbone_decoder_num_stacks': 0, 'backbone_decoder_blocks_per_stage': 1, 'extra_decoder_num_stacks': 0, 'extra_decoder_blocks_per_stage': 1, 'max_num_mask_slots': 128, 'num_mask_slots': 128, 'memory_channels': 256, 'base_transformer_expansion': 1.0, 'global_feed_forward_network_channels': 256, 'high_resolution_output_stride': 4, 'activation': 'relu', 'block_group_config': {'attention_bottleneck_expansion': 4, 'drop_path_keep_prob': 0.8, 'drop_path_beyond_stride': 4, 'drop_path_schedule': 'linear', 'positional_encoding_type': None, 'use_global_beyond_stride': 0, 'use_sac_beyond_stride': 0, 'use_squeeze_and_excite': False, 'conv_use_recompute_grad': True, 'axial_use_recompute_grad': True, 'recompute_within_stride': 0, 'transformer_use_recompute_grad': False, 'axial_layer_config': {'query_shape': (129, 129), 'key_expansion': 2, 'value_expansion': 4, 'memory_flange': (32, 32), 'double_global_attention': False, 'num_heads': 8, 'use_query_rpe_similarity': True, 'use_key_rpe_similarity': True, 'use_content_similarity': True, 'retrieve_value_rpe': True, 'retrieve_value_content': True, 'initialization_std_for_query_key_rpe': 1.0, 'initialization_std_for_value_rpe': 1.0, 'self_attention_activation': 'softmax'}, 'dual_path_transformer_layer_config': {'num_heads': 8, 'bottleneck_expansion': 2, 'key_expansion': 1, 'value_expansion': 2, 'feed_forward_network_channels': 2048, 'use_memory_self_attention': True, 'use_pixel2memory_feedback_attention': True, 'transformer_activation': 'softmax'}}, 'bn_layer': functools.partial(<class 'keras.layers.normalization.batch_normalization.SyncBatchNormalization'>, momentum=0.99, epsilon=0.001), 'conv_kernel_weight_decay': 0.0}
+I1224 11:39:15.824818 139754333439616 deeplab.py:99] Setting pooling size to (33, 33)
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1224 11:39:19.852811 139754333439616 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1224 11:39:19.855699 139754333439616 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1224 11:39:19.857628 139754333439616 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1224 11:39:19.858186 139754333439616 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1224 11:39:19.860552 139754333439616 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1224 11:39:19.861112 139754333439616 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1224 11:39:19.862640 139754333439616 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1224 11:39:19.863187 139754333439616 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1224 11:39:19.865446 139754333439616 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+INFO:tensorflow:Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1224 11:39:19.866002 139754333439616 cross_device_ops.py:616] Reduce to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
+I1224 11:39:19.886610 139754333439616 controller.py:391] restoring or initializing model...
+WARNING:tensorflow:From /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/python3.9/site-packages/tensorflow/python/checkpoint/checkpoint.py:1469: NameBasedSaverStatus.__init__ (from tensorflow.python.checkpoint.checkpoint) is deprecated and will be removed in a future version.
+Instructions for updating:
+Restoring a name-based tf.train.Saver checkpoint using the object-based restore API. This mode uses global names to match variables, and so is somewhat fragile. It also adds new restore ops to the graph each time it is called when graph building. Prefer re-encoding training checkpoints in the object-based format: run save() on the object-based saver (the same one this message is coming from) and use that checkpoint in the future.
+W1224 11:39:19.995732 139754333439616 deprecation.py:350] From /work/FAC/FBM/DMF/smartin/cellfusion/wanlan/miniconda3/envs/tf210/lib/python3.9/site-packages/tensorflow/python/checkpoint/checkpoint.py:1469: NameBasedSaverStatus.__init__ (from tensorflow.python.checkpoint.checkpoint) is deprecated and will be removed in a future version.
+Instructions for updating:
+Restoring a name-based tf.train.Saver checkpoint using the object-based restore API. This mode uses global names to match variables, and so is somewhat fragile. It also adds new restore ops to the graph each time it is called when graph building. Prefer re-encoding training checkpoints in the object-based format: run save() on the object-based saver (the same one this message is coming from) and use that checkpoint in the future.
+I1224 11:39:20.049671 139754333439616 controller.py:397] initialized model.
+I1224 11:39:20.051100 139754333439616 controller.py:236] train | step:      0 | training until step 20000...
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1224 11:39:21.662720 139754333439616 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1224 11:39:21.696348 139754333439616 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1224 11:39:21.710735 139754333439616 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1224 11:39:22.696033 139754333439616 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1224 11:39:22.711212 139754333439616 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1224 11:39:22.725823 139754333439616 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1224 11:39:22.818074 139754333439616 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1224 11:39:22.833013 139754333439616 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1224 11:39:22.848325 139754333439616 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+INFO:tensorflow:batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+I1224 11:39:22.939221 139754333439616 cross_device_ops.py:897] batch_all_reduce: 1 all-reduces with algorithm = nccl, num_packs = 1
+2022-12-24 11:48:41.397836: I tensorflow/stream_executor/cuda/cuda_dnn.cc:384] Loaded cuDNN version 8401
+2022-12-24 11:48:41.445201: I tensorflow/stream_executor/cuda/cuda_dnn.cc:384] Loaded cuDNN version 8401
+2022-12-24 11:48:50.546609: I tensorflow/core/platform/default/subprocess.cc:304] Start cannot spawn child process: No such file or directory
+2022-12-24 11:48:51.440561: I tensorflow/stream_executor/cuda/cuda_blas.cc:1614] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
+W1224 12:01:55.152204 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 0, expected updated value to be 100, but it was 200.
+I1224 12:01:55.158993 139754333439616 controller.py:457] train | step:    200 | steps/sec:    0.1 | output: 
+    {'learning_rate': 0.00074324664,
+     'losses/train_center_loss': 8.245066,
+     'losses/train_regression_loss': 19.64883,
+     'losses/train_semantic_loss': 16.097101,
+     'losses/train_total_loss': 43.991}
+I1224 12:02:04.518503 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-200.
+W1224 12:14:53.493440 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 200, expected updated value to be 300, but it was 400.
+I1224 12:14:53.494503 139754333439616 controller.py:457] train | step:    400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00073648634,
+     'losses/train_center_loss': 7.253939,
+     'losses/train_regression_loss': 18.911472,
+     'losses/train_semantic_loss': 15.519351,
+     'losses/train_total_loss': 41.684765}
+W1224 12:27:43.331002 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 400, expected updated value to be 500, but it was 600.
+I1224 12:27:43.332043 139754333439616 controller.py:457] train | step:    600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0007297193,
+     'losses/train_center_loss': 6.6286945,
+     'losses/train_regression_loss': 16.894415,
+     'losses/train_semantic_loss': 15.438297,
+     'losses/train_total_loss': 38.961407}
+W1224 12:40:30.652538 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 600, expected updated value to be 700, but it was 800.
+I1224 12:40:30.653558 139754333439616 controller.py:457] train | step:    800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0007229452,
+     'losses/train_center_loss': 5.862295,
+     'losses/train_regression_loss': 14.5604,
+     'losses/train_semantic_loss': 15.268796,
+     'losses/train_total_loss': 35.691483}
+W1224 12:53:12.723421 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 800, expected updated value to be 900, but it was 1000.
+I1224 12:53:12.724421 139754333439616 controller.py:457] train | step:   1000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.000716164,
+     'losses/train_center_loss': 5.086073,
+     'losses/train_regression_loss': 12.536114,
+     'losses/train_semantic_loss': 14.965935,
+     'losses/train_total_loss': 32.58812}
+W1224 13:06:03.104660 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 1000, expected updated value to be 1100, but it was 1200.
+I1224 13:06:03.118551 139754333439616 controller.py:457] train | step:   1200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0007093758,
+     'losses/train_center_loss': 4.1105323,
+     'losses/train_regression_loss': 10.122511,
+     'losses/train_semantic_loss': 14.324228,
+     'losses/train_total_loss': 28.557276}
+I1224 13:06:11.796265 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-1200.
+W1224 13:18:56.519062 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 1200, expected updated value to be 1300, but it was 1400.
+I1224 13:18:56.520071 139754333439616 controller.py:457] train | step:   1400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0007025802,
+     'losses/train_center_loss': 3.573688,
+     'losses/train_regression_loss': 8.324116,
+     'losses/train_semantic_loss': 13.154463,
+     'losses/train_total_loss': 25.052263}
+W1224 13:31:41.416472 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 1400, expected updated value to be 1500, but it was 1600.
+I1224 13:31:41.417342 139754333439616 controller.py:457] train | step:   1600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0006957774,
+     'losses/train_center_loss': 3.0501084,
+     'losses/train_regression_loss': 7.1173377,
+     'losses/train_semantic_loss': 11.613794,
+     'losses/train_total_loss': 21.78124}
+W1224 13:44:30.317286 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 1600, expected updated value to be 1700, but it was 1800.
+I1224 13:44:30.318374 139754333439616 controller.py:457] train | step:   1800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0006889671,
+     'losses/train_center_loss': 2.5206568,
+     'losses/train_regression_loss': 6.622265,
+     'losses/train_semantic_loss': 10.111068,
+     'losses/train_total_loss': 19.25399}
+W1224 13:57:14.044129 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 1800, expected updated value to be 1900, but it was 2000.
+I1224 13:57:14.045025 139754333439616 controller.py:457] train | step:   2000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00068214943,
+     'losses/train_center_loss': 2.3155048,
+     'losses/train_regression_loss': 5.9705687,
+     'losses/train_semantic_loss': 9.130634,
+     'losses/train_total_loss': 17.41671}
+W1224 14:10:06.252758 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 2000, expected updated value to be 2100, but it was 2200.
+I1224 14:10:06.253633 139754333439616 controller.py:457] train | step:   2200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0006753241,
+     'losses/train_center_loss': 2.0115986,
+     'losses/train_regression_loss': 5.8269167,
+     'losses/train_semantic_loss': 8.416141,
+     'losses/train_total_loss': 16.254654}
+I1224 14:10:15.664497 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-2200.
+W1224 14:22:59.497190 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 2200, expected updated value to be 2300, but it was 2400.
+I1224 14:22:59.498093 139754333439616 controller.py:457] train | step:   2400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0006684912,
+     'losses/train_center_loss': 1.8766143,
+     'losses/train_regression_loss': 5.0049295,
+     'losses/train_semantic_loss': 7.6199884,
+     'losses/train_total_loss': 14.5015335}
+W1224 14:35:49.714279 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 2400, expected updated value to be 2500, but it was 2600.
+I1224 14:35:49.715113 139754333439616 controller.py:457] train | step:   2600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0006616504,
+     'losses/train_center_loss': 1.7473843,
+     'losses/train_regression_loss': 5.10983,
+     'losses/train_semantic_loss': 7.440953,
+     'losses/train_total_loss': 14.298165}
+W1224 14:48:44.341345 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 2600, expected updated value to be 2700, but it was 2800.
+I1224 14:48:44.343345 139754333439616 controller.py:457] train | step:   2800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0006548018,
+     'losses/train_center_loss': 1.6022897,
+     'losses/train_regression_loss': 4.6567497,
+     'losses/train_semantic_loss': 6.833115,
+     'losses/train_total_loss': 13.092155}
+W1224 15:01:34.809327 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 2800, expected updated value to be 2900, but it was 3000.
+I1224 15:01:34.810936 139754333439616 controller.py:457] train | step:   3000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0006479452,
+     'losses/train_center_loss': 1.4366922,
+     'losses/train_regression_loss': 4.427507,
+     'losses/train_semantic_loss': 6.5633254,
+     'losses/train_total_loss': 12.427525}
+W1224 15:14:25.092778 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 3000, expected updated value to be 3100, but it was 3200.
+I1224 15:14:25.094406 139754333439616 controller.py:457] train | step:   3200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0006410806,
+     'losses/train_center_loss': 1.3089743,
+     'losses/train_regression_loss': 4.185615,
+     'losses/train_semantic_loss': 6.535152,
+     'losses/train_total_loss': 12.029738}
+I1224 15:14:33.280788 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-3200.
+W1224 15:27:22.175671 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 3200, expected updated value to be 3300, but it was 3400.
+I1224 15:27:22.176502 139754333439616 controller.py:457] train | step:   3400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00063420774,
+     'losses/train_center_loss': 1.0130178,
+     'losses/train_regression_loss': 3.6192822,
+     'losses/train_semantic_loss': 5.817446,
+     'losses/train_total_loss': 10.449746}
+W1224 15:40:03.831211 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 3400, expected updated value to be 3500, but it was 3600.
+I1224 15:40:03.832093 139754333439616 controller.py:457] train | step:   3600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0006273266,
+     'losses/train_center_loss': 0.89759654,
+     'losses/train_regression_loss': 3.3371716,
+     'losses/train_semantic_loss': 5.3491063,
+     'losses/train_total_loss': 9.583874}
+W1224 15:52:51.373244 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 3600, expected updated value to be 3700, but it was 3800.
+I1224 15:52:51.374129 139754333439616 controller.py:457] train | step:   3800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00062043715,
+     'losses/train_center_loss': 0.76832587,
+     'losses/train_regression_loss': 3.1023047,
+     'losses/train_semantic_loss': 4.991785,
+     'losses/train_total_loss': 8.862415}
+W1224 16:05:30.829558 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 3800, expected updated value to be 3900, but it was 4000.
+I1224 16:05:30.830601 139754333439616 controller.py:457] train | step:   4000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0006135391,
+     'losses/train_center_loss': 0.6666173,
+     'losses/train_regression_loss': 2.9544842,
+     'losses/train_semantic_loss': 4.610179,
+     'losses/train_total_loss': 8.23128}
+W1224 16:18:11.052350 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 4000, expected updated value to be 4100, but it was 4200.
+I1224 16:18:11.053217 139754333439616 controller.py:457] train | step:   4200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00060663244,
+     'losses/train_center_loss': 0.68539214,
+     'losses/train_regression_loss': 2.947704,
+     'losses/train_semantic_loss': 4.6265388,
+     'losses/train_total_loss': 8.259637}
+I1224 16:18:18.915076 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-4200.
+W1224 16:31:05.741444 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 4200, expected updated value to be 4300, but it was 4400.
+I1224 16:31:05.742305 139754333439616 controller.py:457] train | step:   4400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.000599717,
+     'losses/train_center_loss': 0.6177114,
+     'losses/train_regression_loss': 2.7959318,
+     'losses/train_semantic_loss': 4.3374104,
+     'losses/train_total_loss': 7.7510533}
+W1224 16:43:48.806203 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 4400, expected updated value to be 4500, but it was 4600.
+I1224 16:43:48.807071 139754333439616 controller.py:457] train | step:   4600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00059279276,
+     'losses/train_center_loss': 0.5877179,
+     'losses/train_regression_loss': 2.7351,
+     'losses/train_semantic_loss': 4.209968,
+     'losses/train_total_loss': 7.5327864}
+W1224 16:56:34.319897 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 4600, expected updated value to be 4700, but it was 4800.
+I1224 16:56:34.320728 139754333439616 controller.py:457] train | step:   4800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0005858595,
+     'losses/train_center_loss': 0.57781374,
+     'losses/train_regression_loss': 2.7015944,
+     'losses/train_semantic_loss': 4.1883154,
+     'losses/train_total_loss': 7.467725}
+W1224 17:09:24.559571 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 4800, expected updated value to be 4900, but it was 5000.
+I1224 17:09:24.560434 139754333439616 controller.py:457] train | step:   5000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0005789171,
+     'losses/train_center_loss': 0.53534204,
+     'losses/train_regression_loss': 2.5929456,
+     'losses/train_semantic_loss': 3.9472907,
+     'losses/train_total_loss': 7.0755787}
+W1224 17:22:05.299341 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 5000, expected updated value to be 5100, but it was 5200.
+I1224 17:22:05.300207 139754333439616 controller.py:457] train | step:   5200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0005719655,
+     'losses/train_center_loss': 0.5222193,
+     'losses/train_regression_loss': 2.464753,
+     'losses/train_semantic_loss': 3.830188,
+     'losses/train_total_loss': 6.8171606}
+I1224 17:22:13.177175 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-5200.
+W1224 17:35:01.736157 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 5200, expected updated value to be 5300, but it was 5400.
+I1224 17:35:01.737128 139754333439616 controller.py:457] train | step:   5400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0005650044,
+     'losses/train_center_loss': 0.46107385,
+     'losses/train_regression_loss': 2.4509954,
+     'losses/train_semantic_loss': 3.7348032,
+     'losses/train_total_loss': 6.646873}
+W1224 17:47:46.488075 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 5400, expected updated value to be 5500, but it was 5600.
+I1224 17:47:46.488934 139754333439616 controller.py:457] train | step:   5600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0005580338,
+     'losses/train_center_loss': 0.4536374,
+     'losses/train_regression_loss': 2.4699852,
+     'losses/train_semantic_loss': 3.7077742,
+     'losses/train_total_loss': 6.6313963}
+W1224 18:00:30.605059 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 5600, expected updated value to be 5700, but it was 5800.
+I1224 18:00:30.620037 139754333439616 controller.py:457] train | step:   5800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0005510536,
+     'losses/train_center_loss': 0.44491142,
+     'losses/train_regression_loss': 2.468908,
+     'losses/train_semantic_loss': 3.7334685,
+     'losses/train_total_loss': 6.6472883}
+W1224 18:13:13.837642 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 5800, expected updated value to be 5900, but it was 6000.
+I1224 18:13:13.838480 139754333439616 controller.py:457] train | step:   6000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0005440634,
+     'losses/train_center_loss': 0.46217492,
+     'losses/train_regression_loss': 2.498087,
+     'losses/train_semantic_loss': 3.786778,
+     'losses/train_total_loss': 6.7470384}
+W1224 18:25:59.451156 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 6000, expected updated value to be 6100, but it was 6200.
+I1224 18:25:59.452028 139754333439616 controller.py:457] train | step:   6200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00053706334,
+     'losses/train_center_loss': 0.40793586,
+     'losses/train_regression_loss': 2.2721243,
+     'losses/train_semantic_loss': 3.4691813,
+     'losses/train_total_loss': 6.1492434}
+I1224 18:26:07.468913 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-6200.
+W1224 18:38:54.714140 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 6200, expected updated value to be 6300, but it was 6400.
+I1224 18:38:54.714999 139754333439616 controller.py:457] train | step:   6400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.000530053,
+     'losses/train_center_loss': 0.50543594,
+     'losses/train_regression_loss': 2.6011214,
+     'losses/train_semantic_loss': 4.018918,
+     'losses/train_total_loss': 7.125475}
+W1224 18:51:43.340412 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 6400, expected updated value to be 6500, but it was 6600.
+I1224 18:51:43.341271 139754333439616 controller.py:457] train | step:   6600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00052303233,
+     'losses/train_center_loss': 0.4124366,
+     'losses/train_regression_loss': 2.3160748,
+     'losses/train_semantic_loss': 3.5960314,
+     'losses/train_total_loss': 6.324542}
+W1224 19:04:34.686833 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 6600, expected updated value to be 6700, but it was 6800.
+I1224 19:04:34.687850 139754333439616 controller.py:457] train | step:   6800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00051600125,
+     'losses/train_center_loss': 0.36992538,
+     'losses/train_regression_loss': 2.2155035,
+     'losses/train_semantic_loss': 3.376405,
+     'losses/train_total_loss': 5.961834}
+W1224 19:17:24.234359 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 6800, expected updated value to be 6900, but it was 7000.
+I1224 19:17:24.235222 139754333439616 controller.py:457] train | step:   7000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0005089595,
+     'losses/train_center_loss': 0.34917602,
+     'losses/train_regression_loss': 2.1414547,
+     'losses/train_semantic_loss': 3.2787082,
+     'losses/train_total_loss': 5.7693386}
+W1224 19:30:06.564460 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 7000, expected updated value to be 7100, but it was 7200.
+I1224 19:30:06.565328 139754333439616 controller.py:457] train | step:   7200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00050190696,
+     'losses/train_center_loss': 0.32948226,
+     'losses/train_regression_loss': 2.0563648,
+     'losses/train_semantic_loss': 3.1113634,
+     'losses/train_total_loss': 5.4972115}
+I1224 19:30:14.338654 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-7200.
+W1224 19:42:58.371304 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 7200, expected updated value to be 7300, but it was 7400.
+I1224 19:42:58.372161 139754333439616 controller.py:457] train | step:   7400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0004948434,
+     'losses/train_center_loss': 0.34781593,
+     'losses/train_regression_loss': 2.1872153,
+     'losses/train_semantic_loss': 3.1825514,
+     'losses/train_total_loss': 5.717583}
+W1224 19:55:50.774928 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 7400, expected updated value to be 7500, but it was 7600.
+I1224 19:55:50.775774 139754333439616 controller.py:457] train | step:   7600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00048776856,
+     'losses/train_center_loss': 0.31838256,
+     'losses/train_regression_loss': 2.0944028,
+     'losses/train_semantic_loss': 3.1770623,
+     'losses/train_total_loss': 5.589848}
+W1224 20:08:35.206833 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 7600, expected updated value to be 7700, but it was 7800.
+I1224 20:08:35.207722 139754333439616 controller.py:457] train | step:   7800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0004806823,
+     'losses/train_center_loss': 0.30674925,
+     'losses/train_regression_loss': 2.0385458,
+     'losses/train_semantic_loss': 3.071845,
+     'losses/train_total_loss': 5.417141}
+W1224 20:21:12.189156 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 7800, expected updated value to be 7900, but it was 8000.
+I1224 20:21:12.190176 139754333439616 controller.py:457] train | step:   8000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00047358443,
+     'losses/train_center_loss': 0.30964267,
+     'losses/train_regression_loss': 2.0085707,
+     'losses/train_semantic_loss': 2.9961584,
+     'losses/train_total_loss': 5.314371}
+W1224 20:33:58.201750 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 8000, expected updated value to be 8100, but it was 8200.
+I1224 20:33:58.202632 139754333439616 controller.py:457] train | step:   8200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00046647468,
+     'losses/train_center_loss': 0.29930198,
+     'losses/train_regression_loss': 1.9835068,
+     'losses/train_semantic_loss': 2.9903479,
+     'losses/train_total_loss': 5.273157}
+I1224 20:34:05.778441 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-8200.
+W1224 20:46:49.437167 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 8200, expected updated value to be 8300, but it was 8400.
+I1224 20:46:49.438018 139754333439616 controller.py:457] train | step:   8400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00045935292,
+     'losses/train_center_loss': 0.29910016,
+     'losses/train_regression_loss': 1.9541055,
+     'losses/train_semantic_loss': 2.902467,
+     'losses/train_total_loss': 5.1556726}
+W1224 20:59:36.553925 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 8400, expected updated value to be 8500, but it was 8600.
+I1224 20:59:36.554763 139754333439616 controller.py:457] train | step:   8600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00045221884,
+     'losses/train_center_loss': 0.30977735,
+     'losses/train_regression_loss': 2.0220685,
+     'losses/train_semantic_loss': 2.9989872,
+     'losses/train_total_loss': 5.330833}
+W1224 21:12:20.838408 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 8600, expected updated value to be 8700, but it was 8800.
+I1224 21:12:20.839240 139754333439616 controller.py:457] train | step:   8800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00044507222,
+     'losses/train_center_loss': 0.2976659,
+     'losses/train_regression_loss': 1.9322048,
+     'losses/train_semantic_loss': 2.9218893,
+     'losses/train_total_loss': 5.151759}
+W1224 21:25:01.348443 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 8800, expected updated value to be 8900, but it was 9000.
+I1224 21:25:01.349286 139754333439616 controller.py:457] train | step:   9000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00043791282,
+     'losses/train_center_loss': 0.27665368,
+     'losses/train_regression_loss': 1.9663064,
+     'losses/train_semantic_loss': 2.8769171,
+     'losses/train_total_loss': 5.119876}
+W1224 21:37:45.444724 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 9000, expected updated value to be 9100, but it was 9200.
+I1224 21:37:45.445637 139754333439616 controller.py:457] train | step:   9200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00043074042,
+     'losses/train_center_loss': 0.2558656,
+     'losses/train_regression_loss': 1.8607761,
+     'losses/train_semantic_loss': 2.8213587,
+     'losses/train_total_loss': 4.938001}
+I1224 21:37:53.560752 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-9200.
+W1224 21:50:40.837935 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 9200, expected updated value to be 9300, but it was 9400.
+I1224 21:50:40.838815 139754333439616 controller.py:457] train | step:   9400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00042355474,
+     'losses/train_center_loss': 0.25136867,
+     'losses/train_regression_loss': 1.8738955,
+     'losses/train_semantic_loss': 2.7807777,
+     'losses/train_total_loss': 4.9060426}
+W1224 22:03:24.308489 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 9400, expected updated value to be 9500, but it was 9600.
+I1224 22:03:24.309350 139754333439616 controller.py:457] train | step:   9600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00041635547,
+     'losses/train_center_loss': 0.29388028,
+     'losses/train_regression_loss': 2.0315838,
+     'losses/train_semantic_loss': 2.9580572,
+     'losses/train_total_loss': 5.2835217}
+W1224 22:16:15.863741 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 9600, expected updated value to be 9700, but it was 9800.
+I1224 22:16:15.864651 139754333439616 controller.py:457] train | step:   9800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00040914235,
+     'losses/train_center_loss': 0.2723133,
+     'losses/train_regression_loss': 1.9579301,
+     'losses/train_semantic_loss': 2.8601873,
+     'losses/train_total_loss': 5.0904303}
+W1224 22:29:03.217976 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 9800, expected updated value to be 9900, but it was 10000.
+I1224 22:29:03.218822 139754333439616 controller.py:457] train | step:  10000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00040191508,
+     'losses/train_center_loss': 0.24475746,
+     'losses/train_regression_loss': 1.8439338,
+     'losses/train_semantic_loss': 2.7213218,
+     'losses/train_total_loss': 4.810013}
+W1224 22:41:45.307164 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 10000, expected updated value to be 10100, but it was 10200.
+I1224 22:41:45.308047 139754333439616 controller.py:457] train | step:  10200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0003946733,
+     'losses/train_center_loss': 0.25141174,
+     'losses/train_regression_loss': 1.8087301,
+     'losses/train_semantic_loss': 2.6778314,
+     'losses/train_total_loss': 4.7379737}
+I1224 22:41:53.244099 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-10200.
+W1224 22:54:36.210710 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 10200, expected updated value to be 10300, but it was 10400.
+I1224 22:54:36.220887 139754333439616 controller.py:457] train | step:  10400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00038741675,
+     'losses/train_center_loss': 0.23383279,
+     'losses/train_regression_loss': 1.7666184,
+     'losses/train_semantic_loss': 2.724784,
+     'losses/train_total_loss': 4.7252336}
+W1224 23:07:26.349592 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 10400, expected updated value to be 10500, but it was 10600.
+I1224 23:07:26.350469 139754333439616 controller.py:457] train | step:  10600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00038014507,
+     'losses/train_center_loss': 0.2345605,
+     'losses/train_regression_loss': 1.780579,
+     'losses/train_semantic_loss': 2.6902418,
+     'losses/train_total_loss': 4.7053814}
+W1224 23:20:10.460018 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 10600, expected updated value to be 10700, but it was 10800.
+I1224 23:20:10.461048 139754333439616 controller.py:457] train | step:  10800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00037285784,
+     'losses/train_center_loss': 0.22933087,
+     'losses/train_regression_loss': 1.7219387,
+     'losses/train_semantic_loss': 2.615705,
+     'losses/train_total_loss': 4.5669737}
+W1224 23:32:54.447623 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 10800, expected updated value to be 10900, but it was 11000.
+I1224 23:32:54.448484 139754333439616 controller.py:457] train | step:  11000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0003655548,
+     'losses/train_center_loss': 0.22765194,
+     'losses/train_regression_loss': 1.7807128,
+     'losses/train_semantic_loss': 2.6621172,
+     'losses/train_total_loss': 4.6704817}
+W1224 23:45:40.833190 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 11000, expected updated value to be 11100, but it was 11200.
+I1224 23:45:40.834063 139754333439616 controller.py:457] train | step:  11200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00035823556,
+     'losses/train_center_loss': 0.22381134,
+     'losses/train_regression_loss': 1.7759922,
+     'losses/train_semantic_loss': 2.6136723,
+     'losses/train_total_loss': 4.613476}
+I1224 23:45:48.773333 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-11200.
+W1224 23:58:38.058170 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 11200, expected updated value to be 11300, but it was 11400.
+I1224 23:58:38.059013 139754333439616 controller.py:457] train | step:  11400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0003508996,
+     'losses/train_center_loss': 0.2075656,
+     'losses/train_regression_loss': 1.71136,
+     'losses/train_semantic_loss': 2.522728,
+     'losses/train_total_loss': 4.4416533}
+W1225 00:11:24.630976 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 11400, expected updated value to be 11500, but it was 11600.
+I1225 00:11:24.631854 139754333439616 controller.py:457] train | step:  11600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0003435466,
+     'losses/train_center_loss': 0.23384926,
+     'losses/train_regression_loss': 1.7577045,
+     'losses/train_semantic_loss': 2.6170342,
+     'losses/train_total_loss': 4.608588}
+W1225 00:24:12.958239 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 11600, expected updated value to be 11700, but it was 11800.
+I1225 00:24:12.959110 139754333439616 controller.py:457] train | step:  11800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00033617605,
+     'losses/train_center_loss': 0.21812943,
+     'losses/train_regression_loss': 1.702806,
+     'losses/train_semantic_loss': 2.548391,
+     'losses/train_total_loss': 4.469327}
+W1225 00:37:00.670331 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 11800, expected updated value to be 11900, but it was 12000.
+I1225 00:37:00.671583 139754333439616 controller.py:457] train | step:  12000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00032878746,
+     'losses/train_center_loss': 0.22564754,
+     'losses/train_regression_loss': 1.7466574,
+     'losses/train_semantic_loss': 2.5306845,
+     'losses/train_total_loss': 4.5029893}
+W1225 00:49:40.769953 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 12000, expected updated value to be 12100, but it was 12200.
+I1225 00:49:40.770965 139754333439616 controller.py:457] train | step:  12200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00032138042,
+     'losses/train_center_loss': 0.20580019,
+     'losses/train_regression_loss': 1.6779873,
+     'losses/train_semantic_loss': 2.5041537,
+     'losses/train_total_loss': 4.3879414}
+I1225 00:49:48.426586 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-12200.
+W1225 01:02:31.050859 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 12200, expected updated value to be 12300, but it was 12400.
+I1225 01:02:31.051720 139754333439616 controller.py:457] train | step:  12400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00031395437,
+     'losses/train_center_loss': 0.19910511,
+     'losses/train_regression_loss': 1.6421728,
+     'losses/train_semantic_loss': 2.4898727,
+     'losses/train_total_loss': 4.33115}
+W1225 01:15:20.678440 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 12400, expected updated value to be 12500, but it was 12600.
+I1225 01:15:20.679286 139754333439616 controller.py:457] train | step:  12600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0003065087,
+     'losses/train_center_loss': 0.18959019,
+     'losses/train_regression_loss': 1.5901675,
+     'losses/train_semantic_loss': 2.417378,
+     'losses/train_total_loss': 4.1971354}
+W1225 01:28:08.560423 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 12600, expected updated value to be 12700, but it was 12800.
+I1225 01:28:08.561274 139754333439616 controller.py:457] train | step:  12800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00029904293,
+     'losses/train_center_loss': 0.19328506,
+     'losses/train_regression_loss': 1.6261728,
+     'losses/train_semantic_loss': 2.4176462,
+     'losses/train_total_loss': 4.2371044}
+W1225 01:41:00.334642 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 12800, expected updated value to be 12900, but it was 13000.
+I1225 01:41:00.335507 139754333439616 controller.py:457] train | step:  13000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00029155638,
+     'losses/train_center_loss': 0.19651727,
+     'losses/train_regression_loss': 1.6014731,
+     'losses/train_semantic_loss': 2.4353168,
+     'losses/train_total_loss': 4.233307}
+W1225 01:53:48.341547 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 13000, expected updated value to be 13100, but it was 13200.
+I1225 01:53:48.342409 139754333439616 controller.py:457] train | step:  13200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00028404835,
+     'losses/train_center_loss': 0.20114912,
+     'losses/train_regression_loss': 1.6046857,
+     'losses/train_semantic_loss': 2.3929636,
+     'losses/train_total_loss': 4.1987977}
+I1225 01:53:56.537850 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-13200.
+W1225 02:06:35.522141 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 13200, expected updated value to be 13300, but it was 13400.
+I1225 02:06:35.529384 139754333439616 controller.py:457] train | step:  13400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00027651826,
+     'losses/train_center_loss': 0.18041736,
+     'losses/train_regression_loss': 1.567275,
+     'losses/train_semantic_loss': 2.3517458,
+     'losses/train_total_loss': 4.0994387}
+W1225 02:19:22.221253 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 13400, expected updated value to be 13500, but it was 13600.
+I1225 02:19:22.222121 139754333439616 controller.py:457] train | step:  13600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0002689653,
+     'losses/train_center_loss': 0.18546963,
+     'losses/train_regression_loss': 1.6195014,
+     'losses/train_semantic_loss': 2.389905,
+     'losses/train_total_loss': 4.194876}
+W1225 02:32:05.002400 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 13600, expected updated value to be 13700, but it was 13800.
+I1225 02:32:05.003419 139754333439616 controller.py:457] train | step:  13800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00026138866,
+     'losses/train_center_loss': 0.18438579,
+     'losses/train_regression_loss': 1.5376182,
+     'losses/train_semantic_loss': 2.3797796,
+     'losses/train_total_loss': 4.101784}
+W1225 02:44:45.204395 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 13800, expected updated value to be 13900, but it was 14000.
+I1225 02:44:45.205240 139754333439616 controller.py:457] train | step:  14000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0002537876,
+     'losses/train_center_loss': 0.18012722,
+     'losses/train_regression_loss': 1.5309253,
+     'losses/train_semantic_loss': 2.354967,
+     'losses/train_total_loss': 4.0660195}
+W1225 02:57:31.991698 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 14000, expected updated value to be 14100, but it was 14200.
+I1225 02:57:31.992588 139754333439616 controller.py:457] train | step:  14200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00024616116,
+     'losses/train_center_loss': 0.18759382,
+     'losses/train_regression_loss': 1.5611355,
+     'losses/train_semantic_loss': 2.3492904,
+     'losses/train_total_loss': 4.09802}
+I1225 02:57:39.784019 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-14200.
+W1225 03:10:24.587133 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 14200, expected updated value to be 14300, but it was 14400.
+I1225 03:10:24.588013 139754333439616 controller.py:457] train | step:  14400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00023850829,
+     'losses/train_center_loss': 0.17386888,
+     'losses/train_regression_loss': 1.5084115,
+     'losses/train_semantic_loss': 2.291284,
+     'losses/train_total_loss': 3.9735649}
+W1225 03:23:06.845431 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 14400, expected updated value to be 14500, but it was 14600.
+I1225 03:23:06.846307 139754333439616 controller.py:457] train | step:  14600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00023082807,
+     'losses/train_center_loss': 0.16477351,
+     'losses/train_regression_loss': 1.504811,
+     'losses/train_semantic_loss': 2.2911549,
+     'losses/train_total_loss': 3.9607394}
+W1225 03:35:43.817203 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 14600, expected updated value to be 14700, but it was 14800.
+I1225 03:35:43.818068 139754333439616 controller.py:457] train | step:  14800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00022311936,
+     'losses/train_center_loss': 0.17685878,
+     'losses/train_regression_loss': 1.4911118,
+     'losses/train_semantic_loss': 2.2693982,
+     'losses/train_total_loss': 3.9373682}
+W1225 03:48:23.536559 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 14800, expected updated value to be 14900, but it was 15000.
+I1225 03:48:23.550589 139754333439616 controller.py:457] train | step:  15000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00021538096,
+     'losses/train_center_loss': 0.17505229,
+     'losses/train_regression_loss': 1.4826871,
+     'losses/train_semantic_loss': 2.3001142,
+     'losses/train_total_loss': 3.9578543}
+W1225 04:01:10.443348 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 15000, expected updated value to be 15100, but it was 15200.
+I1225 04:01:10.444385 139754333439616 controller.py:457] train | step:  15200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00020761152,
+     'losses/train_center_loss': 0.16965303,
+     'losses/train_regression_loss': 1.5282731,
+     'losses/train_semantic_loss': 2.2441993,
+     'losses/train_total_loss': 3.9421258}
+I1225 04:01:18.164855 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-15200.
+W1225 04:14:08.482728 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 15200, expected updated value to be 15300, but it was 15400.
+I1225 04:14:08.483582 139754333439616 controller.py:457] train | step:  15400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0001998096,
+     'losses/train_center_loss': 0.17088298,
+     'losses/train_regression_loss': 1.5575929,
+     'losses/train_semantic_loss': 2.3142362,
+     'losses/train_total_loss': 4.042714}
+W1225 04:26:50.934150 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 15400, expected updated value to be 15500, but it was 15600.
+I1225 04:26:50.934989 139754333439616 controller.py:457] train | step:  15600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00019197368,
+     'losses/train_center_loss': 0.18758373,
+     'losses/train_regression_loss': 1.5760651,
+     'losses/train_semantic_loss': 2.3831167,
+     'losses/train_total_loss': 4.146765}
+W1225 04:39:35.869332 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 15600, expected updated value to be 15700, but it was 15800.
+I1225 04:39:35.870195 139754333439616 controller.py:457] train | step:  15800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00018410203,
+     'losses/train_center_loss': 0.18785088,
+     'losses/train_regression_loss': 1.5858945,
+     'losses/train_semantic_loss': 2.3641827,
+     'losses/train_total_loss': 4.137929}
+W1225 04:52:22.706903 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 15800, expected updated value to be 15900, but it was 16000.
+I1225 04:52:22.707759 139754333439616 controller.py:457] train | step:  16000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00017619283,
+     'losses/train_center_loss': 0.17575797,
+     'losses/train_regression_loss': 1.579606,
+     'losses/train_semantic_loss': 2.3190897,
+     'losses/train_total_loss': 4.074454}
+W1225 05:05:10.978757 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 16000, expected updated value to be 16100, but it was 16200.
+I1225 05:05:10.979617 139754333439616 controller.py:457] train | step:  16200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00016824395,
+     'losses/train_center_loss': 0.16402647,
+     'losses/train_regression_loss': 1.5523407,
+     'losses/train_semantic_loss': 2.2945995,
+     'losses/train_total_loss': 4.010967}
+I1225 05:05:18.612104 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-16200.
+W1225 05:18:07.300817 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 16200, expected updated value to be 16300, but it was 16400.
+I1225 05:18:07.301675 139754333439616 controller.py:457] train | step:  16400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00016025316,
+     'losses/train_center_loss': 0.30755225,
+     'losses/train_regression_loss': 1.87992,
+     'losses/train_semantic_loss': 3.080832,
+     'losses/train_total_loss': 5.2683034}
+W1225 05:31:01.917398 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 16400, expected updated value to be 16500, but it was 16600.
+I1225 05:31:01.918301 139754333439616 controller.py:457] train | step:  16600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00015221779,
+     'losses/train_center_loss': 0.24123797,
+     'losses/train_regression_loss': 1.7051638,
+     'losses/train_semantic_loss': 2.7213256,
+     'losses/train_total_loss': 4.6677275}
+W1225 05:43:51.461885 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 16600, expected updated value to be 16700, but it was 16800.
+I1225 05:43:51.462895 139754333439616 controller.py:457] train | step:  16800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00014413496,
+     'losses/train_center_loss': 0.18159702,
+     'losses/train_regression_loss': 1.5467901,
+     'losses/train_semantic_loss': 2.3862329,
+     'losses/train_total_loss': 4.11462}
+W1225 05:56:37.743590 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 16800, expected updated value to be 16900, but it was 17000.
+I1225 05:56:37.744445 139754333439616 controller.py:457] train | step:  17000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00013600138,
+     'losses/train_center_loss': 0.16626666,
+     'losses/train_regression_loss': 1.4936432,
+     'losses/train_semantic_loss': 2.2889054,
+     'losses/train_total_loss': 3.9488146}
+W1225 06:09:22.424986 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 17000, expected updated value to be 17100, but it was 17200.
+I1225 06:09:22.425836 139754333439616 controller.py:457] train | step:  17200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00012781343,
+     'losses/train_center_loss': 0.15717778,
+     'losses/train_regression_loss': 1.4583926,
+     'losses/train_semantic_loss': 2.2309003,
+     'losses/train_total_loss': 3.8464706}
+I1225 06:09:30.383508 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-17200.
+W1225 06:22:19.050176 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 17200, expected updated value to be 17300, but it was 17400.
+I1225 06:22:19.051026 139754333439616 controller.py:457] train | step:  17400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00011956671,
+     'losses/train_center_loss': 0.14877397,
+     'losses/train_regression_loss': 1.413105,
+     'losses/train_semantic_loss': 2.1707983,
+     'losses/train_total_loss': 3.7326777}
+W1225 06:35:07.756726 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 17400, expected updated value to be 17500, but it was 17600.
+I1225 06:35:07.757577 139754333439616 controller.py:457] train | step:  17600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00011125627,
+     'losses/train_center_loss': 0.14557377,
+     'losses/train_regression_loss': 1.4363949,
+     'losses/train_semantic_loss': 2.194291,
+     'losses/train_total_loss': 3.7762606}
+W1225 06:47:50.985226 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 17600, expected updated value to be 17700, but it was 17800.
+I1225 06:47:50.986082 139754333439616 controller.py:457] train | step:  17800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.00010287616,
+     'losses/train_center_loss': 0.14918318,
+     'losses/train_regression_loss': 1.4282062,
+     'losses/train_semantic_loss': 2.1735024,
+     'losses/train_total_loss': 3.7508912}
+W1225 07:00:37.750157 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 17800, expected updated value to be 17900, but it was 18000.
+I1225 07:00:37.763283 139754333439616 controller.py:457] train | step:  18000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 9.441945e-05,
+     'losses/train_center_loss': 0.14925759,
+     'losses/train_regression_loss': 1.4328314,
+     'losses/train_semantic_loss': 2.160811,
+     'losses/train_total_loss': 3.7428992}
+W1225 07:13:28.905577 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 18000, expected updated value to be 18100, but it was 18200.
+I1225 07:13:28.906610 139754333439616 controller.py:457] train | step:  18200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 8.58775e-05,
+     'losses/train_center_loss': 0.14292334,
+     'losses/train_regression_loss': 1.3948724,
+     'losses/train_semantic_loss': 2.1143944,
+     'losses/train_total_loss': 3.652191}
+I1225 07:13:40.260388 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-18200.
+W1225 07:26:22.516278 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 18200, expected updated value to be 18300, but it was 18400.
+I1225 07:26:22.517127 139754333439616 controller.py:457] train | step:  18400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 7.723998e-05,
+     'losses/train_center_loss': 0.14703935,
+     'losses/train_regression_loss': 1.3807769,
+     'losses/train_semantic_loss': 2.1154985,
+     'losses/train_total_loss': 3.6433148}
+W1225 07:39:08.105605 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 18400, expected updated value to be 18500, but it was 18600.
+I1225 07:39:08.106478 139754333439616 controller.py:457] train | step:  18600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 6.849351e-05,
+     'losses/train_center_loss': 0.146912,
+     'losses/train_regression_loss': 1.3947433,
+     'losses/train_semantic_loss': 2.1613069,
+     'losses/train_total_loss': 3.702962}
+W1225 07:51:59.325185 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 18600, expected updated value to be 18700, but it was 18800.
+I1225 07:51:59.326052 139754333439616 controller.py:457] train | step:  18800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 5.9620757e-05,
+     'losses/train_center_loss': 0.1390192,
+     'losses/train_regression_loss': 1.3930157,
+     'losses/train_semantic_loss': 2.1267738,
+     'losses/train_total_loss': 3.6588094}
+W1225 08:04:43.774575 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 18800, expected updated value to be 18900, but it was 19000.
+I1225 08:04:43.775434 139754333439616 controller.py:457] train | step:  19000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 5.059813e-05,
+     'losses/train_center_loss': 0.1354535,
+     'losses/train_regression_loss': 1.3705865,
+     'losses/train_semantic_loss': 2.0742822,
+     'losses/train_total_loss': 3.5803225}
+W1225 08:17:28.598977 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 19000, expected updated value to be 19100, but it was 19200.
+I1225 08:17:28.599846 139754333439616 controller.py:457] train | step:  19200 | steps/sec:    0.3 | output: 
+    {'learning_rate': 4.1391908e-05,
+     'losses/train_center_loss': 0.1322371,
+     'losses/train_regression_loss': 1.3400079,
+     'losses/train_semantic_loss': 2.0550818,
+     'losses/train_total_loss': 3.5273266}
+I1225 08:17:36.310077 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-19200.
+W1225 08:30:20.072660 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 19200, expected updated value to be 19300, but it was 19400.
+I1225 08:30:20.073514 139754333439616 controller.py:457] train | step:  19400 | steps/sec:    0.3 | output: 
+    {'learning_rate': 3.1949938e-05,
+     'losses/train_center_loss': 0.13610165,
+     'losses/train_regression_loss': 1.3446796,
+     'losses/train_semantic_loss': 2.0597563,
+     'losses/train_total_loss': 3.5405378}
+W1225 08:43:10.216262 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 19400, expected updated value to be 19500, but it was 19600.
+I1225 08:43:10.217347 139754333439616 controller.py:457] train | step:  19600 | steps/sec:    0.3 | output: 
+    {'learning_rate': 2.2181348e-05,
+     'losses/train_center_loss': 0.14241122,
+     'losses/train_regression_loss': 1.400303,
+     'losses/train_semantic_loss': 2.0954924,
+     'losses/train_total_loss': 3.6382062}
+W1225 08:55:57.907891 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 19600, expected updated value to be 19700, but it was 19800.
+I1225 08:55:57.908733 139754333439616 controller.py:457] train | step:  19800 | steps/sec:    0.3 | output: 
+    {'learning_rate': 1.1886688e-05,
+     'losses/train_center_loss': 0.13976161,
+     'losses/train_regression_loss': 1.3357352,
+     'losses/train_semantic_loss': 2.0549817,
+     'losses/train_total_loss': 3.530478}
+W1225 09:08:40.781517 139754333439616 controller.py:448] `trainer.train(100)` did not update `global_step` by 100. Old value was 19800, expected updated value to be 19900, but it was 20000.
+I1225 09:08:40.782361 139754333439616 controller.py:457] train | step:  20000 | steps/sec:    0.3 | output: 
+    {'learning_rate': 0.0,
+     'losses/train_center_loss': 0.1421509,
+     'losses/train_regression_loss': 1.3197497,
+     'losses/train_semantic_loss': 2.0514493,
+     'losses/train_total_loss': 3.5133502}
+I1225 09:08:48.418126 139754333439616 controller.py:486] saved checkpoint to ../model_dir/ckpt-20000.
