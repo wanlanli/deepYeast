@@ -4,6 +4,8 @@ import numpy as np
 
 class Cell(object):
     def __init__(self, f, v, c):
+        """
+        """
         self.set_properties_over_time(f, v, c)
 
     def set_properties_over_time(self, f=[], v=[], c=[]):

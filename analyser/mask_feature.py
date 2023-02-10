@@ -8,7 +8,7 @@ from analyser.distance import find_nearnest_points
 from analyser.config import DIVISION, CELL_IMAGE_PROPERTY
 
 
-class MaskFeature(object):
+class MaskFeature(np.ndarray):
     """Measure segemented regions' properties, such as area, center, boundingbox ect. al..
 
     Parameters
@@ -16,11 +16,24 @@ class MaskFeature(object):
     mask : 2D matrix,dtype:int
         mask is a int type 2d mask array. stored the labels of segementation.
     """
-    def __init__(self, mask,) -> None:
-        self.mask = mask
+    def __new__(cls, input_array):
+        # Input array is an already formed ndarray instance first cast to be our class type
+        obj = np.asarray(input_array).view(cls)
+        # Finally, we must return the newly created object:
+        return obj
+
+    def __array_finalize__(self, obj):
+        # see InfoArray.__array_finalize__ for comments
+        if obj is None: return
         self.instance_properties = self._init_region_props()
         self.labels = self.instance_properties.label.values
         self.cost = None
+
+    # def __init__(self, mask,) -> None:
+    #     self.mask = mask
+    #     self.instance_properties = self._init_region_props()
+    #     self.labels = self.instance_properties.label.values
+    #     self.cost = None
 
     def _init_region_props(self, **args):
         props = regionprops_table(self.mask, properties=CELL_IMAGE_PROPERTY)
@@ -30,6 +43,7 @@ class MaskFeature(object):
             coords.append(coord)
         props['coords'] = coords
 
+        # add properties for data
         data = pd.DataFrame(props)
         data["semantic"] = data["label"] // DIVISION
         data["instance"] = data["label"] % DIVISION
