@@ -1,4 +1,4 @@
-from .config import PROP_NAMES, TRACING_FEATRUE_NAMES, MIN_HITS
+from .config import CELL_IMAGE_PROPERTY, CELL_TRACKE_PROPERTY, MIN_HITS
 import numpy as np
 
 
@@ -10,10 +10,10 @@ class Cell(object):
 
     def set_properties_over_time(self, f=[], v=[], c=[]):
         for i in range(0, len(f)):
-            key = TRACING_FEATRUE_NAMES[i]
+            key = CELL_TRACKE_PROPERTY[i]
             setattr(self, key, f[i])
         for i in range(0, v.shape[1]):
-            key = PROP_NAMES[i]
+            key = CELL_IMAGE_PROPERTY[i]
             setattr(self, key, v[:, i])
         self.contours = c
 

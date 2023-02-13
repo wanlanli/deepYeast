@@ -1,4 +1,4 @@
-from .tracing import Tracer
+from .tracer import Tracer
 from analyser.distance import predition_data_type
 from .distance import find_nearnest_points
 import math

@@ -9,12 +9,36 @@
 import numpy as np
 import pandas as pd
 from .mask_feature import MaskFeature
-from analyser.config import TRACING_FEATRUE_NAMES, PROP_NAMES
+from analyser.config import CELL_TRACKE_PROPERTY, CELL_IMAGE_PROPERTY
 from .sort import Sort, KalmanBoxTracker, action_iou_batch, action_dicision
 from .cell import Cell
 from tqdm import tqdm
 OVERLAP_VMIN = 0.1
 OVERLAP_VMAX = 0.75
+
+
+#f*x*y*c
+def __frame_name(number, name='frame_', length=3):
+    return name+str(number).zfill(length)
+
+# class Tracer(np.ndarray):
+#     def __new__(cls, mask: np.ndarray):
+#         # Input array is an already formed ndarray instance first cast to be our class type
+#         obj = np.asarray(mask).view(cls)
+#         # Finally, we must return the newly created object:
+#         return obj
+
+#     def __array_finalize__(self, obj):
+#         # see InfoArray.__array_finalize__ for comments
+#         if obj is None:
+#             return
+#         self.frame_number = self.shape[0]
+#         self.cell_property, self.trace_calendar = self.__init_tracing_feature_data()
+#         self.maskobj = {}
+#         self.cell_number = 0
+#         self.cells = []
+#         self.props = None
+#         self.tracingdata = None
 
 
 class Tracer(object):
@@ -32,7 +56,7 @@ class Tracer(object):
 
     def __init_tracing_feature_data(self):
         frame_columns_name = [__frame_name(x) for x in np.arange(0, self.frame_number)]
-        cell_property = pd.DataFrame(columns=TRACING_FEATRUE_NAMES, dtype=np.int16)
+        cell_property = pd.DataFrame(columns=CELL_TRACKE_PROPERTY, dtype=np.int16)
         trace_calendar = pd.DataFrame(columns=frame_columns_name, dtype=np.int16)
         return cell_property, trace_calendar
 
@@ -82,13 +106,13 @@ class Tracer(object):
         return tracing_data
 
     def run_cell_time_props(self):
-        props = np.zeros((self.cell_number, self.frame_number, len(PROP_NAMES)))
+        props = np.zeros((self.cell_number, self.frame_number, len(CELL_IMAGE_PROPERTY)))
         for i in range(0, self.frame_number):
             img = self._get_maskfeature_obj(i)
             data = img.region.set_index("label", drop=False)
             label_id_maps = self.trace_calendar.iloc[:, i].dropna()
             arg_id = self.cell_property.loc[label_id_maps.index, 'arg'].values
-            props[arg_id, i, :] = data.loc[label_id_maps.values, PROP_NAMES]
+            props[arg_id, i, :] = data.loc[label_id_maps.values, CELL_IMAGE_PROPERTY]
         self.props = props
         return props
 
@@ -177,9 +201,6 @@ class Tracer(object):
                         self.cells[son].mother = mother
                         self.cells[son].father = father
 
-
-def __frame_name(number, name='frame_', length=3):
-    return name+str(number).zfill(length)
 
 # class CellTracer(Tracer):
 #     def __init__(self, img, mask) -> None:

@@ -54,17 +54,9 @@ def iou_batch(bb_tests, bb_gts):
 
 def convert_bbox_to_z(bbox):
     """
-    Takes a bounding box in the form [x1,y1,x2,y2] and returns z in the form
-      [x,y,s,r] where x,y is the centre of the box and s is the scale/area and r is
-      the aspect ratio
+    Takes a bounding box in the form [x1, x2, x3, x4, y1,y2, y3, y4] and returns z in the form
+      [center_x, center_y, theta, major_axis, minor_axis] where x,y is the centre of the box.
     """
-    # w = bbox[2] - bbox[0]
-    # h = bbox[3] - bbox[1]
-    # x = bbox[0] + w/2.
-    # y = bbox[1] + h/2.
-    # s = w * h    #scale is just area
-    # r = w / float(h)
-    # return np.array([x, y, s, r]).reshape((4, 1))
     x1,x2,_,_,y1,y2,y3,y4 = bbox
     
     x = (x1+x2)/2
@@ -76,7 +68,7 @@ def convert_bbox_to_z(bbox):
 
 def convert_x_to_bbox(det):
     """
-    Takes a bounding box in the centre form [x,y,r,l,s] and returns it in the form
+    Takes a det in the centre form [x,y,r,l,s] and returns it in the form
       [x1,x2,x3,x4,y1,y2,y3, y4] where 4 top points of the bounding box.
     """
     x,y,orientation,axis_major_length,axis_minor_length = det[0:5]
@@ -234,51 +226,52 @@ class Sort(object):
       self.frame_count = 0
 
   def update(self, input_dets=np.empty((0, 6))):
-    """
-    Params:
-      input_dets - a numpy array of detections in the format [[x1,y1,x2,y2,score,label],[x1,y1,x2,y2,score,label],...]
-      Requires: this method must be called once for each frame even with empty detections (use np.empty((0, 5)) for frames without detections).
-      Returns the a similar array, where the last column is the object ID.
+      """
+      Params:
+        input_dets - a numpy array of detections in the format [[x1,y1,x2,y2,score,label],[x1,y1,x2,y2,score,label],...]
+        Requires: this method must be called once for each frame even with empty detections (use np.empty((0, 5)) for frames without detections).
+        Returns the a similar array, where the last column is the object ID.
 
-    NOTE: The number of objects returned may differ from the number of detections provided.
-    """
-    dets = input_dets[:,:6]
-    self.frame_count += 1
-    # get predicted locations from existing trackers.
-    trks = np.zeros((len(self.trackers), 6))
-    to_del = []
-    ret = []
-    for t, trk in enumerate(trks):
-      pos = self.trackers[t].predict()[0]
-      trk[:] = [pos[0], pos[1], pos[2], pos[3], pos[4],0]
-      if np.any(np.isnan(pos)):
-        to_del.append(t)
-    trks = np.ma.compress_rows(np.ma.masked_invalid(trks))
-    for t in reversed(to_del):
-      self.trackers.pop(t)
-    matched, unmatched_dets, unmatched_trks = associate_detections_to_trackers(dets, trks, self.iou_threshold)
+      NOTE: The number of objects returned may differ from the number of detections provided.
+      """
+      dets = input_dets[:,:6]
+      self.frame_count += 1
+      # get predicted locations from existing trackers.
+      trks = np.zeros((len(self.trackers), 6))
+      to_del = []
+      ret = []
+      for t, trk in enumerate(trks):
+        pos = self.trackers[t].predict()[0]
+        trk[:] = [pos[0], pos[1], pos[2], pos[3], pos[4], 0]
+        if np.any(np.isnan(pos)):
+          to_del.append(t)
+      trks = np.ma.compress_rows(np.ma.masked_invalid(trks))
+      for t in reversed(to_del):
+        self.trackers.pop(t)
+      matched, unmatched_dets, unmatched_trks = associate_detections_to_trackers(dets, trks, self.iou_threshold)
 
-    # update matched trackers with assigned detections
-    for m in matched:
-      self.trackers[m[1]].update(input_dets[m[0], :])
+      # update matched trackers with assigned detections
+      for m in matched:
+        self.trackers[m[1]].update(input_dets[m[0], :])
 
-    # create and initialise new trackers for unmatched detections
-    for i in unmatched_dets:
-        trk = KalmanBoxTracker(input_dets[i,:])
-        self.trackers.append(trk)
-    i = len(self.trackers)
-    # clean unmached trk
-    for trk in reversed(self.trackers):
-        d = trk.get_state()[0]
-        if (trk.time_since_update < 1) and (trk.hit_streak >= self.min_hits or self.frame_count <= self.min_hits):
-          ret.append(np.concatenate((d,[trk.id+1, trk.label])).reshape(1,-1)) # +1 as MOT benchmark requires positive
-        i -= 1
-        # remove dead tracklet
-        if(trk.time_since_update > self.max_age):
-          self.trackers.pop(i)
-    if(len(ret)>0):
-      return np.concatenate(ret)
-    return np.empty((0,5))
+      # create and initialise new trackers for unmatched detections
+      for i in unmatched_dets:
+          trk = KalmanBoxTracker(input_dets[i,:])
+          self.trackers.append(trk)
+      i = len(self.trackers)
+      
+      # clean unmached trk
+      for trk in reversed(self.trackers):
+          d = trk.get_state()[0]
+          if (trk.time_since_update < 1) and (trk.hit_streak >= self.min_hits or self.frame_count <= self.min_hits):
+            ret.append(np.concatenate((d,[trk.id+1, trk.label])).reshape(1,-1)) # +1 as MOT benchmark requires positive
+          i -= 1
+          # remove dead tracklet
+          if(trk.time_since_update > self.max_age):
+            self.trackers.pop(i)
+      if(len(ret)>0):
+        return np.concatenate(ret)
+      return np.empty((0,5))
 
 
 def action_iou_batch(bb_tests, bb_gts):
@@ -330,3 +323,7 @@ def action_dicision(cost):
             x = np.where(cost[:, y] == FUSION_LABEL)[0]
             fusion[y] = x
     return connection, division, fusion
+
+
+if __name__ is "__main__":
+  pass

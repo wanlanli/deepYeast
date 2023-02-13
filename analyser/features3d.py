@@ -1,5 +1,5 @@
 from .mask_feature import CellSignal
-from .tracing import CellTracer
+from .tracer import CellTracer
 import os
 import numpy as np
 from .config import PROP_NAMES
