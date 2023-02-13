@@ -17,10 +17,6 @@ OVERLAP_VMIN = 0.1
 OVERLAP_VMAX = 0.75
 
 
-def __frame_name(number, name='frame_', length=3):
-    return name+str(number).zfill(length)
-
-
 class Tracer(object):
     def __init__(self, data) -> None:
         """Input masked movie to tracing
@@ -181,6 +177,9 @@ class Tracer(object):
                         self.cells[son].mother = mother
                         self.cells[son].father = father
 
+
+def __frame_name(number, name='frame_', length=3):
+    return name+str(number).zfill(length)
 
 # class CellTracer(Tracer):
 #     def __init__(self, img, mask) -> None:

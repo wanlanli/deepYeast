@@ -27,7 +27,7 @@ class MaskFeature(np.ndarray):
         # see InfoArray.__array_finalize__ for comments
         if obj is None:
             return
-        self.instance_properties = None # self._init_region_props()
+        self.instance_properties = self.init_instance_properties()
         self.labels = None # self.instance_properties.label.values
         self.cost = None
 
@@ -145,14 +145,19 @@ class MaskFeature(np.ndarray):
     def get_region_label_list(self):
         if self.instance_properties is None:
             labellist = np.unique(self.__array__())
-            return labellist[labellist != 0]
+            return (labellist[labellist != 0]).astype(int)
         else:
-            return self.instance_properties.label
+            return self.instance_properties.label.astype(int)
 
+    def get_region_center(self, label):
+        if self.instance_properties is None:
+            self.init_instance_properties()
+        return self.instance_properties.loc[label, common.IMAGE_CENTER_LIST]
+ 
     def __rename_columns(self, names):
         return [name.replace("-", "_") for name in names]
 
-    def get_instance_properties(self, **args):
+    def init_instance_properties(self, **args):
         """Calculate the attribute value of each instance of the generated mask.
         """
         props = self.get_skregionprops_table()
@@ -163,19 +168,20 @@ class MaskFeature(np.ndarray):
         props[common.IMAGE_SEMANTIC_LABEL] = props[common.IMAGE_LABEL] // DIVISION
         props[common.IMAGE_INSTANCE_LABEL] = props[common.IMAGE_LABEL] % DIVISION
         props[common.IMAGE_IS_BORDER] = self.__is_out_of_screen(props)
+        props.index = props[common.IMAGE_LABEL]
         self.instance_properties = props
         return props
 
-    # def get_instance_mask(self, label, crop_pad=-1):
-    #     """Returen region mask by label. Add padding for better crop image.
-    #     """
-    #     mask = self.mask == label
-    #     if crop_pad < 0:
-    #         return mask
-    #     else:
-    #         bbox = self.instance_properties.loc[self.instance_properties.label == label, ['bbox_0', 'bbox_1', 'bbox_2', 'bbox_3']].values[0]
-    #         pad_mask = mask[bbox[0]-crop_pad:bbox[2]+crop_pad, bbox[1]-crop_pad:bbox[3]+crop_pad]
-    #         return pad_mask
+    def get_instance_mask(self, label, crop_pad=-1):
+        """Returen region mask by label. Add padding for better crop image.
+        """
+        mask = self.__array__() == label
+        if crop_pad < 0:
+            return mask
+        else:
+            bbox = self.instance_properties.loc[self.instance_properties.label == label, ['bbox_0', 'bbox_1', 'bbox_2', 'bbox_3']].values[0]
+            pad_mask = mask[bbox[0]-crop_pad:bbox[2]+crop_pad, bbox[1]-crop_pad:bbox[3]+crop_pad]
+            return pad_mask
 
     # def all_by_all_distance(self):
     #     if self.cost is None:

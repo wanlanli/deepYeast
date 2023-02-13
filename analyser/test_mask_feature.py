@@ -26,7 +26,7 @@ class MaskFeatureTestCase(unittest.TestCase):
         self.widget = MaskFeature(mask)
 
     def test_get_instance_properties(self):
-        data = self.widget.get_instance_properties()
+        data = self.widget.instance_properties
         self.assertEqual(data.shape[0], self.number,
                          'error get instance properties!')
 
