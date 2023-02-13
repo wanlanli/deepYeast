@@ -16,7 +16,7 @@ import re
 # # from deeplab2 import config_pb2
 # # from deeplab2.trainer import distribution_utils
 # # import SimpleITK as sitk
-# # import numpy as np
+import numpy as np
 # # import matplotlib.pyplot as plt
 # # from skimage.measure import regionprops
 # # from scipy import ndimage as ndi
@@ -252,6 +252,12 @@ def file_traverse(file_path, file_regular=r'.*', **kwarg):
         return path_list
 
 
+def flatten_nonzero_value(data: np.ndarray):
+    """Get all non-zero data
+    """
+    flatten = data.flatten()
+    flatten = flatten[flatten > 0]
+    return flatten
 # ## prostprocessing of predictions
 # def remove_small_noise_regions(array, threshold = 300):
 #     data = np.array(array).astype(np.int16).copy()

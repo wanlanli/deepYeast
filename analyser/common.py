@@ -1,8 +1,8 @@
 # Cell Image Properties
-#CELL_IMAGE_PROPERTY
+# CELL_IMAGE_PROPERTY
 IMAGE_LABEL = "label"
 IMAGE_CENTER = "centroid"
-IMAGE_CENTER_LIST = ['centroid_0','centroid_1']
+IMAGE_CENTER_LIST = ['centroid_0', 'centroid_1']
 IMAGE_ORIENTATION = "orientation"
 IMAGE_MAJOR_AXIS = "axis_major_length"
 IMAGE_MINOR_AXIS = "axis_minor_length"
@@ -13,8 +13,9 @@ IMAGE_ECCENTRICITY = "eccentricity"
 IMAGE_COORDINATE = "coords"
 IMAGE_SEMANTIC_LABEL = "semantic"
 IMAGE_INSTANCE_LABEL = "instance"
+IMAGE_IS_BORDER = "is_out_of_border"
 
-#TRACE_FEATURE_NAME
+# TRACE_FEATURE_NAME
 CELL_ID = "indentity"
 CELL_GENERATION = "generation"
 CELL_START = "start_time"

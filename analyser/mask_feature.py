@@ -1,108 +1,202 @@
 import math
+from typing import Sequence
 
 import numpy as np
 import pandas as pd
 from skimage.measure import regionprops_table, find_contours
 
 from analyser.distance import find_nearnest_points
-from analyser.config import DIVISION, CELL_IMAGE_PROPERTY
+from analyser.config import DIVISION, REGION_TABLE_VALUE, CELL_IMAGE_PROPERTY
+import analyser.common as common
 
 
 class MaskFeature(np.ndarray):
-    """Measure segemented regions' properties, such as area, center, boundingbox ect. al..
-
+    """Extract segemented regions' information from mask, åsuch as area, center, boundingbox ect. al..
     Parameters
     ----------
-    mask : 2D matrix,dtype:int
+    input_array : 2D matrix,dtype:int
         mask is a int type 2d mask array. stored the labels of segementation.
     """
-    def __new__(cls, input_array):
+    def __new__(cls, mask: np.ndarray):
         # Input array is an already formed ndarray instance first cast to be our class type
-        obj = np.asarray(input_array).view(cls)
+        obj = np.asarray(mask).view(cls)
         # Finally, we must return the newly created object:
         return obj
 
     def __array_finalize__(self, obj):
         # see InfoArray.__array_finalize__ for comments
-        if obj is None: return
-        self.instance_properties = self._init_region_props()
-        self.labels = self.instance_properties.label.values
+        if obj is None:
+            return
+        self.instance_properties = None # self._init_region_props()
+        self.labels = None # self.instance_properties.label.values
         self.cost = None
 
-    # def __init__(self, mask,) -> None:
-    #     self.mask = mask
-    #     self.instance_properties = self._init_region_props()
-    #     self.labels = self.instance_properties.label.values
-    #     self.cost = None
+    def get_skregionprops_table(self, properties=REGION_TABLE_VALUE):
+        """Return the values ​​of properties in the image as a table
+        Parameters
+        ----------
+        properties : 2D matrix,dtype:int
+        Notes
+        ----------
+        The following properties can be accessed as attributes or keys:
+        areaint: Number of pixels of the region.
+        area_bboxint: Number of pixels of bounding box.
+        area_convexint: Number of pixels of convex hull image, which is the smallest convex polygon that encloses the region.
+        area_filledint: Number of pixels of the region will all the holes filled in. Describes the area of the image_filled.
+        axis_major_lengthfloat: The length of the major axis of the ellipse that has the same normalized second central moments as the region.
+        axis_minor_lengthfloat: The length of the minor axis of the ellipse that has the same normalized second central moments as the region.
+        bboxtuple: Bounding box (min_row, min_col, max_row, max_col). Pixels belonging to the bounding box are in the half-open interval [min_row; max_row) and [min_col; max_col).
+        centroidarray: Centroid coordinate tuple (row, col).
+        centroid_localarray: Centroid coordinate tuple (row, col), relative to region bounding box.
+        centroid_weightedarray: Centroid coordinate tuple (row, col) weighted with intensity image.
+        centroid_weighted_localarray: Centroid coordinate tuple (row, col), relative to region bounding box, weighted with intensity image.
+        coords(N, 2) ndarray: Coordinate list (row, col) of the region.
+        eccentricityfloat: Eccentricity of the ellipse that has the same second-moments as the region. The eccentricity is the ratio of the focal distance (distance between focal points) over the major axis length. The value is in the interval [0, 1). When it is 0, the ellipse becomes a circle.
+        equivalent_diameter_areafloat: The diameter of a circle with the same area as the region.
+        euler_numberint: Euler characteristic of the set of non-zero pixels. Computed as number of connected components subtracted by number of holes (input.ndim connectivity). In 3D, number of connected components plus number of holes subtracted by number of tunnels.
+        extentfloat: Ratio of pixels in the region to pixels in the total bounding box. Computed as area / (rows * cols)
+        feret_diameter_maxfloat
+        Maximum Feret’s diameter computed as the longest distance between points around a region’s convex hull contour as determined by find_contours. [5]
+        image(H, J) ndarray: Sliced binary region image which has the same size as bounding box.
+        image_convex(H, J) ndarray: Binary convex hull image which has the same size as bounding box.
+        image_filled(H, J) ndarray: Binary region image with filled holes which has the same size as bounding box.
+        image_intensityndarray: Image inside region bounding box.
+        inertia_tensorndarray: Inertia tensor of the region for the rotation around its mass.
+        inertia_tensor_eigvalstuple: The eigenvalues of the inertia tensor in decreasing order.
+        intensity_maxfloat: Value with the greatest intensity in the region.
+        intensity_meanfloat: Value with the mean intensity in the region.
+        intensity_minfloat: Value with the least intensity in the region.
+        labelint: The label in the labeled input image.
+        moments(3, 3) ndarray: Spatial moments up to 3rd order:
+            m_ij = sum{ array(row, col) * row^i * col^j }
+            Copy to clipboard
+            where the sum is over the row, col coordinates of the region.
+        moments_central(3, 3) ndarray: Central moments (translation invariant) up to 3rd order:
+            mu_ij = sum{ array(row, col) * (row - row_c)^i * (col - col_c)^j }
+            Copy to clipboard
+            where the sum is over the row, col coordinates of the region, and row_c and col_c are the coordinates of the region’s centroid.     
+        moments_hutuple: Hu moments (translation, scale and rotation invariant).
+        moments_normalized(3, 3) ndarray: Normalized moments (translation and scale invariant) up to 3rd order:
+            nu_ij = mu_ij / m_00^[(i+j)/2 + 1]
+            Copy to clipboard
+            where m_00 is the zeroth spatial moment.
+        moments_weighted(3, 3) ndarray: Spatial moments of intensity image up to 3rd order:
+            wm_ij = sum{ array(row, col) * row^i * col^j }
+            Copy to clipboard
+            where the sum is over the row, col coordinates of the region.
+        moments_weighted_central(3, 3) ndarray: Central moments (translation invariant) of intensity image up to 3rd order:
+            wmu_ij = sum{ array(row, col) * (row - row_c)^i * (col - col_c)^j }
+            Copy to clipboard
+            where the sum is over the row, col coordinates of the region, and row_c and col_c are the coordinates of the region’s weighted centroid.
+        moments_weighted_hutuple: Hu moments (translation, scale and rotation invariant) of intensity image.
+        moments_weighted_normalized(3, 3) ndarray: Normalized moments (translation and scale invariant) of intensity image up to 3rd order:
+            wnu_ij = wmu_ij / wm_00^[(i+j)/2 + 1]
+            Copy to clipboard
+            where wm_00 is the zeroth spatial moment (intensity-weighted area).
+        orientationfloat: Angle between the 0th axis (rows) and the major axis of the ellipse that has the same second moments as the region, ranging from -pi/2 to pi/2 counter-clockwise.
+        perimeterfloat: Perimeter of object which approximates the contour as a line through the centers of border pixels using a 4-connectivity.
+        perimeter_croftonfloat: Perimeter of object approximated by the Crofton formula in 4 directions.
+        slicetuple of slices: A slice to extract the object from the source image.
+        solidityfloat: Ratio of pixels in the region to pixels of the convex hull image.
+        """
+        regionprops = regionprops_table(self.__array__(), properties=properties)
+        regionprops = pd.DataFrame(regionprops)
+        regionprops.columns = self.__rename_columns(regionprops.columns)
+        return regionprops
 
-    def _init_region_props(self, **args):
-        props = regionprops_table(self.mask, properties=CELL_IMAGE_PROPERTY)
+    def get_coordinates(self, label_list: Sequence, **args):
+        """Returns the boundary of the region according to the specified label.
+        Parameters
+        ----------
+        label_list:
+        """
         coords = []
-        for label in props['label']:
-            coord = self.__coordinates(label, **args)
+        for label in label_list:
+            coord = self.__single_region_coordinate(label, **args)
             coords.append(coord)
-        props['coords'] = coords
+        return coords
 
-        # add properties for data
-        data = pd.DataFrame(props)
-        data["semantic"] = data["label"] // DIVISION
-        data["instance"] = data["label"] % DIVISION
-        data["out_of_border"] = self.__is_out_of_screen(data)
-        data.columns = self.__rename_columns(data.columns)
-        return data
+    def __single_region_coordinate(self, label: int, number: int = 20):
+        """Find iso-valued contours in a 2D array for a given level value(0.5).
+        """
+        contour = find_contours(self.__array__() == label, level=0.5)
+        contour = contour[0]
+        length = math.ceil(len(contour)/number) if number != 0 else len(contour)
+        if length != 0:
+            index = np.arange(0, length, length)
+            index = np.append(index, [length-1])
+            return contour[index]
+        else:
+            print("Border coordinate conversion failed. %d to %d" % (len(contour), number))
+            return contour
+
+    def __is_out_of_screen(self, data):
+        """
+        """
+        bbox = data.loc[:, common.IMAGE_BOUNDING_BOX_LIST]
+        shape = self.shape
+        min_row = bbox.iloc[:, 0] == 0
+        min_col = bbox.iloc[:, 1] == 0
+        max_row = bbox.iloc[:, 2] == shape[0]
+        max_col = bbox.iloc[:, 3] == shape[1]
+        out_of_border = min_row | min_col | max_row | max_col
+        return out_of_border
+
+    def get_region_label_list(self):
+        if self.instance_properties is None:
+            labellist = np.unique(self.__array__())
+            return labellist[labellist != 0]
+        else:
+            return self.instance_properties.label
 
     def __rename_columns(self, names):
         return [name.replace("-", "_") for name in names]
 
-    def __coordinates(self, label, number=20):
-        contour = find_contours(self.mask == label, 0.5)
-        contour= contour[0]
-        length = len(contour)
-        index = np.arange(0, length, math.floor(length/number))
-        index = np.append(index, [length-1])
-        return contour[index]
-
-    def __is_out_of_screen(self, data):
-        bbox = data.loc[:, ['bbox-0','bbox-1','bbox-2','bbox-3']]
-        shape = self.mask.shape
-        min_row = bbox.iloc[:,0] == 0
-        min_col = bbox.iloc[:,1] == 0
-        max_row = bbox.iloc[:,2] == shape[0]
-        max_col = bbox.iloc[:,3] == shape[1]
-        out_of_border = min_row | min_col | max_row | max_col
-        return out_of_border
-
-    def get_instance_mask(self, label, crop_pad=-1):
-        """Returen region mask by label. Add padding for better crop image.
+    def get_instance_properties(self, **args):
+        """Calculate the attribute value of each instance of the generated mask.
         """
-        mask = self.mask == label
-        if crop_pad < 0 :
-            return mask
-        else:
-            bbox = self.instance_properties.loc[self.instance_properties.label == label, ['bbox_0', 'bbox_1', 'bbox_2', 'bbox_3']].values[0]
-            pad_mask = mask[bbox[0]-crop_pad:bbox[2]+crop_pad, bbox[1]-crop_pad:bbox[3]+crop_pad]
-            return pad_mask
+        props = self.get_skregionprops_table()
+        # add properties for data
+        if common.IMAGE_COORDINATE in CELL_IMAGE_PROPERTY:
+            coords = self.get_coordinates(props[common.IMAGE_LABEL], **args)
+            props[common.IMAGE_COORDINATE] = coords
+        props[common.IMAGE_SEMANTIC_LABEL] = props[common.IMAGE_LABEL] // DIVISION
+        props[common.IMAGE_INSTANCE_LABEL] = props[common.IMAGE_LABEL] % DIVISION
+        props[common.IMAGE_IS_BORDER] = self.__is_out_of_screen(props)
+        self.instance_properties = props
+        return props
 
-    def all_by_all_distance(self):
-        if self.cost is None:
-            columns = ['index_x', 'index_y', 'center_dist', 'nearnest_dis', 'nearnest_point_x_index', 'nearnest_point_y_index']
-            data = pd.DataFrame(columns = columns)
-            flag = 0
-            for index_x in range(0,self.instance_properties.shape[0]):
-                for index_y in range(index_x+1, self.instance_properties.shape[0]):
-                    center_dist, nearnest_dis, ind_x, ind_y = self.two_regions_distance(index_x, index_y)
-                    data.loc[flag, columns] = [index_x, index_y, center_dist, nearnest_dis, ind_x, ind_y]
-                    flag+=1
-            self.cost = data
-        return self.cost
+    # def get_instance_mask(self, label, crop_pad=-1):
+    #     """Returen region mask by label. Add padding for better crop image.
+    #     """
+    #     mask = self.mask == label
+    #     if crop_pad < 0:
+    #         return mask
+    #     else:
+    #         bbox = self.instance_properties.loc[self.instance_properties.label == label, ['bbox_0', 'bbox_1', 'bbox_2', 'bbox_3']].values[0]
+    #         pad_mask = mask[bbox[0]-crop_pad:bbox[2]+crop_pad, bbox[1]-crop_pad:bbox[3]+crop_pad]
+    #         return pad_mask
 
-    def two_regions_distance(self, index_x, index_y):
-        """Given two regions' label, return 2 types distance between 2 regions.
-        """
-        coods_x = self.instance_properties.loc[index_x, 'coords']
-        coods_y = self.instance_properties.loc[index_y, 'coords']
-        center_x = self.instance_properties.loc[index_x, ['centroid_0', 'centroid_1']]
-        center_y = self.instance_properties.loc[index_y, ['centroid_0', 'centroid_1']]
-        nearnest_dis, ind_x, ind_y = find_nearnest_points(coods_x, coods_y)
-        center_dist = np.sqrt(np.sum(np.square(center_x - center_y)))
-        return center_dist, nearnest_dis, ind_x, ind_y
+    # def all_by_all_distance(self):
+    #     if self.cost is None:
+    #         columns = ['index_x', 'index_y', 'center_dist', 'nearnest_dis', 'nearnest_point_x_index', 'nearnest_point_y_index']
+    #         data = pd.DataFrame(columns = columns)
+    #         flag = 0
+    #         for index_x in range(0,self.instance_properties.shape[0]):
+    #             for index_y in range(index_x+1, self.instance_properties.shape[0]):
+    #                 center_dist, nearnest_dis, ind_x, ind_y = self.two_regions_distance(index_x, index_y)
+    #                 data.loc[flag, columns] = [index_x, index_y, center_dist, nearnest_dis, ind_x, ind_y]
+    #                 flag+=1
+    #         self.cost = data
+    #     return self.cost
+
+    # def two_regions_distance(self, index_x, index_y):
+    #     """Given two regions' label, return 2 types distance between 2 regions.
+    #     """
+    #     coods_x = self.instance_properties.loc[index_x, 'coords']
+    #     coods_y = self.instance_properties.loc[index_y, 'coords']
+    #     center_x = self.instance_properties.loc[index_x, ['centroid_0', 'centroid_1']]
+    #     center_y = self.instance_properties.loc[index_y, ['centroid_0', 'centroid_1']]
+    #     nearnest_dis, ind_x, ind_y = find_nearnest_points(coods_x, coods_y)
+    #     center_dist = np.sqrt(np.sum(np.square(center_x - center_y)))
+    #     return center_dist, nearnest_dis, ind_x, ind_y
