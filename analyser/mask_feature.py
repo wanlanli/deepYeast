@@ -116,19 +116,25 @@ class MaskFeature(np.ndarray):
             coords.append(coord)
         return coords
 
-    def __single_region_coordinate(self, label: int, number: int = 20):
+    def __single_region_coordinate(self, label: int, number: int = common.IMAGE_CONTOURS_LENGTH):
         """Find iso-valued contours in a 2D array for a given level value(0.5).
         """
-        contour = find_contours(self.__array__() == label, level=0.5)
-        contour = contour[0]
-        length = math.ceil(len(contour)/number) if number != 0 else len(contour)
-        if length != 0:
-            index = np.arange(0, length, length)
-            index = np.append(index, [length-1])
-            return contour[index]
+        if number <= 0:
+            print("Border coordinate conversion failed. number %d <=0" % number)
         else:
-            print("Border coordinate conversion failed. %d to %d" % (len(contour), number))
-            return contour
+            contour = find_contours(self.__array__() == label, level=0.5)[0]
+            length = len(contour)
+            if length != 0:
+                x = np.arange(0, length)
+                z = np.linspace(0, length, number)
+                cont_x = np.interp(z, x, contour[:, 0])
+                cont_y = np.interp(z, x, contour[:, 1])
+        # if length != 0:
+        #     index = np.arange(0, length, math.floor(length/number))
+        #     index = np.append(index, [length-1])
+                return np.array([cont_x, cont_y])# contour[index]
+            else:
+                print("Border coordinate conversion failed. %d to %d" % (len(contour), number))
 
     def __is_out_of_screen(self, data):
         """

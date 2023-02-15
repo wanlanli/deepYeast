@@ -304,7 +304,7 @@ def action_iou_batch(bb_tests, bb_gts):
     return o
 
 
-def action_dicision(cost):
+def behavioral_decision(cost):
     """Divided/fusioned cell match
     """
     connection = {}

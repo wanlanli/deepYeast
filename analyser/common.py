@@ -15,8 +15,9 @@ IMAGE_SEMANTIC_LABEL = "semantic"
 IMAGE_INSTANCE_LABEL = "instance"
 IMAGE_IS_BORDER = "is_out_of_border"
 
+IMAGE_CONTOURS_LENGTH = 20
 # TRACE_FEATURE_NAME
-CELL_ID = "indentity"
+CELL_ID = "identity"
 CELL_GENERATION = "generation"
 CELL_START = "start_time"
 CELL_END = "end_time"
@@ -27,7 +28,9 @@ CELL_DAUGHTER = ["daughter_1", "daughter_2"]
 CELL_FUSION_FLAGE = "is_fusioned"
 CELL_SPOUSE = "spouse"
 CELL_SON = "son"
-CELL_LIFE_SPAN= "life_time"
+CELL_LIFE_SPAN = "life_time"
+CELL_TABEL_ARG = 'arg'
+
 
 #FLOURESCENT_INFO
 NUM_FLOURESCENT = "num_flourescent_channel"
