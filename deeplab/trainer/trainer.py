@@ -20,7 +20,7 @@ import orbit
 import tensorflow as tf
 
 import common
-import deeplab.config_yml as config_yml
+import config_yml as config_yml
 from model import utils
 from trainer import runner_utils
 

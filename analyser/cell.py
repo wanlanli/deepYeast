@@ -71,7 +71,6 @@ class Cell(object):
     def get_center(self, frame):
         i = self.__check_frame(frame)
         if isinstance(self.centroid_0[i], float):
-        # if i > -1:
             return (self.centroid_0[i], self.centroid_1[i])
         else:
             print("ERROR!")

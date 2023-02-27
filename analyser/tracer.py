@@ -8,19 +8,24 @@
 # License: 3-clause BSD
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
+from tqdm import tqdm, trange
+import math
 
 from .mask_feature import MaskFeature
 from analyser.config import CELL_TRACKE_PROPERTY, CELL_IMAGE_PROPERTY
 from .sort import Sort, KalmanBoxTracker, action_iou_batch, behavioral_decision
 from .cell import Cell
-from analyser import common 
-OVERLAP_VMIN = 0.1
-OVERLAP_VMAX = 0.75
+from analyser import common
+from .cell_image import CellImage
+from analyser.multi_fluorescent_image_feature import FluorescentClassification
+from .distance import find_nearnest_points
+from analyser.config import CELL_TRACKE_PROPERTY
 
 
-#f*x*y*c
 class Tracer(np.ndarray):
+    """Object tracking is performed according to the input mask, 
+    and the dimension order of the input image is frame*width*heigh(*channel)
+    """
     def __new__(cls, mask: np.ndarray):
         # Input array is an already formed ndarray instance first cast to be our class type
         obj = np.asarray(mask).view(cls)
@@ -37,6 +42,7 @@ class Tracer(np.ndarray):
         self.traced_image = None
         self.cell_property, self.trace_calendar = self.__init_tracing_table()
         self.cells = []
+        self.distance = None
         self.props = None
 
     def __frame_name(self, number, name='frame_', length=3):
@@ -102,10 +108,12 @@ class Tracer(np.ndarray):
             if len(end_cell) and len(start_cell):
                 bb_x = []
                 for v in end_cell:
-                    bb_x.append(self.cells[v].contours[f])
+                    # bb_x.append(self.cells[v].contours[f])
+                    bb_x.append(self.coords[v, f].T)
                 bb_y = []
                 for v in start_cell:
-                    bb_y.append(self.cells[v].contours[f+1])
+                    # bb_y.append(self.cells[v].contours[f+1])
+                    bb_y.append(self.coords[v, f+1].T)
 
                 cost = action_iou_batch(bb_x, bb_y)
                 connection, division, fusion = behavioral_decision(cost)
@@ -114,46 +122,24 @@ class Tracer(np.ndarray):
                     pass
                 if division:
                     for k, v in division.items():
-                        mother = end_cell[k]
-                        daughter1 = start_cell[v[0]]
-                        daughter2 = start_cell[v[1]]
-
-                        generation = self.cell_property.iloc[mother, 1]+1
-                        # update values
-                        self.cell_property.iloc[mother, 6:9] = [True, daughter1, daughter2]
-                        self.cell_property.iloc[[daughter1, daughter2], 2] = mother
-                        self.cell_property.iloc[[daughter1, daughter2], 1] = generation
-
-                        # self.cells[mother].is_divided = True
-                        # self.cells[mother].sub_1 = daughter1
-                        # self.cells[mother].sub_2 = daughter2
-
-                        # self.cells[daughter1].mother = mother
-                        # self.cells[daughter1].generation = generation
-                        # self.cells[daughter2].mother = mother
-                        # self.cells[daughter2].generation = generation
-
+                        mother = self.cell_property.iloc[end_cell[k]].identity
+                        daughter1 = self.cell_property.iloc[start_cell[v[0]]].identity
+                        daughter2 = self.cell_property.iloc[start_cell[v[1]]].identity
+                        generation = self.cell_property.loc[mother, CELL_TRACKE_PROPERTY[1]]+1
+                        # update values          
+                        self.cell_property.loc[mother, CELL_TRACKE_PROPERTY[6:9]] = [True, daughter1, daughter2]
+                        self.cell_property.loc[[daughter1, daughter2], CELL_TRACKE_PROPERTY[4]] = mother
+                        self.cell_property.loc[[daughter1, daughter2], CELL_TRACKE_PROPERTY[1]] = generation
                 if fusion:
                     for k, v in fusion.items():
                         # store index
-                        mother = end_cell[v[0]]
-                        father = end_cell[v[1]]
-                        daughter = start_cell[k]
-                        generation = max(self.cell_property.iloc[[mother, father], 1])+1
-
-                        self.cell_property.iloc[mother, 9:12] = [True, father, daughter]
-                        self.cell_property.iloc[father, 9:12] = [True, mother, daughter]
-                        self.cell_property.iloc[daughter, 1:4] = [generation, mother, father]
-
-                        # self.cells[mother].is_fusioned = True
-                        # self.cells[mother].spouse = father
-                        # self.cells[mother].son = daughter
-                        # self.cells[father].is_fusioned = True
-                        # self.cells[father].spouse = mother
-                        # self.cells[father].son = daughter
-                        # self.cells[daughter].generation = generation
-                        # self.cells[daughter].mother = mother
-                        # self.cells[daughter].father = father
+                        mother = self.cell_property.iloc[end_cell[v[0]]].identity
+                        father = self.cell_property.iloc[end_cell[v[1]]].identity
+                        daughter = self.cell_property.iloc[start_cell[k]].identity
+                        generation = max(self.cell_property.loc[[mother, father], CELL_TRACKE_PROPERTY[1]])+1
+                        self.cell_property.loc[mother, CELL_TRACKE_PROPERTY[9:12]] = [True, father, daughter]
+                        self.cell_property.loc[father, CELL_TRACKE_PROPERTY[9:12]] = [True, mother, daughter]
+                        self.cell_property.loc[daughter, [common.CELL_GENERATION, common.CELL_MOTHER, common.CELL_FATHER]] = [generation, mother, father]
 
     def create_cells(self):
         all_cells = []
@@ -184,213 +170,160 @@ class Tracer(np.ndarray):
         self.coords = coords
         return props, coords
 
-    def create_single_cell_by_id(self, cell_id):
-        trace_feature = self.cell_property.iloc[cell_id].values
-        start_time, end_time = self.cell_property.iloc[cell_id, [2, 3]].astype(int)
-        prop = self.props[cell_id, start_time:end_time+1, :]
-        coord = self.coords[cell_id, start_time:end_time+1, :, :]
+    def create_single_cell_by_id(self, cell_index):
+        trace_feature = self.cell_property.loc[cell_index].values
+        start_time, end_time = self.cell_property.loc[cell_index, [2, 3]].astype(int)
+        arg = int(self.cell_property.loc[cell_index].arg)
+        prop = self.props[arg, start_time:end_time+1, :]
+        coord = self.coords[arg, start_time:end_time+1, :, :]
         return Cell(trace_feature, prop, coord)
 
-
-class Tracer11(object):
-    def __init__(self, data) -> None:
-        """Input masked movie to tracing
+    def cell_distance_3d(self):
+        """Convert the traced cells distance into a 3d matrix with the size of
+        number of cells x number of frame x 2(2 center and near).
         """
-        self.mask = data
-        self.frame_number = self.mask.shape[0]
-        self.cell_property, self.trace_calendar = self.__init_tracing_feature_data()
-        self.maskobj = {}
-        self.cell_number = 0
-        self.cells = []
-        self.props = None
-        self.tracingdata = None
+        distance = np.zeros((self.frame_number, self.cell_number, self.cell_number, 4))
+        for i in trange(0, self.frame_number):
+            labels = self.trace_calendar.iloc[:, i].dropna()
+            cell_idx = self.cell_property.loc[labels.index].arg
+            mk = self.maskobj[i]
+            index = mk.label2index(labels.values)
+            # map index to cell_id
+            cost = mk.cost(index, index)
+            map = pd.DataFrame(np.array([labels, cell_idx, index]).T,
+                                columns= ["label", "cell_idx", "index"],
+                                index=index)
+            distance[i, 
+                list(map.loc[list(cost.index_x.astype(int))].cell_idx.astype(int)), 
+                list(map.loc[list(cost.index_y.astype(int))].cell_idx.astype(int)),
+                :] = cost[['center_dist', 'nearnest_dis', 'nearnest_point_x_index', 'nearnest_point_y_index']]
+        self.distance = distance
+        return distance
 
-    def __frame_name(self, number, name='frame_', length=3):
-        return name+str(number).zfill(length)
+    def prediction(self, image, n_components: int):
+        prediction = self.trace_calendar.copy()
+        prediction = prediction.fillna(-1)
+        if image.shape[0] != self.__array__().shape[0]:
+            return None
+        for f in trange(0, image.shape[0]):
+            cellimage = CellImage(image[f], mask=self.maskobj[f])
+            data = cellimage.get_fluorescent_intensity()
+            cluster = FluorescentClassification(data)
+            _, _ = cluster.predition_data_type(
+                n_components=n_components,
+                init_params='kmeans')
+            cluster.data.loc[-1, "channel_prediction"] = -1
+            # print(cluster.data.loc[prediction[self.__frame_name(f)].values.astype(int)].channel_prediction)
+            prediction[self.__frame_name(f)] = cluster.data.loc[prediction[self.__frame_name(f)].values.astype(int)].channel_prediction.values
+        # print(prediction)
+        self.cell_property["channel_prediction"] = prediction.replace(-1, None).mode(axis=1)[0].values
+        return prediction
 
-    def __init_tracing_feature_data(self):
-        frame_columns_name = [self.__frame_name(x) for x in np.arange(0, self.frame_number)]
-        cell_property = pd.DataFrame(columns=CELL_TRACKE_PROPERTY, dtype=np.int16)
-        trace_calendar = pd.DataFrame(columns=frame_columns_name, dtype=np.int16)
-        return cell_property, trace_calendar
+    def relations2cell(self, x_index, y_index, frame):
+        center_dist, near_dist, nearnest_point_x_index, nearnest_point_y_index= self.distance[frame, x_index, y_index]
+        center_x = self.get_centers(x_index, frame)
+        near_x = self.get_coords(x_index, frame, int(nearnest_point_x_index))
+        center_y = self.get_centers(y_index, frame)
+        near_y = self.get_coords(y_index, frame, int(nearnest_point_y_index))
+        orientation_x = self.get_orientation(x_index, frame)
+        orientation_y = self.get_orientation(y_index, frame)
+        angel_x = self.included_angle_to_the_major_axis(center_x[0], center_x[1], near_x[0], near_x[1], orientation_x)
+        angel_y = self.included_angle_to_the_major_axis(center_y[0], center_y[1], near_y[0], near_y[1], orientation_y)
+        time_gap = self.cell_property.loc[x_index, "start_time"] - self.cell_property.loc[y_index, "start_time"]
+        return center_dist, near_dist, angel_x, angel_y, time_gap
 
-    def _get_maskfeature_obj(self, frame):
-        if frame not in self.maskobj.keys():
-            self.maskobj[frame] = MaskFeature(self.mask[frame])
-        return self.maskobj[frame]
+    def get_centers(self, index, frame):
+        label = self.index2label(index, frame)
+        return self.maskobj[frame].get_centers([label]).values[0]
 
-    def tracing(self, **args):
-        mot_tracker = Sort(**args)  # create instance of the SORT tracker
-        KalmanBoxTracker.count = 0
-        total_frames = 0
-        output_d = []
-        for frame in tqdm(range(0, self.frame_number), position=0):
-            img = self._get_maskfeature_obj(frame)
-            dets = img.instance_properties.iloc[:, list(range(1, 6))+[0]].values
-            total_frames += 1
-            trackers = mot_tracker.update(np.array(dets))
-            for d in trackers:
-                output_d.append([frame]+list(d))
-        output_d = np.array(output_d)  # [frame, center_x, center_y, orientation, long_axis,short_axis, id, label]
-        self.asgine_feature(output_d)
-        return output_d
+    def get_coords(self, index, frame, point_index):
+        label = self.index2label(index, frame)
+        return self.maskobj[frame].get_outline([label]).values[0][:, point_index]
 
-    def asgine_feature(self, output_d):
-        for i in range(output_d.shape[0]):
-            new_id = int(output_d[i, -2])
-            frame = int(output_d[i, 0])
-            label = int(output_d[i, -1])
-            self.trace_calendar.loc[new_id, self.__frame_name(frame)] = label
-            if new_id not in self.cell_property.index:
-                self.cell_property.loc[new_id, common.CELL_START] = frame
-            self.cell_property.loc[new_id, common.CELL_END] = frame
-        self.cell_number = self.cell_property.shape[0]
-        self.cell_property[common.CELL_LIFE_SPAN] = self.cell_property[common.CELL_END] - self.cell_property['start_time'] +1
-        self.cell_property[common.CELL_TABEL_ARG] = np.arange(0, self.cell_number)
-        self.cell_property[common.CELL_ID] = self.cell_property.index
-        self.cell_property[common.CELL_GENERATION] = 1
+    def get_orientation(self, index, frame):
+        label = self.index2label(index, frame)
+        return self.maskobj[frame].instance_properties.loc[label, "orientation"]
 
-    def plot_tracing(self):
-        tracing_data = np.zeros(self.mask.shape)
-        for frame in range(0, self.frame_number):
-            d = self.trace_calendar.loc[:, self.__frame_name(frame)].dropna()
-            for k, v in d.items():
-                tracing_data[frame][self.mask[frame] == v] = k
-        self.tracingdata = tracing_data
-        return tracing_data
+    def index2label(self, index, frame):
+        return int(self.trace_calendar.loc[index, self.__frame_name(frame)])
 
-    def run_cell_time_props(self):
-        props = np.zeros((self.cell_number, self.frame_number, len(CELL_IMAGE_PROPERTY)))
-        for i in range(0, self.frame_number):
-            img = self._get_maskfeature_obj(i)
-            data = img.region.set_index("label", drop=False)
-            label_id_maps = self.trace_calendar.iloc[:, i].dropna()
-            arg_id = self.cell_property.loc[label_id_maps.index, 'arg'].values
-            props[arg_id, i, :] = data.loc[label_id_maps.values, CELL_IMAGE_PROPERTY]
-        self.props = props
-        return props
+    def label2index(self, label, frame):
+        return self.trace_calendar.loc[self.trace_calendar[self.__frame_name(frame)]==label].index[0]
 
-    def cell_contours_over_time(self, cell_id):
-        cell_coords = {}
-        start_time, end_time = self.cell_property.iloc[cell_id, [4,5]]
-        for f in range(int(start_time), int(end_time+1)):
-            label = self.props[cell_id, f, 0]
-            if label == 0:
-                cell_coords[f] = []
+    def included_angle_to_the_major_axis(self, x1, y1, x2, y2, angle2):
+        angle1 = math.atan2(y2-y1, x2-x1)
+        included_angle = angle1-angle2
+        included_angle = included_angle - np.pi*2*math.floor(included_angle/(2 * np.pi))
+        if abs(included_angle) > np.pi:
+            included_angle = included_angle-np.pi*2
+        return included_angle
+
+    def fusion_cell_features(self):
+        fusioned_cells = self.cell_property.loc[(~self.cell_property.mother.isna()) & (~self.cell_property.father.isna())].copy()
+        fusioned_parents = None
+        for cell in fusioned_cells.index:
+            print(cell)
+            mother_index, father_index, frame = fusioned_cells.loc[cell, ['mother', 'father', 'start_time']].astype(np.int16)
+            # mother_id = self.cells[mother_index].indentify
+            # father_id = self.cells[father_index].indentify
+            frame = frame-1
+
+            # exchange m & f
+            if (self.cell_property.loc[mother_index].channel_prediction == self.cell_property.loc[father_index].channel_prediction):
+                print("error")
+            elif self.cell_property.loc[mother_index].channel_prediction > self.cell_property.loc[father_index].channel_prediction:
+                c = mother_index
+                mother_index = father_index
+                father_index = c
+
+            # assgin son' features
+            center_distance, n_distance, angle_0, angle_1, timegap = self.relations2cell(mother_index, father_index, frame)
+            fusioned_cells.loc[cell, 'center_distance'] = center_distance
+            fusioned_cells.loc[cell, 'nearnest_distance'] = n_distance
+            # fusioned_cells.loc[cell, 'start_nearnest_distance'] = start_distance
+            fusioned_cells.loc[cell, 'angle_x'] = angle_0
+            fusioned_cells.loc[cell, 'angle_y'] = angle_1
+            fusioned_cells.loc[cell, 'timegap'] = timegap
+
+            # from mothers perspective:
+            frame_x = int(max(self.cell_property.loc[[mother_index, father_index]].start_time))
+            mf_cf = self.surrounding_cell_freatures(mother_index, father_index, frame_x)
+            mf_cf.loc[:, 'fusion_type'] = 'm'
+            if fusioned_parents is None:
+                fusioned_parents = mf_cf
+            else:
+                fusioned_parents = pd.concat([fusioned_parents, mf_cf])
+            # from fathers perspective:
+            ff_cf = self.surrounding_cell_freatures(father_index, mother_index, frame_x)
+            ff_cf.loc[:, 'fusion_type'] = 'f'
+            if fusioned_parents is None:
+                fusioned_parents = ff_cf
+            else:
+                fusioned_parents = pd.concat([fusioned_parents, ff_cf])
+        return fusioned_cells, fusioned_parents
+
+    def surrounding_cell_freatures(self, x_index, y_index, frame, radius=200):
+        nc = list(self.neighbor_cells(x_index, radius=radius))
+        if y_index not in nc:
+            nc += [y_index]
+        fusion_parent_cells = self.cell_property.loc[nc].copy()
+        for y in nc:
+            if self.cell_property.loc[y].end_time < frame:
                 continue
-            coord = self.maskobj[f]._coordinates(label)
-            cell_coords[f] = coord
-        return cell_coords
+            center_distance, n_distance, angle_x, angle_y, timegap = self.relations2cell(x_index, y, frame)
+            fusion_parent_cells.loc[y, ["center_distance",
+                                        "nearnest_distance",
+                                        "angle_x",
+                                        "angle_y",
+                                        "timegap"]] = [center_distance, n_distance, angle_x, angle_y, timegap]
+        fusion_parent_cells.loc[:, 'flag'] = False
+        fusion_parent_cells.loc[y_index, 'flag'] = True
+        fusion_parent_cells.loc[:, 'ref'] = x_index
+        return fusion_parent_cells
 
-    def create_cells(self):
-        all_cells = []
-        for i, v in enumerate(self.cell_property.indentify):
-            coord = self.cell_contours_over_time(i)
-            x = self.cell_property.iloc[i].values
-            f = self.props[i, :, :]
-            cell = Cell(x, f, coord)
-            all_cells.append(cell)
-        self.cells = all_cells
-        return all_cells
-
-    def connect_generation(self):
-        # props = ct.run_cell_time_props()
-        # cells = ct.create_cells()
-        for f in range(0, self.frame_number):
-            end_cell = list(self.cell_property.loc[self.cell_property.end_time == f].arg)
-            start_cell = list(self.cell_property.loc[self.cell_property.start_time == (f+1)].arg)
-            if len(end_cell) and len(start_cell):
-                bb_x = []
-                for v in end_cell:
-                    bb_x.append(self.cells[v].contours[f])
-                bb_y = []
-                for v in start_cell:
-                    bb_y.append(self.cells[v].contours[f+1])
-
-                cost = action_iou_batch(bb_x, bb_y)
-                connection, division, fusion = behavioral_decision(cost)
-                # print(f, connection, "\n",division, "\n",fusion)
-                if connection:
-                    pass
-                if division:
-                    for k, v in division.items():
-                        mother = end_cell[k]
-                        daughter1 = start_cell[v[0]]
-                        daughter2 = start_cell[v[1]]
-
-                        generation = self.cell_property.iloc[mother, 1]+1
-                        # update values
-                        self.cell_property.iloc[mother, 6:9] = [True, daughter1, daughter2]
-                        self.cell_property.iloc[[daughter1, daughter2], 2] = mother
-                        self.cell_property.iloc[[daughter1, daughter2], 1] = generation
-
-                        self.cells[mother].is_divided = True
-                        self.cells[mother].sub_1 = daughter1
-                        self.cells[mother].sub_2 = daughter2
-
-                        self.cells[daughter1].mother = mother
-                        self.cells[daughter1].generation = generation
-                        self.cells[daughter2].mother = mother
-                        self.cells[daughter2].generation = generation
-
-                if fusion:
-                    for k, v in fusion.items():
-                        # store index
-                        mother = end_cell[v[0]]
-                        father = end_cell[v[1]]
-                        daughter = start_cell[k]
-                        generation = max(self.cell_property.iloc[[mother, father], 1])+1
-
-                        self.cell_property.iloc[mother, 9:12] = [True, father, daughter]
-                        self.cell_property.iloc[father, 9:12] = [True, mother, daughter]
-                        self.cell_property.iloc[daughter, 1:4] = [generation, mother, father]
-
-                        self.cells[mother].is_fusioned = True
-                        self.cells[mother].spouse = father
-                        self.cells[mother].son = daughter
-                        self.cells[father].is_fusioned = True
-                        self.cells[father].spouse = mother
-                        self.cells[father].son = daughter
-                        self.cells[daughter].generation = generation
-                        self.cells[daughter].mother = mother
-                        self.cells[daughter].father = father
-
-
-# class CellTracer(Tracer):
-#     def __init__(self, img, mask) -> None:
-#         super().__init__(mask)
-#         self.img = img
-
-    # def __background_threshold(self, thresdhold=5):
-    #     """Return the mean values of masked piexes values
-    #     """
-    #     masked = self.img[1:]*(self.mask.X[None, :, :] == 0)
-    #     bg_threshold = np.zeros(masked.shape[0])
-    #     for i in range(0, masked.shape[0]):
-    #         value = self._get_value(masked[i])
-    #         floor = np.percentile(value, thresdhold)
-    #         celling = np.percentile(value, 100-thresdhold)
-    #         value = value[(value > floor) & (value < celling)]
-    #         bg_threshold[i] = np.mean(value)
-    #     self.background = bg_threshold
-    #     return bg_threshold
-
-    # def get_background(self):
-    #     if self.background is None:
-    #         return self.__background_threshold()
-    #     else:
-    #         return self.background
-
-    # def fluorescent_singal(self, line=90):
-    #     data = self.mask.region.copy()
-    #     for index in data.index:
-    #         label = data.loc[index, 'label']
-    #         cell_mask = self.mask.get_region_by_id(label)
-    #         for i in range(1, self.img.shape[0]):
-    #             chi = self._get_value(cell_mask*self.img[i])
-    #             data.loc[index, "ch%d" % i] = np.percentile(chi, line)
-    #     bg = self.get_background()
-    #     for i in range(1, self.img.shape[0]):
-    #         data['bg%d' % i] = bg[i-1]
-    #     return data
-
+    def neighbor_cells(self, index, radius=100):
+        frame = int(self.cell_property.loc[index].start_time)
+        x_label = self.index2label(index, frame)
+        y_labels = self.maskobj[frame].nearnest_radius(x_label, radius)
+        y_index = [self.label2index(y, frame) for y in y_labels]
+        return y_index

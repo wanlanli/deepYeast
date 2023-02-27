@@ -1,8 +1,11 @@
 import numpy as np
 from sklearn.mixture import GaussianMixture
-from analyser.mask_feature import MaskFeature
 
-class FluorescentImage():
+from analyser.mask_feature import MaskFeature
+from analyser.cell_image import CellImage
+
+
+class FluorescentImage(CellImage):
     """Measure cell image with flourencent properties.
 
     Parameters
@@ -12,7 +15,7 @@ class FluorescentImage():
     mask: 2D matrix,dtype:int
         predicted mask.
     """
-    def __init__(self, image:np.array, mask:np.array) -> None:
+    def __init__(self, image: np.array, mask: np.array) -> None:
         self.image = image
         self.mask = MaskFeature(mask)
         self.background = None
@@ -27,12 +30,12 @@ class FluorescentImage():
         flatten = flatten[flatten > 0]
         return flatten
 
-    def __background_threshold(self, thresdhold:int=5):
+    def __background_threshold(self, thresdhold: int = 5):
         """Get the background threshold for every channel.
         Params:
         thresdhold: percentile of data not taken into account
         """
-        masked = self.image[1:]*(self.mask.mask[None, :, :] == 0)
+        masked = self.image[1:]*(self.mask.__array__()[None, :, :] == 0)
         bg_threshold = np.zeros(self.channel_number)
         for i in range(0, self.channel_number):
             value = self.__flatten_nonzero_value(masked[i])
@@ -66,19 +69,25 @@ class FluorescentImage():
             data['bg%d' % i] = bg[i-1]
         self.fluorescent_intensity = data
         return data
-    
-    def get_fluorescent_intensity(self, **args):
-        if self.fluorescent_intensity is None:
-            return self.instance_fluorescent_intensity(**args)
-        else:
-            return self.fluorescent_intensity.iloc[:,0:(self.channel_number*2+1)]
-    
+
+    # def get_fluorescent_intensity(self, **args):
+    #     if self.fluorescent_intensity is None:
+    #         return self.instance_fluorescent_intensity(**args)
+    #     else:
+    #         return self.fluorescent_intensity.iloc[:,0:(self.channel_number*2+1)]
+
     def cell_classification(self, **args):
         data = self.get_fluorescent_intensity()
         clusterobj = FluorescentClassification(data)
         pred, _ = clusterobj.predition_data_type(**args)
         self.fluorescent_intensity["channel_prediction"] = pred
+        self.normalize_inensity()
         self.classifier = clusterobj
+        return self.fluorescent_intensity
+
+    def normalize_inensity(self):
+        for i in range(1, self.channel_number+1):
+            self.fluorescent_intensity['ch%d_norm' % i] = np.log(self.fluorescent_intensity['ch%d' % i])/np.log(self.fluorescent_intensity['bg%d' %i ])
         return self.fluorescent_intensity
 
 
@@ -87,15 +96,15 @@ class FluorescentClassification():
         self.data = data.copy()
         self.channel_number = int((data.shape[1]-1)/2)
         self.model = None
-    
+
     def normalize_inensity(self):
         for i in range(1, self.channel_number+1):
-            self.data['ch%d_norm'%i] = np.log(self.data['ch%d'%i])/np.log(self.data['bg%d' %i ])
+            self.data['ch%d_norm' % i] = np.log(self.data['ch%d' % i])/np.log(self.data['bg%d' %i ])
         return self.data
 
     def predition_data_type(self, **args):
-        self.normalize_inensity()
-        data = self.data[['ch%d_norm'%i for i in range(1, self.channel_number+1)]]
+        self.data = self.normalize_inensity()
+        data = self.data[['ch%d_norm' % i for i in range(1, self.channel_number+1)]]
         clustering = GaussianMixture(**args).fit(data)
         data_pred = clustering.predict(data)
         class_map = rename_classes(data, clustering.means_)
@@ -103,7 +112,7 @@ class FluorescentClassification():
         self.model = clustering
         self.data["channel_prediction"] = data_pred
         return data_pred, clustering
-    
+
     # def predition_data_type_2(self, **args):
     #     self.normalize_inensity()
     #     data = self.data[['ch%d_norm'%i for i in range(1, self.channel_number+1)]]
@@ -137,12 +146,12 @@ def rename_classes(data, cluster_centers):
     return class_map
 
 
-def __get_bounding_points(data): 
+def __get_bounding_points(data):
     box_min = data.min()
     box_max = data.max()
     coords = np.array([box_min, box_max]).T
     import itertools
-    coords_index = np.flip(np.array(list(itertools.product([0, 1], repeat=coords.shape[0]))),axis=1)
+    coords_index = np.flip(np.array(list(itertools.product([0, 1], repeat=coords.shape[0]))), axis=1)
     out = []
     for i in range(coords.shape[0]):
         out.append(coords[i, coords_index[:, i]])

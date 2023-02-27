@@ -7,11 +7,9 @@ import pandas as pd
 
 
 class CellTracer(Tracer):
-    def __init__(self, img, data) -> None:
-        super().__init__(data)
-        self.img = img
-        self.background = None
-        self.distance = None
+    def __init__(self, image, mask) -> None:
+        self.image = image
+        self.tracer = Tracer(mask)
 
     def _get_value(self, data):
         flatten = data.flatten()

@@ -24,7 +24,7 @@ import numpy as np
 import tensorflow as tf
 from skimage.io import imread
 
-import deeplab.common as common
+import common as common
 
 
 def read_image(image_data):

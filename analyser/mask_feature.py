@@ -1,5 +1,4 @@
-import math
-from typing import Sequence
+from typing import Optional, Sequence, Union
 
 import numpy as np
 import pandas as pd
@@ -28,8 +27,8 @@ class MaskFeature(np.ndarray):
         if obj is None:
             return
         self.instance_properties = self.init_instance_properties()
-        self.labels = None # self.instance_properties.label.values
-        self.cost = None
+        # self.labels = None  # self.instance_properties.label.values
+        self.__cost = None
 
     def get_skregionprops_table(self, properties=REGION_TABLE_VALUE):
         """Return the values ​​of properties in the image as a table
@@ -104,7 +103,7 @@ class MaskFeature(np.ndarray):
         regionprops.columns = self.__rename_columns(regionprops.columns)
         return regionprops
 
-    def get_coordinates(self, label_list: Sequence, **args):
+    def cal_coordinates(self, label_list: Sequence, **args):
         """Returns the boundary of the region according to the specified label.
         Parameters
         ----------
@@ -129,10 +128,7 @@ class MaskFeature(np.ndarray):
                 z = np.linspace(0, length, number)
                 cont_x = np.interp(z, x, contour[:, 0])
                 cont_y = np.interp(z, x, contour[:, 1])
-        # if length != 0:
-        #     index = np.arange(0, length, math.floor(length/number))
-        #     index = np.append(index, [length-1])
-                return np.array([cont_x, cont_y])# contour[index]
+                return np.array([cont_x, cont_y])  # contour[index]
             else:
                 print("Border coordinate conversion failed. %d to %d" % (len(contour), number))
 
@@ -155,11 +151,6 @@ class MaskFeature(np.ndarray):
         else:
             return self.instance_properties.label.astype(int)
 
-    def get_region_center(self, label):
-        if self.instance_properties is None:
-            self.init_instance_properties()
-        return self.instance_properties.loc[label, common.IMAGE_CENTER_LIST]
- 
     def __rename_columns(self, names):
         return [name.replace("-", "_") for name in names]
 
@@ -169,7 +160,7 @@ class MaskFeature(np.ndarray):
         props = self.get_skregionprops_table()
         # add properties for data
         if common.IMAGE_COORDINATE in CELL_IMAGE_PROPERTY:
-            coords = self.get_coordinates(props[common.IMAGE_LABEL], **args)
+            coords = self.cal_coordinates(props[common.IMAGE_LABEL], **args)
             props[common.IMAGE_COORDINATE] = coords
         props[common.IMAGE_SEMANTIC_LABEL] = props[common.IMAGE_LABEL] // DIVISION
         props[common.IMAGE_INSTANCE_LABEL] = props[common.IMAGE_LABEL] % DIVISION
@@ -189,26 +180,114 @@ class MaskFeature(np.ndarray):
             pad_mask = mask[bbox[0]-crop_pad:bbox[2]+crop_pad, bbox[1]-crop_pad:bbox[3]+crop_pad]
             return pad_mask
 
-    # def all_by_all_distance(self):
-    #     if self.cost is None:
-    #         columns = ['index_x', 'index_y', 'center_dist', 'nearnest_dis', 'nearnest_point_x_index', 'nearnest_point_y_index']
-    #         data = pd.DataFrame(columns = columns)
-    #         flag = 0
-    #         for index_x in range(0,self.instance_properties.shape[0]):
-    #             for index_y in range(index_x+1, self.instance_properties.shape[0]):
-    #                 center_dist, nearnest_dis, ind_x, ind_y = self.two_regions_distance(index_x, index_y)
-    #                 data.loc[flag, columns] = [index_x, index_y, center_dist, nearnest_dis, ind_x, ind_y]
-    #                 flag+=1
-    #         self.cost = data
-    #     return self.cost
+    def all_by_all_distance(self):
+        if self.__cost is None:
+            columns = common.DISTANCE_COLUMNS
+            data = pd.DataFrame(columns=columns)
+            flag = 0
+            for index_x in range(0, self.instance_properties.shape[0]):
+                for index_y in range(index_x+1, self.instance_properties.shape[0]):
+                    center_dist, nearnest_dis, ind_x, ind_y = self.two_regions_distance(index_x, index_y)
+                    data.loc[flag, columns] = [index_x, index_y, center_dist, nearnest_dis, ind_x, ind_y]
+                    flag += 1
+            self.__cost = data
+        return self.__cost
 
-    # def two_regions_distance(self, index_x, index_y):
-    #     """Given two regions' label, return 2 types distance between 2 regions.
-    #     """
-    #     coods_x = self.instance_properties.loc[index_x, 'coords']
-    #     coods_y = self.instance_properties.loc[index_y, 'coords']
-    #     center_x = self.instance_properties.loc[index_x, ['centroid_0', 'centroid_1']]
-    #     center_y = self.instance_properties.loc[index_y, ['centroid_0', 'centroid_1']]
-    #     nearnest_dis, ind_x, ind_y = find_nearnest_points(coods_x, coods_y)
-    #     center_dist = np.sqrt(np.sum(np.square(center_x - center_y)))
-    #     return center_dist, nearnest_dis, ind_x, ind_y
+    def two_regions_distance(self, index_x, index_y):
+        """Given two regions' label, return 2 types distance between 2 regions.
+        """
+        coods_x = self.instance_properties.iloc[index_x][common.IMAGE_COORDINATE]
+        coods_y = self.instance_properties.iloc[index_y][common.IMAGE_COORDINATE]
+        center_x = self.instance_properties.iloc[index_x][common.IMAGE_CENTER_LIST]
+        center_y = self.instance_properties.iloc[index_y][common.IMAGE_CENTER_LIST]
+        nearnest_dis, ind_x, ind_y = find_nearnest_points(coods_x.T, coods_y.T)
+        center_dist = np.sqrt(np.sum(np.square(center_x - center_y)))
+        return center_dist, nearnest_dis, ind_x, ind_y
+
+    def cost(self, source_x: Sequence = [], target_y: Sequence = []):
+        """
+        source_x: index list
+        target_y: index list
+        """
+        if self.__cost is None:
+            self.__cost = self.all_by_all_distance()
+        cost = self.__cost.copy()
+        a = cost.copy()
+        a[['index_x', 'index_y', 'nearnest_point_x_index', 'nearnest_point_y_index']] = cost[['index_y', 'index_x', 'nearnest_point_y_index', 'nearnest_point_x_index']]
+        cost = pd.concat([cost, a])
+        if len(source_x):
+            if not len(target_y):
+                return cost.loc[cost.index_x.isin(source_x)]
+            else:
+                return cost.loc[(cost.index_x.isin(source_x)) & (cost.index_y.isin(target_y))]
+        if len(target_y):
+            if not len(source_x):
+                return cost.loc[cost.index_y.isin(target_y)]
+            else:
+                return cost.loc[(cost.index_x.isin(source_x)) & (cost.index_y.isin(target_y))]
+        return cost
+
+    def nearnestN(self, x_label: int, n: int = 1):
+        x_index = self.label2index(x_label)
+        x_cost = self.cost(source_x=[x_index])
+        y_index, t_x, t_y = x_cost.iloc[np.argsort(x_cost["nearnest_dis"])[0:n]][["index_y", 'nearnest_point_x_index','nearnest_point_y_index']].astype(int).values.T
+        y_label = self.index2label(y_index)
+        return y_label, t_x, t_y
+
+    def nearnest_radius(self, x_label, radius):
+        center = self.get_centers([x_label]).values[0]
+        mask = self.__generate_mask(center[0], center[1], radius=radius, w=self.shape[0], h=self.shape[1])
+        neighbors = np.unique(mask*self.__array__())
+        neighbors = neighbors[neighbors != 0]
+        return neighbors
+
+    def __generate_mask(self, cx=50, cy=50, radius=10, w=100, h=100):
+        x, y = np.ogrid[0: w, 0: h]
+        mask = ((x-cx)**2 + (y-cy)**2) <= radius**2
+        return mask
+
+    def get_cells(self, labels: Sequence = []):
+        if len(labels) == 0:
+            return self.__array__()
+        else:
+            mk = np.isin(self.__array__(), labels)
+            return self.__array__()*mk
+
+    def get_centers(self, labels: Sequence = []):
+        if not len(labels):
+            return self.instance_properties[common.IMAGE_CENTER_LIST]
+        else:
+            return self.instance_properties.loc[labels, common.IMAGE_CENTER_LIST]
+
+    def get_outline(self, labels: Sequence = []):
+        if not len(labels):
+            return self.instance_properties[common.IMAGE_COORDINATE]
+        else:
+            return self.instance_properties.loc[labels, common.IMAGE_COORDINATE]
+
+    def index2label(self, index):
+        return self.instance_properties.iloc[index].label
+
+    def label2index(self, label: Union[int, Sequence]):
+        if type(label) == int:
+            return np.where(self.instance_properties.label == label)[0][0]
+        else:
+            data = self.instance_properties.copy()
+            data['arg'] = np.arange(0, data.shape[0])
+            return data.loc[label].arg
+
+    def cost2matrix(self, source_x: Sequence = [], target_y: Sequence = []):
+        cost = self.cost(source_x, target_y)
+        if not len(source_x):
+            source_x = np.unique(cost.index_x)
+        if not len(target_y):
+            target_y = np.unique(cost.index_y)
+        mx = np.zeros((len(source_x), len(target_y), 2))
+        source_x = list(source_x)
+        target_y = list(target_y)
+        for i in range(0, cost.shape[0]):
+            x, y, d1, d2 = cost.iloc[i, 0:4]
+            id_x = source_x.index(x)
+            id_y = target_y.index(y)
+            mx[id_x, id_y, :] = [d1, d2]
+        return mx

@@ -39,7 +39,7 @@ def maxmum_area(data, vmin):
     return max_area
 
 
-def post_process_panoptic(data, erosion_disk=7, expand_disk=7, clean_border_region=False, **args):
+def post_process_panoptic(data, expand_disk=7, clean_border_region=False, **args):
     labels = np.unique(data)
     post_pred = np.zeros(data.shape, dtype=np.uint16)
     for label_i in labels:
@@ -48,9 +48,7 @@ def post_process_panoptic(data, erosion_disk=7, expand_disk=7, clean_border_regi
         mask = data == label_i
         expanded = post_process_single_cell_region(mask, **args)
         post_pred[expanded] = label_i
-    
-    
-    #img_erosion = erosion(post_pred, footprint)
+    # img_erosion = erosion(post_pred, footprint)
     footprint = disk(expand_disk)
     img_expanded = dilation(post_pred, footprint)
 

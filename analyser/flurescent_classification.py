@@ -7,7 +7,7 @@ class FluorescentClassification():
         self.data = data.copy()
         self.channel_number = int((data.shape[1]-1)/2)
         self.model = None
-    
+
     def normalize_inensity(self):
         for i in range(1, self.channel_number+1):
             self.data['ch%d_norm'%i] = np.log(self.data['ch%d'%i])/np.log(self.data['bg%d' %i ])
@@ -23,7 +23,7 @@ class FluorescentClassification():
         self.model = clustering
         self.data["channel_prediction"] = data_pred
         return data_pred, clustering
-    
+
     # def predition_data_type_2(self, **args):
     #     self.normalize_inensity()
     #     data = self.data[['ch%d_norm'%i for i in range(1, self.channel_number+1)]]
@@ -49,7 +49,8 @@ def rename_classes(data, cluster_centers):
         class_map[i] = label
     return class_map
 
-def __get_bounding_points(data): 
+
+def __get_bounding_points(data):
     box_min = data.min()
     box_max = data.max()
     coords = np.array([box_min, box_max]).T

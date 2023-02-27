@@ -21,7 +21,7 @@ from typing import Any, Dict, Text, Tuple, Optional
 import tensorflow as tf
 
 import common
-import deeplab.config_yml as config_yml
+import config_yml as config_yml
 from model.loss import base_loss
 # from deeplab2.model.loss import max_deeplab_loss
 

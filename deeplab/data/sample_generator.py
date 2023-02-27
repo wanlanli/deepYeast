@@ -20,7 +20,7 @@ import functools
 import numpy as np
 import tensorflow as tf
 
-import deeplab.common as common
+import common as common
 from data import dataset_utils
 from data.preprocessing import input_preprocessing as preprocessing
 

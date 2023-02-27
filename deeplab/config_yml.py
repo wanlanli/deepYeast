@@ -134,7 +134,8 @@ class DatasetOptions:
             else:
                 setattr(self, key, v)
 
-class AugmentationsOptions:   
+
+class AugmentationsOptions:
     def __init__(self) -> None:
         self.min_scale_factor = 1
         self.max_scale_factor = 1

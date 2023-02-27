@@ -12,8 +12,8 @@ from analyser.multi_fluorescent_image_feature import FluorescentImage, Fluoresce
 from analyser.utils import file_traverse
 from postprocess.post_process_utils import post_process_panoptic
 
-LABELMAP = {0:[0], 1:[1, 3], 2:[2]}
-LABELCOLOR = {0:'w', 1:'r', 2:'g'}
+LABELMAP = {0: [0], 1: [1], 2: [2, 3]}
+LABELCOLOR = {0: 'w', 1: 'r', 2: 'g'}
 
 def load_model(model_dir, config_file):
     import yaml
@@ -25,7 +25,7 @@ def load_model(model_dir, config_file):
         config = yaml.load(f, Loader=yaml.FullLoader)
     configs = ExperimentOptions(config)
     configs.model_options.backbone.drop_path_keep_prob=1
-    cellmodel = DeepCellModule(mode, model_dir, configs, num_gpus)
+    cellmodel = DeepCellModule(mode, configs, num_gpus, model_dir=model_dir)
     return cellmodel
 
 
@@ -33,8 +33,9 @@ def load_image(image_path):
     """Read image and adjust the position of the image channels, the reference channel is at the first place, and the fluorescence images are at the back
     """
     image = imread(image_path)
-    image = np.moveaxis(image, -1, 0)
-    image[:,:,:] = image[[2,0,1],:,:]
+    # image = np.moveaxis(image, -1, 0)
+    # image[:,:,:] = image[[2,0,1],:,:]
+    # image[:, :, :] = image[:, :, :]
     return image
 
 
@@ -43,15 +44,15 @@ def plot_result(image, data, mask=None, sub_figsize=5, basename=''):
     f.savefig('tmp.png')
     plt.close(f.fig)
     fig, axs = plt.subplots(2, 3, figsize=(sub_figsize*3, sub_figsize*2))
-    for i in range(0, image.shape[0]):
-        axs[0, i].imshow(image[i], cmap="gray")
-        show_data =  data.loc[data.channel_prediction.isin(LABELMAP[i])]
+    for i in range(0, image.shape[2]):
+        axs[0, i].imshow(image[:, :, i], cmap="gray")
+        show_data = data.loc[data.channel_prediction.isin(LABELMAP[i])]
         color = LABELCOLOR[i]
         axs[0, i].scatter(show_data['centroid_1'], show_data['centroid_0'],c=color,marker='.')
         axs[0, 0].scatter(show_data['centroid_1'], show_data['centroid_0'],c=color,marker='.')    
-    if mask:
+    if mask is not None:
         axs[1, 0].imshow(label2rgb(mask))
-    axs[1, 1].imshow(imread('tmp.png')) 
+    axs[1, 1].imshow(imread('tmp.png'))
 
     sum_table = __overview_table(data)
     table = axs[1, 2].table(cellText=sum_table.values,

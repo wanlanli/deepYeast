@@ -23,7 +23,7 @@ import tensorflow as tf
 
 
 import common
-import deeplab.config_yml as config_yml
+import config_yml as config_yml
 from data import dataset
 from model import builder
 from model import utils

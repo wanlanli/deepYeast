@@ -31,10 +31,16 @@ CELL_SON = "son"
 CELL_LIFE_SPAN = "life_time"
 CELL_TABEL_ARG = 'arg'
 
+# OVERLAP BATCH
+OVERLAP_VMIN = 0.1
+OVERLAP_VMAX = 0.75
+DIVISION_LABEL = 3
+FUSION_LABEL = 2
 
-#FLOURESCENT_INFO
+# FLOURESCENT_INFO
 NUM_FLOURESCENT = "num_flourescent_channel"
 
+DISTANCE_COLUMNS = ['index_x', 'index_y', 'center_dist', 'nearnest_dis', 'nearnest_point_x_index', 'nearnest_point_y_index']
 
 REGION_NAMES = ['label','centroid_0','centroid_1','orientation',
 'axis_major_length','axis_minor_length',

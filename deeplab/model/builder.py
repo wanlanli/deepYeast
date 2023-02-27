@@ -15,7 +15,7 @@
 
 """This file contains functions to build encoder and decoder."""
 import tensorflow as tf
-import deeplab.config_yml as config_yml
+import config_yml as config_yml
 
 from model.encoder import axial_resnet_instances
 from model.decoder import panoptic_deeplab

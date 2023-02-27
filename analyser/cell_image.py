@@ -7,6 +7,7 @@ import pandas as pd
 from analyser.mask_feature import MaskFeature
 from analyser.utils import flatten_nonzero_value
 
+
 class CellImage():
     """Measure cell image with flourencent properties.
 
@@ -17,9 +18,12 @@ class CellImage():
     mask: 2D matrix,dtype:int
         predicted mask.
     """
-    def __init__(self, image: np.array, mask: np.array, order: Sequence = None) -> None:
+    def __init__(self, image: np.array, mask: Union[np.array, MaskFeature], order: Sequence = None) -> None:
         self.image = image
-        self.mask = MaskFeature(mask)
+        if type(mask) == MaskFeature:
+            self.mask = mask
+        else:
+            self.mask = MaskFeature(mask)
         self.background = None
         self.classifier = None
         self.fluorescent_intensity = None
@@ -36,7 +40,7 @@ class CellImage():
         masked = self.image[:, :, 1:]*(self.mask.__array__()[:, :, None] == 0)
         bg_threshold = np.zeros(self.channel_number)
         for i in range(0, self.channel_number-1):
-            value = flatten_nonzero_value(masked[:,:,i])
+            value = flatten_nonzero_value(masked[:, :, i])
             if value.sum() == 0:
                 bg_threshold[i] = 0
             else:
@@ -76,7 +80,7 @@ class CellImage():
         if self.fluorescent_intensity is None:
             return self.instance_fluorescent_intensity(**args)
         else:
-            return self.fluorescent_intensity.iloc[:,0:(self.channel_number*2+1)]
+            return self.fluorescent_intensity.iloc[:, 0:(self.channel_number*2+1)]
 
     # def cell_classification(self, **args):
     #     data = self.get_fluorescent_intensity()
@@ -85,5 +89,3 @@ class CellImage():
     #     self.fluorescent_intensity["channel_prediction"] = pred
     #     self.classifier = clusterobj
     #     return self.fluorescent_intensity
-
-

@@ -20,7 +20,7 @@ from typing import Any, List, MutableMapping, MutableSequence, Optional, Set
 import tensorflow as tf
 
 
-import deeplab.config_yml as config_yml
+import config_yml as config_yml
 import common
 # from deeplab2 import config_yml
 

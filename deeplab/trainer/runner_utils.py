@@ -20,13 +20,11 @@ from typing import Union
 
 import tensorflow as tf
 
-import deeplab.config_yml as config_yml
+import config_yml as config_yml
 from data import data_utils
 from data import dataset
 from data import sample_generator
 from data.dataloader import input_reader
-# from deeplab2.model.encoder import axial_resnet
-# from deeplab2.model.layers import axial_block_groups
 
 
 # def _load_tf_model_garden_vision_checkpoint(initial_checkpoint):
