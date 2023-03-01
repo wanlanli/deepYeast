@@ -1,80 +1,120 @@
-from .tracer import Tracer
+from analyser.tracer import Tracer
+from analyser import common
+from analyser.config import CELL_TRACKE_PROPERTY
 from analyser.distance import predition_data_type
-from .distance import find_nearnest_points
+from analyser.distance import find_nearnest_points
+from analyser.sort import Sort, KalmanBoxTracker, action_iou_batch, behavioral_decision
 import math
 import numpy as np
 import pandas as pd
 
 
 class CellTracer(Tracer):
-    def __init__(self, img, data) -> None:
-        super().__init__(data)
-        self.img = img
-        self.background = None
-        self.distance = None
+    def __init__(self) -> None:
+        super().__init__()
 
-    def fusioned_cell_features(self):
-        fusioned_cells = self.cell_property.loc[(~self.cell_property.mother.isna()) & (~self.cell_property.father.isna())].copy()
-        fusioned_parents = None
-        for cell in fusioned_cells.index:
-            print(cell)
-            mother_index, father_index, frame = fusioned_cells.loc[cell, ['mother', 'father', 'start_time']].astype(np.int16)
-            # mother_id = self.cells[mother_index].indentify
-            # father_id = self.cells[father_index].indentify
-            frame = frame-1
+    def create_cells(self):
+        all_cells = []
+        for cell_id in self.obj_property[common.CELL_TABEL_ARG]:
+            cell = self.create_single_cell_by_id(cell_id)
+            all_cells.append(cell)
+        self.cells = all_cells
+        return all_cells
 
-            # exchange m & f
-            if (self.cell_property.iloc[mother_index].pred == self.cell_property.iloc[father_index].pred):
-                print("error")
-            elif self.cell_property.iloc[mother_index].pred > self.cell_property.iloc[father_index].pred:
-                c = mother_index
-                mother_index = father_index
-                father_index = c
+    def create_single_cell_by_id(self, cell_index):
+        trace_feature = self.obj_property.loc[cell_index].values
+        start_time, end_time = self.obj_property.loc[cell_index, [2, 3]].astype(int)
+        arg = int(self.obj_property.loc[cell_index].arg)
+        prop = self.props[arg, start_time:end_time+1, :]
+        coord = self.coords[arg, start_time:end_time+1, :, :]
+        return Cell(trace_feature, prop, coord)
 
-            # assgin son' features
-            center_distance, n_distance, start_distance, angle_0, angle_1, timegap = self.mating_features(mother_index, father_index, frame)
-            fusioned_cells.loc[cell, 'fusion_center_distance'] = center_distance
-            fusioned_cells.loc[cell, 'fusion_point_distance'] = n_distance
-            fusioned_cells.loc[cell, 'start_nearnest_distance'] = start_distance
-            fusioned_cells.loc[cell, 'angle_0'] = angle_0
-            fusioned_cells.loc[cell, 'angle_1'] = angle_1
+    def connect_generation(self):
+        """Scan the video in time order, compare the cells that appear and
+        disappear in adjacent frames, calculate possible correlations, and
+        update the obj_property.
+        """
+        # props = ct.run_cell_time_props()
+        # cells = ct.create_cells()
+        for f in range(0, self.frame_number):
+            end_cell = list(self.obj_property.loc[self.obj_property[common.CELL_END] == f].arg)
+            start_cell = list(self.obj_property.loc[self.obj_property[common.CELL_START] == (f+1)].arg)
+            if len(end_cell) and len(start_cell):
+                cost = self.__cal_cell_connection(start_cell, end_cell, f)
+                connection, division, fusion = behavioral_decision(cost)
+                if connection:
+                    pass
+                if division:
+                    for k, v in division.items():
+                        mother = self.obj_property.iloc[end_cell[k]][common.CELL_ID]
+                        daughter1 = self.obj_property.iloc[start_cell[v[0]]][common.CELL_ID]
+                        daughter2 = self.obj_property.iloc[start_cell[v[1]]][common.CELL_ID]
+                        self.__update_division_key(mother, daughter1, daughter2)
+                if fusion:
+                    for k, v in fusion.items():
+                        mother = self.obj_property.iloc[end_cell[v[0]]][common.CELL_ID]
+                        father = self.obj_property.iloc[end_cell[v[1]]][common.CELL_ID]
+                        daughter = self.obj_property.iloc[start_cell[k]][common.CELL_ID]
+                        self.__update_fusion_key(mother, father, daughter)
 
-            # from mothers perspective:
-            mf_cf = self.surrounding_cell_freatures(mother_index, father_index, frame)
-            mf_cf.loc[:, 'fusion_type'] = 'm'
-            if fusioned_parents is None:
-                fusioned_parents = mf_cf
-            else:
-                fusioned_parents = pd.concat([fusioned_parents, mf_cf])
-            # from fathers perspective:
-            ff_cf = self.surrounding_cell_freatures(father_index, mother_index, frame)
-            ff_cf.loc[:, 'fusion_type'] = 'f'
-            if fusioned_parents is None:
-                fusioned_parents = ff_cf
-            else:
-                fusioned_parents = pd.concat([fusioned_parents, ff_cf])
-        return fusioned_cells, fusioned_parents
+    def __cal_cell_connection(self, end_cell: list, start_cell: list, frame: int):
+        """According to the given list of cells, calculate the iou
+        ----------
+        Args:
+        end_cell: list, the list of cell stoped at frame.
+        start_cell: list, the list of cells started from frame.
+        frame: int.
+        ----------
+        Returns:
+        cost, np.array, the IOU matrix with shape len(end_cell) * len(start_cell)
+        """
+        bb_x = []
+        for v in end_cell:
+            bb_x.append(self.coords[v, frame].T)
+        bb_y = []
+        for v in start_cell:
+            bb_y.append(self.coords[v, frame+1].T)
+        cost = action_iou_batch(bb_x, bb_y)
+        return cost
 
-    def mating_features(self, x_index, y_index, frame):
-        ce_0 = np.array(self.cells[x_index].get_center(frame))
-        ce_1 = np.array(self.cells[y_index].get_center(frame))
-        # if ((ce_0[0] > 0) & (ce_1[0] > 0)):
-        center_distance = np.sqrt(np.sum(np.square(ce_0-ce_1)))
-        # else:
-        #     center_distance = -1
+    def __update_fusion_key(self, mother: int, father: int, daughter: int):
+        """Index assignment properties of parents and daughter based on fused.
+        ----------
+        Args:
+        mother: int, the index of mother.
+        father: int, the index of father.
+        daughter: int, the index of daughter.
+        ----------
+        Returns:
+        update self.obj_property values.
+        """
+        generation = max(self.obj_property.loc[[mother, father], common.CELL_GENERATION])+1
+        self.obj_property.loc[mother, [common.CELL_FUSION_FLAGE,
+                                       common.CELL_SPOUSE,
+                                       common.CELL_SON]
+                              ] = [True, father, daughter]
+        self.obj_property.loc[father, [common.CELL_FUSION_FLAGE,
+                                       common.CELL_SPOUSE,
+                                       common.CELL_SON]
+                              ] = [True, mother, daughter]
+        self.obj_property.loc[daughter, [common.CELL_GENERATION,
+                                         common.CELL_MOTHER,
+                                         common.CELL_FATHER]
+                              ] = [generation, mother, father]
 
-        c_0 = self.cells[x_index].get_contours(int(self.cells[x_index].start_time))
-        c_1 = self.cells[y_index].get_contours(int(self.cells[y_index].start_time))
-        # if not (len(c_0)>0 & len(c_1)>0):
-        #     start_distance = -1
-        # else:
-        start_distance, id_0, id_1 = find_nearnest_points(c_0, c_1)
-
-        c_0 = self.cells[x_index].get_contours(frame)
-        c_1 = self.cells[y_index].get_contours(frame)
-        nearest_distance, id_0, id_1 = find_nearnest_points(c_0, c_1)
-        angle_0 = self.included_angle_to_the_major_axis(ce_0[0], ce_0[1], c_0[id_0][0], c_0[id_0][1], self.cells[x_index].orientation[frame])
-        angle_1 = self.included_angle_to_the_major_axis(ce_1[0], ce_1[1], c_1[id_1][0], c_1[id_1][1], self.cells[y_index].orientation[frame])
-
-        time_gap = self.cells[x_index].start_time - self.cells[y_index].start_time
-        return center_distance, nearest_distance, start_distance, angle_0, angle_1, time_gap
+    def __update_division_key(self, mother: int, daughter1: int, daughter2: int):
+        """Index assignment properties of parents and daughter based on divison.
+        ----------
+        Args:
+        mother: int, the index of mother.
+        daughter1: int, the index of daughter1.
+        daughter2: int, the index of daughter2.
+        ----------
+        Returns:
+        update self.obj_property values.
+        """
+        generation = self.obj_property.loc[mother, common.CELL_GENERATION]+1
+        # update values
+        self.obj_property.loc[mother, CELL_TRACKE_PROPERTY[6:9]] = [True, daughter1, daughter2]
+        self.obj_property.loc[[daughter1, daughter2], CELL_TRACKE_PROPERTY[4]] = mother
+        self.obj_property.loc[[daughter1, daughter2], common.CELL_GENERATION] = generation

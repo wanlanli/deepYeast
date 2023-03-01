@@ -5,7 +5,7 @@ import pandas as pd
 from skimage.measure import regionprops_table, find_contours
 
 from analyser.distance import find_nearnest_points
-from analyser.config import DIVISION, REGION_TABLE_VALUE, CELL_IMAGE_PROPERTY
+from analyser.config import DIVISION, REGION_TABLE_VALUE, TRACE_IMAGE_PROPERTY
 import analyser.common as common
 
 
@@ -159,7 +159,7 @@ class MaskFeature(np.ndarray):
         """
         props = self.get_skregionprops_table()
         # add properties for data
-        if common.IMAGE_COORDINATE in CELL_IMAGE_PROPERTY:
+        if common.IMAGE_COORDINATE in TRACE_IMAGE_PROPERTY:
             coords = self.cal_coordinates(props[common.IMAGE_LABEL], **args)
             props[common.IMAGE_COORDINATE] = coords
         props[common.IMAGE_SEMANTIC_LABEL] = props[common.IMAGE_LABEL] // DIVISION

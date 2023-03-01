@@ -16,11 +16,16 @@ IMAGE_INSTANCE_LABEL = "instance"
 IMAGE_IS_BORDER = "is_out_of_border"
 
 IMAGE_CONTOURS_LENGTH = 20
+
 # TRACE_FEATURE_NAME
-CELL_ID = "identity"
+CELL_ID = OBJ_ID = "identity"
+CELL_START = OBJ_START = "start_time"
+CELL_END = OBJ_END = "end_time"
+CELL_LIFE_SPAN = OBJ_LIFE_SPAN = "life_time"
+CELL_TABEL_ARG = OBJ_TABEL_ARG = 'arg'
+
+
 CELL_GENERATION = "generation"
-CELL_START = "start_time"
-CELL_END = "end_time"
 CELL_MOTHER = "mother"
 CELL_FATHER = "father"
 CELL_DIVISION_FLAGE = "is_divided"
@@ -28,8 +33,6 @@ CELL_DAUGHTER = ["daughter_1", "daughter_2"]
 CELL_FUSION_FLAGE = "is_fusioned"
 CELL_SPOUSE = "spouse"
 CELL_SON = "son"
-CELL_LIFE_SPAN = "life_time"
-CELL_TABEL_ARG = 'arg'
 
 # OVERLAP BATCH
 OVERLAP_VMIN = 0.1
@@ -39,6 +42,12 @@ FUSION_LABEL = 2
 
 # FLOURESCENT_INFO
 NUM_FLOURESCENT = "num_flourescent_channel"
+
+#
+CENTER_DISTANCE = "center_dist"
+NEARNEST_DISTANCE = "nearnest_dis"
+NEARNEST_POINT_INDEX = ["nearnest_point_x_index", "nearnest_point_y_index"]
+
 
 DISTANCE_COLUMNS = ['index_x', 'index_y', 'center_dist', 'nearnest_dis', 'nearnest_point_x_index', 'nearnest_point_y_index']
 

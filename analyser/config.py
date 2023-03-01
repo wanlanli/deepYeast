@@ -14,7 +14,7 @@ REGION_TABLE_VALUE = [
      common.IMAGE_ECCENTRICITY
      ]
 
-CELL_IMAGE_PROPERTY = [
+TRACE_IMAGE_PROPERTY = [
      common.IMAGE_LABEL,
      common.IMAGE_CENTER_LIST[0],
      common.IMAGE_CENTER_LIST[1],
@@ -32,6 +32,22 @@ CELL_IMAGE_PROPERTY = [
      common.IMAGE_IS_BORDER,
      common.IMAGE_COORDINATE,
      ]
+
+CELL_IMAGE_PROPERTY = TRACE_IMAGE_PROPERTY
+
+OBJ_DISTANCE_COLUMNS = [
+    common.CENTER_DISTANCE,
+    common.NEARNEST_DISTANCE,
+    common.NEARNEST_POINT_INDEX[0],
+    common.NEARNEST_POINT_INDEX[1],
+]
+
+TRACKE_PROPERTY = [
+     common.OBJ_ID,
+     common.OBJ_START,
+     common.OBJ_END,
+     common.OBJ_LIFE_SPAN,
+]
 
 CELL_TRACKE_PROPERTY = [
      common.CELL_ID,
