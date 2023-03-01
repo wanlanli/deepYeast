@@ -1,17 +1,16 @@
 from analyser.tracer import Tracer
 from analyser import common
 from analyser.config import CELL_TRACKE_PROPERTY
-from analyser.distance import predition_data_type
+# from analyser.distance import predition_data_type
 from analyser.distance import find_nearnest_points
 from analyser.sort import Sort, KalmanBoxTracker, action_iou_batch, behavioral_decision
 import math
 import numpy as np
 import pandas as pd
+from analyser.cell import Cell
 
 
 class CellTracer(Tracer):
-    def __init__(self) -> None:
-        super().__init__()
 
     def create_cells(self):
         all_cells = []
@@ -29,6 +28,70 @@ class CellTracer(Tracer):
         coord = self.coords[arg, start_time:end_time+1, :, :]
         return Cell(trace_feature, prop, coord)
 
+    def fusion_cell_features(self):
+        fusioned_cells = self.obj_property.loc[(~self.obj_property.mother.isna())
+                                               & (~self.obj_property.father.isna())].copy()
+        fusioned_parents = None
+        for cell in fusioned_cells.index:
+            # print(cell)
+            mother_index, father_index, frame = \
+                fusioned_cells.loc[cell,
+                                   [common.CELL_MOTHER, common.CELL_FATHER, common.CELL_START]
+                                   ].astype(np.int16)
+            # mother_id = self.cells[mother_index].indentify
+            # father_id = self.cells[father_index].indentify
+            frame = frame-1
+
+            # exchange m & f
+            mother_index, father_index = self.__check_parent_order(mother_index, father_index)
+            # if (self.obj_property.loc[mother_index].channel_prediction == self.obj_property.loc[father_index].channel_prediction):
+            #     print("error")
+            # elif self.obj_property.loc[mother_index].channel_prediction > self.obj_property.loc[father_index].channel_prediction:
+            #     c = mother_index
+            #     mother_index = father_index
+            #     father_index = c
+
+            # assgin son' features
+            center_distance, n_distance, angle_0, angle_1, timegap = \
+                self.relations2objs(mother_index, father_index, frame)
+            fusioned_cells.loc[cell,
+                               [common.CENTER_DISTANCE,
+                                common.NEARNEST_DISTANCE,
+                                common.ANGLE_POINT_CENTER[0],
+                                common.ANGLE_POINT_CENTER[1],
+                                common.TIME_GAP
+                                ]] = [center_distance, n_distance, angle_0, angle_1, timegap]
+            # fusioned_cells.loc[cell, 'start_nearnest_distance'] = start_distance
+            # fusioned_cells.loc[cell, common.ANGLE_POINT_CENTER[0]] = angle_0
+            # fusioned_cells.loc[cell, common.ANGLE_POINT_CENTER[1]] = angle_1
+            # fusioned_cells.loc[cell, common.TIME_GAP] = timegap
+
+            # from mothers perspective:
+            frame_x = int(max(self.obj_property.loc[[mother_index, father_index]].start_time))
+            mf_cf = self.neighbor_objects_freatures(mother_index, father_index, frame_x)
+            mf_cf.loc[:, 'fusion_type'] = 'm'
+            if fusioned_parents is None:
+                fusioned_parents = mf_cf
+            else:
+                fusioned_parents = pd.concat([fusioned_parents, mf_cf])
+            # from fathers perspective:
+            ff_cf = self.neighbor_objects_freatures(father_index, mother_index, frame_x)
+            ff_cf.loc[:, 'fusion_type'] = 'f'
+            if fusioned_parents is None:
+                fusioned_parents = ff_cf
+            else:
+                fusioned_parents = pd.concat([fusioned_parents, ff_cf])
+        return fusioned_cells, fusioned_parents
+
+    def __check_parent_order(self, mother_index, father_index):
+        if (self.obj_property.loc[mother_index].channel_prediction == self.obj_property.loc[father_index].channel_prediction):
+            print("Warning: The parent has same prediction type!")
+        elif self.obj_property.loc[mother_index].channel_prediction > self.obj_property.loc[father_index].channel_prediction:
+                c = mother_index
+                mother_index = father_index
+                father_index = c
+        return mother_index, father_index
+
     def connect_generation(self):
         """Scan the video in time order, compare the cells that appear and
         disappear in adjacent frames, calculate possible correlations, and
@@ -40,6 +103,7 @@ class CellTracer(Tracer):
             end_cell = list(self.obj_property.loc[self.obj_property[common.CELL_END] == f].arg)
             start_cell = list(self.obj_property.loc[self.obj_property[common.CELL_START] == (f+1)].arg)
             if len(end_cell) and len(start_cell):
+                print(start_cell, end_cell)
                 cost = self.__cal_cell_connection(start_cell, end_cell, f)
                 connection, division, fusion = behavioral_decision(cost)
                 if connection:

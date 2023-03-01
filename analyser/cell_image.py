@@ -14,7 +14,7 @@ class CellImage():
     Parameters
     ----------
     img : 3D matrix,dtype:int
-        width x height x channels x frames. The first channel most be reference channel.
+        frames x width x height x channels. The first channel most be reference channel.
     mask: 2D matrix,dtype:int
         predicted mask.
     """

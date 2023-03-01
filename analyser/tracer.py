@@ -355,49 +355,49 @@ class Tracer(np.ndarray):
             included_angle = included_angle-np.pi*2
         return included_angle
 
-    def fusion_cell_features(self):
-        fusioned_cells = self.obj_property.loc[(~self.obj_property.mother.isna()) & (~self.obj_property.father.isna())].copy()
-        fusioned_parents = None
-        for cell in fusioned_cells.index:
-            print(cell)
-            mother_index, father_index, frame = fusioned_cells.loc[cell, ['mother', 'father', 'start_time']].astype(np.int16)
-            # mother_id = self.cells[mother_index].indentify
-            # father_id = self.cells[father_index].indentify
-            frame = frame-1
+    # def fusion_cell_features(self):
+    #     fusioned_cells = self.obj_property.loc[(~self.obj_property.mother.isna()) & (~self.obj_property.father.isna())].copy()
+    #     fusioned_parents = None
+    #     for cell in fusioned_cells.index:
+    #         print(cell)
+    #         mother_index, father_index, frame = fusioned_cells.loc[cell, ['mother', 'father', 'start_time']].astype(np.int16)
+    #         # mother_id = self.cells[mother_index].indentify
+    #         # father_id = self.cells[father_index].indentify
+    #         frame = frame-1
 
-            # exchange m & f
-            if (self.obj_property.loc[mother_index].channel_prediction == self.obj_property.loc[father_index].channel_prediction):
-                print("error")
-            elif self.obj_property.loc[mother_index].channel_prediction > self.obj_property.loc[father_index].channel_prediction:
-                c = mother_index
-                mother_index = father_index
-                father_index = c
+    #         # exchange m & f
+    #         if (self.obj_property.loc[mother_index].channel_prediction == self.obj_property.loc[father_index].channel_prediction):
+    #             print("error")
+    #         elif self.obj_property.loc[mother_index].channel_prediction > self.obj_property.loc[father_index].channel_prediction:
+    #             c = mother_index
+    #             mother_index = father_index
+    #             father_index = c
 
-            # assgin son' features
-            center_distance, n_distance, angle_0, angle_1, timegap = self.relations2objs(mother_index, father_index, frame)
-            fusioned_cells.loc[cell, 'center_distance'] = center_distance
-            fusioned_cells.loc[cell, 'nearnest_distance'] = n_distance
-            # fusioned_cells.loc[cell, 'start_nearnest_distance'] = start_distance
-            fusioned_cells.loc[cell, 'angle_x'] = angle_0
-            fusioned_cells.loc[cell, 'angle_y'] = angle_1
-            fusioned_cells.loc[cell, 'timegap'] = timegap
+    #         # assgin son' features
+    #         center_distance, n_distance, angle_0, angle_1, timegap = self.relations2objs(mother_index, father_index, frame)
+    #         fusioned_cells.loc[cell, 'center_distance'] = center_distance
+    #         fusioned_cells.loc[cell, 'nearnest_distance'] = n_distance
+    #         # fusioned_cells.loc[cell, 'start_nearnest_distance'] = start_distance
+    #         fusioned_cells.loc[cell, 'angle_x'] = angle_0
+    #         fusioned_cells.loc[cell, 'angle_y'] = angle_1
+    #         fusioned_cells.loc[cell, 'timegap'] = timegap
 
-            # from mothers perspective:
-            frame_x = int(max(self.obj_property.loc[[mother_index, father_index]].start_time))
-            mf_cf = self.neighbor_objects_freatures(mother_index, father_index, frame_x)
-            mf_cf.loc[:, 'fusion_type'] = 'm'
-            if fusioned_parents is None:
-                fusioned_parents = mf_cf
-            else:
-                fusioned_parents = pd.concat([fusioned_parents, mf_cf])
-            # from fathers perspective:
-            ff_cf = self.neighbor_objects_freatures(father_index, mother_index, frame_x)
-            ff_cf.loc[:, 'fusion_type'] = 'f'
-            if fusioned_parents is None:
-                fusioned_parents = ff_cf
-            else:
-                fusioned_parents = pd.concat([fusioned_parents, ff_cf])
-        return fusioned_cells, fusioned_parents
+    #         # from mothers perspective:
+    #         frame_x = int(max(self.obj_property.loc[[mother_index, father_index]].start_time))
+    #         mf_cf = self.neighbor_objects_freatures(mother_index, father_index, frame_x)
+    #         mf_cf.loc[:, 'fusion_type'] = 'm'
+    #         if fusioned_parents is None:
+    #             fusioned_parents = mf_cf
+    #         else:
+    #             fusioned_parents = pd.concat([fusioned_parents, mf_cf])
+    #         # from fathers perspective:
+    #         ff_cf = self.neighbor_objects_freatures(father_index, mother_index, frame_x)
+    #         ff_cf.loc[:, 'fusion_type'] = 'f'
+    #         if fusioned_parents is None:
+    #             fusioned_parents = ff_cf
+    #         else:
+    #             fusioned_parents = pd.concat([fusioned_parents, ff_cf])
+    #     return fusioned_cells, fusioned_parents
 
     def neighbor_objects_freatures(self, x_index, y_index, frame, radius=200):
         nc = list(self.neighbor_objects(x_index, radius=radius))
@@ -408,8 +408,8 @@ class Tracer(np.ndarray):
             if self.obj_property.loc[y].end_time < frame:
                 continue
             center_distance, n_distance, angle_x, angle_y, timegap = self.relations2objs(x_index, y, frame)
-            fusion_parent_cells.loc[y, ["center_distance",
-                                        "nearnest_distance",
+            fusion_parent_cells.loc[y, [common.CENTER_DISTANCE,
+                                        common.NEARNEST_DISTANCE,
                                         "angle_x",
                                         "angle_y",
                                         "timegap"]] = [center_distance, n_distance, angle_x, angle_y, timegap]

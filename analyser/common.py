@@ -43,10 +43,13 @@ FUSION_LABEL = 2
 # FLOURESCENT_INFO
 NUM_FLOURESCENT = "num_flourescent_channel"
 
-#
+# TWO regions' features
 CENTER_DISTANCE = "center_dist"
 NEARNEST_DISTANCE = "nearnest_dis"
 NEARNEST_POINT_INDEX = ["nearnest_point_x_index", "nearnest_point_y_index"]
+ANGLE_POINT_CENTER = ["angle_x", "angle_y"]
+TIME_GAP = "timegap"
+#
 
 
 DISTANCE_COLUMNS = ['index_x', 'index_y', 'center_dist', 'nearnest_dis', 'nearnest_point_x_index', 'nearnest_point_y_index']
