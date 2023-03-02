@@ -33,7 +33,6 @@ class CellTracer(Tracer):
                                                & (~self.obj_property.father.isna())].copy()
         fusioned_parents = None
         for cell in fusioned_cells.index:
-            # print(cell)
             mother_index, father_index, frame = \
                 fusioned_cells.loc[cell,
                                    [common.CELL_MOTHER, common.CELL_FATHER, common.CELL_START]
@@ -100,11 +99,12 @@ class CellTracer(Tracer):
         # props = ct.run_cell_time_props()
         # cells = ct.create_cells()
         for f in range(0, self.frame_number):
+            # print(f)
             end_cell = list(self.obj_property.loc[self.obj_property[common.CELL_END] == f].arg)
             start_cell = list(self.obj_property.loc[self.obj_property[common.CELL_START] == (f+1)].arg)
             if len(end_cell) and len(start_cell):
-                print(start_cell, end_cell)
-                cost = self.__cal_cell_connection(start_cell, end_cell, f)
+                # print(start_cell, end_cell)
+                cost = self.__cal_cell_connection(end_cell, start_cell, f)
                 connection, division, fusion = behavioral_decision(cost)
                 if connection:
                     pass
@@ -134,10 +134,12 @@ class CellTracer(Tracer):
         """
         bb_x = []
         for v in end_cell:
-            bb_x.append(self.coords[v, frame].T)
+            # print("e:", v, self.coords[v, frame])
+            bb_x.append(self.coords[v, frame])
         bb_y = []
         for v in start_cell:
-            bb_y.append(self.coords[v, frame+1].T)
+            # print("s:", v, self.coords[v, frame+1])
+            bb_y.append(self.coords[v, frame+1])
         cost = action_iou_batch(bb_x, bb_y)
         return cost
 
@@ -182,3 +184,6 @@ class CellTracer(Tracer):
         self.obj_property.loc[mother, CELL_TRACKE_PROPERTY[6:9]] = [True, daughter1, daughter2]
         self.obj_property.loc[[daughter1, daughter2], CELL_TRACKE_PROPERTY[4]] = mother
         self.obj_property.loc[[daughter1, daughter2], common.CELL_GENERATION] = generation
+
+    def plot_cells(self):
+        pass

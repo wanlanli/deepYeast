@@ -233,8 +233,8 @@ class Tracer(np.ndarray):
             trace_image_property.remove(common.IMAGE_COORDINATE)
             coords = np.zeros((self.obj_number,  # object number
                                self.frame_number,  # frame number
-                               2,  # [x, y]
-                               common.IMAGE_CONTOURS_LENGTH))  # conours number
+                               common.IMAGE_CONTOURS_LENGTH,  # conours number
+                               2))  # [x, y]
         props = np.zeros((self.obj_number,
                           self.frame_number,
                           len(trace_image_property)))
@@ -245,7 +245,7 @@ class Tracer(np.ndarray):
             arg_id = self.obj_property.loc[label_id_maps.index, common.CELL_TABEL_ARG].values
             props[arg_id, i, :] = data.loc[label_id_maps.values, trace_image_property]
             aaa = np.array(list(data.loc[label_id_maps.values, common.IMAGE_COORDINATE]))
-            coords[arg_id, i, :, :] = aaa
+            coords[arg_id, i, :, :] = np.moveaxis(aaa, [0, 1, 2], [0, 2, 1])
         self.props = props
         self.coords = coords
         return props, coords
@@ -330,7 +330,7 @@ class Tracer(np.ndarray):
         center_x = self.center(x_index, frame)
         near_x = self.contour(x_index, frame)[:, int(nearnest_point_x_index)]
         center_y = self.center(y_index, frame)
-        near_y = self.contour(y_index, frame)[: int(nearnest_point_y_index)]
+        near_y = self.contour(y_index, frame)[:, int(nearnest_point_y_index)]
         orientation_x = self.orientation(x_index, frame)
         orientation_y = self.orientation(y_index, frame)
         angel_x = self.angle_to_the_major_axis(center_x[0],
@@ -338,6 +338,7 @@ class Tracer(np.ndarray):
                                                near_x[0],
                                                near_x[1],
                                                orientation_x)
+        # print(center_y, near_y, orientation_y)
         angel_y = self.angle_to_the_major_axis(center_y[0],
                                                center_y[1],
                                                near_y[0],
@@ -435,3 +436,4 @@ class Tracer(np.ndarray):
         y_labels = self.maskobj[frame].nearnest_radius(x_label, radius)
         y_index = [self.label2index(y, frame) for y in y_labels]
         return y_index
+

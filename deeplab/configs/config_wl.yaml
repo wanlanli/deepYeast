@@ -35,7 +35,7 @@ experiment_name: "deepyeast_001"
 
 model_options:
   ## Set the initial checkpoint loading path here ###
-  initial_checkpoint: "/Users/wlli/project/data/checkpoint/ckpt-100000.index"
+  initial_checkpoint: "/home/wli6/project/data/checkpoint/ckpt-100000.index"
   backbone:
     name: "axial_swidernet"
     output_stride: 16
@@ -91,7 +91,7 @@ trainer_options:
 train_dataset_options:
   dataset: "cellfustion_panoptic"
   # Update the path to training set.
-  file_pattern: "/Users/wlli/project/data/tf/train*.tfrecord"
+  file_pattern: "/home/wli6/project/data/tf/train*.tfrecord"
   # Adjust the batch_size accordingly to better fit your GPU/TPU memory.
   # Also see Q1 in g3doc/faq.md.
   batch_size: 32
@@ -110,7 +110,7 @@ train_dataset_options:
 eval_dataset_options:
   dataset: "cellfustion_panoptic"
   # Update the path to validation set.
-  file_pattern: "/Users/wlli/project/data/tf/val*.tfrecord"
+  file_pattern: "/home/wli6/project/data/tf/val*.tfrecord"
   batch_size: 1
   crop_size: [513, 513]
   # Skip resizing.
