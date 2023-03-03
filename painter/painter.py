@@ -3,16 +3,17 @@ import matplotlib.pyplot as plt
 
 def plot_cells(image, ct=None, ot=None, tip=None, ax=None):
     if ax is None:
-        plt.imshow(image, 'gray')
+        fig, ax = plt.subplots()
+    ax.imshow(image, 'gray')
     if ct is not None:
-        plt.scatter(ct[:, 1], ct[:, 0], c='y')
+        ax.scatter(ct[:, 1], ct[:, 0], c='y')
     if ot is not None:
         for i in range(0, ot.shape[0]):
-            plt.plot(ot[i][1], ot[i][0], label=i)
-        plt.legend()
+            ax.plot(ot[i][1], ot[i][0], label=i)
+        ax.legend()
     if tip is not None:
         for i in range(0, tip.shape[0]):
-            plt.scatter(tip[i, :, 1], tip[i, :, 0], label=i, marker='*')
+            ax.scatter(tip[i, :, 1], tip[i, :, 0], label=i, marker='*')
 
 # def plot_fusion_cells()
 #     for i in range(son.shape[0]):

@@ -12,6 +12,9 @@ from analyser.cell import Cell
 
 class CellTracer(Tracer):
 
+    # def __init__(self, obj) -> None:
+    #     super().__init__(obj)
+
     def create_cells(self):
         all_cells = []
         for cell_id in self.obj_property[common.CELL_TABEL_ARG]:
@@ -185,5 +188,28 @@ class CellTracer(Tracer):
         self.obj_property.loc[[daughter1, daughter2], CELL_TRACKE_PROPERTY[4]] = mother
         self.obj_property.loc[[daughter1, daughter2], common.CELL_GENERATION] = generation
 
-    def plot_cells(self):
-        pass
+    def __getstate__(self):
+        return self.maskobj
+        # return (self.frame_number,
+        #         self.obj_number,
+        #         self.maskobj,
+        #         self.traced_image,
+        #         self.obj_property,)
+        #         self.trace_calendar,
+        #         self.distance,
+        #         self.props)
+
+    def __setstate__(self, d):
+        self.maskobj = d
+    #     self.obj_number = d[1]
+    #     self.maskobj = d[2]
+    #     self.traced_image = d[3]
+    #     self.obj_property = d[1]
+    #     # self.trace_calendar = d[5]
+    #     # self.distance = d[6]
+    #     # self.props = d[7]
+
+    # def __setstate__(self, dict):
+    #     fh = open(dict['name'])  # reopen file
+    #     self.name = dict['name']
+    #     self.file = fh

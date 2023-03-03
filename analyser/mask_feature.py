@@ -180,15 +180,21 @@ class MaskFeature(np.ndarray):
             pad_mask = mask[bbox[0]-crop_pad:bbox[2]+crop_pad, bbox[1]-crop_pad:bbox[3]+crop_pad]
             return pad_mask
 
-    def all_by_all_distance(self):
+    def all_by_all_distance(self, radius=200):
         if self.__cost is None:
             columns = common.DISTANCE_COLUMNS
             data = pd.DataFrame(columns=columns)
             flag = 0
             for index_x in range(0, self.instance_properties.shape[0]):
+                neibor_labels = self.nearnest_radius(self.index2label(index_x), radius=radius)
+                neibor_index = self.label2index(neibor_labels).values
                 for index_y in range(index_x+1, self.instance_properties.shape[0]):
-                    center_dist, nearnest_dis, ind_x, ind_y = self.two_regions_distance(index_x, index_y)
-                    data.loc[flag, columns] = [index_x, index_y, center_dist, nearnest_dis, ind_x, ind_y]
+                    if index_y not in neibor_index:
+                        center_dist, nearnest_dis, ind_x, ind_y = [-1, -1, -1, -1]
+                        data.loc[flag, columns] = [index_x, index_y, center_dist, nearnest_dis, ind_x, ind_y]
+                    else:
+                        center_dist, nearnest_dis, ind_x, ind_y = self.two_regions_distance(index_x, index_y)
+                        data.loc[flag, columns] = [index_x, index_y, center_dist, nearnest_dis, ind_x, ind_y]
                     flag += 1
             self.__cost = data
         return self.__cost
@@ -204,13 +210,13 @@ class MaskFeature(np.ndarray):
         center_dist = np.sqrt(np.sum(np.square(center_x - center_y)))
         return center_dist, nearnest_dis, ind_x, ind_y
 
-    def cost(self, source_x: Sequence = [], target_y: Sequence = []):
+    def cost(self, source_x: Sequence = [], target_y: Sequence = [], **args):
         """
         source_x: index list
         target_y: index list
         """
         if self.__cost is None:
-            self.__cost = self.all_by_all_distance()
+            self.__cost = self.all_by_all_distance(**args)
         cost = self.__cost.copy()
         a = cost.copy()
         a[['index_x', 'index_y', 'nearnest_point_x_index', 'nearnest_point_y_index']] = cost[['index_y', 'index_x', 'nearnest_point_y_index', 'nearnest_point_x_index']]
@@ -226,6 +232,9 @@ class MaskFeature(np.ndarray):
             else:
                 return cost.loc[(cost.index_x.isin(source_x)) & (cost.index_y.isin(target_y))]
         return cost
+
+    def set_cost(self, cost):
+        self.__cost = cost
 
     def nearnestN(self, x_label: int, n: int = 1):
         x_index = self.label2index(x_label)

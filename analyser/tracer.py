@@ -45,6 +45,18 @@ class Tracer(np.ndarray):
         self.distance = None
         self.props = None
 
+    # def __init__(self, obj):
+    #     # see InfoArray.__array_finalize__ for comments
+    #     if obj is None:
+    #         return
+    #     self.frame_number = self.shape[0]
+    #     self.obj_number = 0
+    #     self.maskobj = {}
+    #     self.traced_image = None
+    #     self.obj_property, self.trace_calendar = self.__init_tracing_table()
+    #     self.distance = None
+    #     self.props = None
+
     def __frame_name(self, number, name='frame_', length=3):
         return name+str(number).zfill(length)
 
@@ -258,7 +270,7 @@ class Tracer(np.ndarray):
     #     coord = self.coords[arg, start_time:end_time+1, :, :]
     #     return Cell(trace_feature, prop, coord)
 
-    def distance_3d(self):
+    def distance_3d(self, **args):
         """Convert the traced cells distance into a 3d matrix with the size of
         number of frame x number of objects x number of objects x  4[center dist, nearnest dist, nearnest point x, nearnest point y].
         """
@@ -272,7 +284,7 @@ class Tracer(np.ndarray):
             mk = self.maskobj[i]
             index = mk.label2index(labels.values)
             # map index to cell_id
-            cost = mk.cost(index, index)
+            cost = mk.cost(index, index, **args)
             map = pd.DataFrame(np.array([labels, cell_idx, index]).T,
                                columns=["label", "cell_idx", "index"],
                                index=index)
@@ -436,4 +448,3 @@ class Tracer(np.ndarray):
         y_labels = self.maskobj[frame].nearnest_radius(x_label, radius)
         y_index = [self.label2index(y, frame) for y in y_labels]
         return y_index
-
