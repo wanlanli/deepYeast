@@ -50,7 +50,10 @@ def iou_batch(bb_tests, bb_gts):
             b_shape = Polygon(bb_gt)
             interaction = a_shape.intersection(b_shape).area
             union = a_shape.union(b_shape).area
-            o[i, j] = interaction/union
+            if union == 0:
+                o[i, j] = 0
+            else:
+                o[i, j] = interaction/union
     return (o)
 
 

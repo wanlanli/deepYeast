@@ -186,7 +186,8 @@ class MaskFeature(np.ndarray):
             data = pd.DataFrame(columns=columns)
             flag = 0
             for index_x in range(0, self.instance_properties.shape[0]):
-                neibor_labels = self.nearnest_radius(self.index2label(index_x), radius=radius)
+                neibor_labels = self.nearnest_radius(self.index2label(index_x),
+                                                     radius=radius)
                 neibor_index = self.label2index(neibor_labels).values
                 for index_y in range(index_x+1, self.instance_properties.shape[0]):
                     if index_y not in neibor_index:

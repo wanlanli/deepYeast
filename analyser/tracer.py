@@ -127,8 +127,11 @@ class Tracer(np.ndarray):
             if new_id not in self.obj_property.index:
                 self.obj_property.loc[new_id, common.OBJ_START] = frame
             self.obj_property.loc[new_id, common.OBJ_END] = frame
+        self.obj_property[common.OBJ_LIFE_SPAN] = self.obj_property[common.OBJ_END] -\
+            self.obj_property[common.OBJ_START] + 1
+        self.obj_property = self.obj_property.loc[self.obj_property[common.OBJ_LIFE_SPAN] > 1]
+        self.trace_calendar = self.trace_calendar.loc[self.obj_property.index]
         self.obj_number = self.obj_property.shape[0]
-        self.obj_property[common.OBJ_LIFE_SPAN] = self.obj_property[common.OBJ_END] - self.obj_property[common.OBJ_START] + 1
         self.obj_property[common.OBJ_TABEL_ARG] = np.arange(0, self.obj_number)
         self.obj_property[common.OBJ_ID] = self.obj_property.index
         self.obj_property[common.CELL_GENERATION] = 1
@@ -165,8 +168,14 @@ class Tracer(np.ndarray):
     def label2index(self, label, frame):
         """Given image label at frame return identify.
         """
-        return self.trace_calendar.loc[self.trace_calendar[
-            self.__frame_name(frame)] == label].index[0]
+        data = self.trace_calendar.loc[self.trace_calendar[
+            self.__frame_name(frame)] == label]
+        if len(data) > 0:
+            return data.index[0]
+        else:
+            return None
+        # return self.trace_calendar.loc[self.trace_calendar[
+        #     self.__frame_name(frame)] == label].index[0]
 
     def center(self, index, frame):
         """Returns the coordinates of the center point of the target index at frame.
@@ -338,7 +347,8 @@ class Tracer(np.ndarray):
         time_gap: float, the time gap since last division.
         """
         center_dist, near_dist, nearnest_point_x_index, nearnest_point_y_index\
-            = self.distance[frame, x_index, y_index]
+            = self.distance[frame, self.identify2arg(x_index),
+                            self.identify2arg(y_index)]
         center_x = self.center(x_index, frame)
         near_x = self.contour(x_index, frame)[:, int(nearnest_point_x_index)]
         center_y = self.center(y_index, frame)
@@ -413,6 +423,10 @@ class Tracer(np.ndarray):
     #     return fusioned_cells, fusioned_parents
 
     def neighbor_objects_freatures(self, x_index, y_index, frame, radius=200):
+        """
+        x_index: identity
+        y_index: identity
+        """
         nc = list(self.neighbor_objects(x_index, radius=radius))
         if y_index not in nc:
             nc += [y_index]
@@ -447,4 +461,5 @@ class Tracer(np.ndarray):
         x_label = self.index2label(index, frame)
         y_labels = self.maskobj[frame].nearnest_radius(x_label, radius)
         y_index = [self.label2index(y, frame) for y in y_labels]
-        return y_index
+        return list(filter(None, y_index))
+        # return y_index
