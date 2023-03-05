@@ -41,6 +41,7 @@ def dump_celltracer(ter: CellTracer, path=None):
     output["trace_calendar"] = ter.trace_calendar,
     output["distance"] = ter.distance,
     output["props"] = ter.props
+    output["coords"] = ter.coords
     if path:
         with open(path, 'wb') as f:
             pickle.dump(output, f)
@@ -63,4 +64,5 @@ def load_celltracer(path):
     ter.trace_calendar = inputs["trace_calendar"][0]
     ter.distance = inputs["distance"][0]
     ter.props = inputs["props"]
+    ter.coords = inputs["coords"]
     return ter

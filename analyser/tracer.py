@@ -6,7 +6,7 @@
 # Copyright (c) 2008 Brian M. Clapper <bmc@clapper.org>, Gael Varoquaux
 # Author: Brian M. Clapper, Gael Varoquaux
 # License: 3-clause BSD
-from typing import Optional
+from typing import Optional, Sequence
 import numpy as np
 import pandas as pd
 from tqdm import tqdm, trange
@@ -44,7 +44,7 @@ class Tracer(np.ndarray):
         self.obj_property, self.trace_calendar = self.__init_tracing_table()
         self.distance = None
         self.props = None
-
+        self.coords = None
     # def __init__(self, obj):
     #     # see InfoArray.__array_finalize__ for comments
     #     if obj is None:
@@ -165,7 +165,7 @@ class Tracer(np.ndarray):
         """
         return int(self.trace_calendar.loc[index, self.__frame_name(frame)])
 
-    def label2index(self, label, frame):
+    def label2index(self, label: int, frame: int):
         """Given image label at frame return identify.
         """
         data = self.trace_calendar.loc[self.trace_calendar[
@@ -176,6 +176,23 @@ class Tracer(np.ndarray):
             return None
         # return self.trace_calendar.loc[self.trace_calendar[
         #     self.__frame_name(frame)] == label].index[0]
+
+    def labels2indexs(self, label: Sequence, frame: int):
+        """Given image label at frame return identify.
+        ----------
+        Args:
+        label:
+        frame: int,
+        ----------
+        Returns:
+        """
+        data = self.trace_calendar[self.__frame_name(frame)].copy()
+        data["identity"] = self.obj_property[common.OBJ_ID]
+        data.set_index(data[self.__frame_name(frame)])
+        for x in label:
+            if x in data.index:
+                data.loc[x] = None
+        return data.loc[label].identity
 
     def center(self, index, frame):
         """Returns the coordinates of the center point of the target index at frame.
@@ -270,6 +287,25 @@ class Tracer(np.ndarray):
         self.props = props
         self.coords = coords
         return props, coords
+
+    def coords_3d(self):
+        """Convert the traced results into a 3d matrix with the size of
+        number of cells x number of frame x number of attributes.
+        """
+        if common.IMAGE_COORDINATE in TRACE_IMAGE_PROPERTY:
+            coords = np.zeros((self.obj_number,  # object number
+                               self.frame_number,  # frame number
+                               common.IMAGE_CONTOURS_LENGTH,  # conours number
+                               2))  # [x, y]
+        for i in range(0, self.frame_number):
+            img = self.mask(i)
+            data = img.instance_properties.set_index(common.IMAGE_LABEL, drop=False)
+            label_id_maps = self.trace_calendar.iloc[:, i].dropna()
+            arg_id = self.obj_property.loc[label_id_maps.index, common.CELL_TABEL_ARG].values
+            aaa = np.array(list(data.loc[label_id_maps.values, common.IMAGE_COORDINATE]))
+            coords[arg_id, i, :, :] = np.moveaxis(aaa, [0, 1, 2], [0, 2, 1])
+        self.coords = coords
+        return coords
 
     # def create_single_cell_by_id(self, cell_index):
     #     trace_feature = self.obj_property.loc[cell_index].values
