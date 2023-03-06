@@ -407,6 +407,13 @@ class Tracer(np.ndarray):
         return center_dist, near_dist, angel_x, angel_y, time_gap
 
     def angle_to_the_major_axis(self, x1, y1, x2, y2, angle2):
+        """
+        x1: center x
+        y1: center y
+        x2: target x
+        y2: target y
+        angle2: orientation
+        """
         angle1 = math.atan2(y2-y1, x2-x1)
         included_angle = angle1-angle2
         included_angle = included_angle - np.pi*2*math.floor(included_angle/(2 * np.pi))

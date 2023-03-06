@@ -2,6 +2,7 @@ import analyser.common as common
 
 DIVISION = 1000
 MIN_HITS = 2
+TIP_ANGLE = 15
 
 REGION_TABLE_VALUE = [
      common.IMAGE_LABEL,

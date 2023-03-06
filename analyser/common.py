@@ -42,6 +42,7 @@ FUSION_LABEL = 2
 
 # FLOURESCENT_INFO
 NUM_FLOURESCENT = "num_flourescent_channel"
+CHANNEL_PREDICTION = "channel_prediction"
 
 # TWO regions' features
 CENTER_DISTANCE = "center_dist"
