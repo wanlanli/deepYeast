@@ -325,7 +325,7 @@ class Tracer(np.ndarray):
                              4))  # [center dist, nearnest dist, nearnest point x, nearnest point y]
         for i in trange(0, self.frame_number):
             labels = self.trace_calendar.iloc[:, i].dropna()
-            cell_idx = self.obj_property.loc[labels.index].arg
+            cell_idx = self.obj_property.loc[labels.index, common.OBJ_TABEL_ARG]
             mk = self.maskobj[i]
             index = mk.label2index(labels.values)
             # map index to cell_id

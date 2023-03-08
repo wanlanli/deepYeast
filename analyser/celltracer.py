@@ -32,6 +32,9 @@ class CellTracer(Tracer):
         return Cell(trace_feature, prop, coord)
 
     def fusion_cell_features(self):
+        """
+        mother_index, father_index: identity of parents
+        """
         fusioned_cells = self.obj_property.loc[(~self.obj_property.mother.isna())
                                                & (~self.obj_property.father.isna())].copy()
         fusioned_parents = None
@@ -72,27 +75,29 @@ class CellTracer(Tracer):
             frame_x = int(max(self.obj_property.loc[[mother_index, father_index]].start_time))
             mf_cf = self.neighbor_objects_freatures(mother_index, father_index, frame_x)
             mf_cf.loc[:, 'fusion_type'] = 'm'
-            if fusioned_parents is None:
-                fusioned_parents = mf_cf
-            else:
-                fusioned_parents = pd.concat([fusioned_parents, mf_cf])
+            # if fusioned_parents is None:
+            #     fusioned_parents = mf_cf
+            # else:
+            fusioned_parents = pd.concat([fusioned_parents, mf_cf])
             # from fathers perspective:
             ff_cf = self.neighbor_objects_freatures(father_index, mother_index, frame_x)
             ff_cf.loc[:, 'fusion_type'] = 'f'
-            if fusioned_parents is None:
-                fusioned_parents = ff_cf
-            else:
-                fusioned_parents = pd.concat([fusioned_parents, ff_cf])
+            # if fusioned_parents is None:
+            #     fusioned_parents = ff_cf
+            # else:
+            fusioned_parents = pd.concat([fusioned_parents, ff_cf])
         return fusioned_cells, fusioned_parents
 
     def __check_parent_order(self, mother_index, father_index):
         if (self.obj_property.loc[mother_index].channel_prediction == self.obj_property.loc[father_index].channel_prediction):
             print("Warning: The parent has same prediction type!")
         elif self.obj_property.loc[mother_index].channel_prediction > self.obj_property.loc[father_index].channel_prediction:
-                c = mother_index
-                mother_index = father_index
-                father_index = c
-        return mother_index, father_index
+                # c = mother_index
+                # mother_index = father_index
+                # father_index = c
+            return father_index, mother_index
+        else:
+            return mother_index, father_index
 
     def connect_generation(self):
         """Scan the video in time order, compare the cells that appear and
@@ -150,9 +155,9 @@ class CellTracer(Tracer):
         """Index assignment properties of parents and daughter based on fused.
         ----------
         Args:
-        mother: int, the index of mother.
-        father: int, the index of father.
-        daughter: int, the index of daughter.
+        mother: int, the identity of mother.
+        father: int, the identity of father.
+        daughter: int, the identity of daughter.
         ----------
         Returns:
         update self.obj_property values.
@@ -188,28 +193,28 @@ class CellTracer(Tracer):
         self.obj_property.loc[[daughter1, daughter2], CELL_TRACKE_PROPERTY[4]] = mother
         self.obj_property.loc[[daughter1, daughter2], common.CELL_GENERATION] = generation
 
-    def __getstate__(self):
-        return self.maskobj
-        # return (self.frame_number,
-        #         self.obj_number,
-        #         self.maskobj,
-        #         self.traced_image,
-        #         self.obj_property,)
-        #         self.trace_calendar,
-        #         self.distance,
-        #         self.props)
+    # def __getstate__(self):
+    #     return self.maskobj
+    #     # return (self.frame_number,
+    #     #         self.obj_number,
+    #     #         self.maskobj,
+    #     #         self.traced_image,
+    #     #         self.obj_property,)
+    #     #         self.trace_calendar,
+    #     #         self.distance,
+    #     #         self.props)
 
-    def __setstate__(self, d):
-        self.maskobj = d
-    #     self.obj_number = d[1]
-    #     self.maskobj = d[2]
-    #     self.traced_image = d[3]
-    #     self.obj_property = d[1]
-    #     # self.trace_calendar = d[5]
-    #     # self.distance = d[6]
-    #     # self.props = d[7]
+    # def __setstate__(self, d):
+    #     self.maskobj = d
+    # #     self.obj_number = d[1]
+    # #     self.maskobj = d[2]
+    # #     self.traced_image = d[3]
+    # #     self.obj_property = d[1]
+    # #     # self.trace_calendar = d[5]
+    # #     # self.distance = d[6]
+    # #     # self.props = d[7]
 
-    # def __setstate__(self, dict):
-    #     fh = open(dict['name'])  # reopen file
-    #     self.name = dict['name']
-    #     self.file = fh
+    # # def __setstate__(self, dict):
+    # #     fh = open(dict['name'])  # reopen file
+    # #     self.name = dict['name']
+    # #     self.file = fh

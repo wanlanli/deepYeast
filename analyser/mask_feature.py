@@ -279,6 +279,8 @@ class MaskFeature(np.ndarray):
         return self.instance_properties.iloc[index].label
 
     def label2index(self, label: Union[int, Sequence]):
+        """image label to arg
+        """
         if type(label) == int:
             return np.where(self.instance_properties.label == label)[0][0]
         else:
