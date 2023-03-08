@@ -27,7 +27,7 @@ class MaskFeature(np.ndarray):
         if obj is None:
             return
         self.instance_properties = self.init_instance_properties()
-        # self.labels = None  # self.instance_properties.label.values
+        # self.labels = self.instance_properties.label.values
         self.__cost = None
 
     def get_skregionprops_table(self, properties=REGION_TABLE_VALUE):
@@ -166,6 +166,7 @@ class MaskFeature(np.ndarray):
         props[common.IMAGE_INSTANCE_LABEL] = props[common.IMAGE_LABEL] % DIVISION
         props[common.IMAGE_IS_BORDER] = self.__is_out_of_screen(props)
         props.index = props[common.IMAGE_LABEL]
+        props[common.OBJ_TABEL_ARG] = np.arange(0, props.shape[0])
         self.instance_properties = props
         return props
 
@@ -176,11 +177,15 @@ class MaskFeature(np.ndarray):
         if crop_pad < 0:
             return mask
         else:
-            bbox = self.instance_properties.loc[self.instance_properties.label == label, ['bbox_0', 'bbox_1', 'bbox_2', 'bbox_3']].values[0]
+            bbox = self.instance_properties.loc[
+                self.instance_properties.label == label,
+                ['bbox_0', 'bbox_1', 'bbox_2', 'bbox_3']].values[0]
             pad_mask = mask[bbox[0]-crop_pad:bbox[2]+crop_pad, bbox[1]-crop_pad:bbox[3]+crop_pad]
             return pad_mask
 
     def all_by_all_distance(self, radius=200):
+        """根据index索引
+        """
         if self.__cost is None:
             columns = common.DISTANCE_COLUMNS
             data = pd.DataFrame(columns=columns)
@@ -240,7 +245,11 @@ class MaskFeature(np.ndarray):
     def nearnestN(self, x_label: int, n: int = 1):
         x_index = self.label2index(x_label)
         x_cost = self.cost(source_x=[x_index])
-        y_index, t_x, t_y = x_cost.iloc[np.argsort(x_cost["nearnest_dis"])[0:n]][["index_y", 'nearnest_point_x_index','nearnest_point_y_index']].astype(int).values.T
+        x_cost = x_cost.loc[x_cost[common.CENTER_DISTANCE] > 0]
+        y_index, t_x, t_y = x_cost.iloc[
+            np.argsort(x_cost["nearnest_dis"])[0:n]
+            ][["index_y", 'nearnest_point_x_index', 'nearnest_point_y_index'
+               ]].astype(int).values.T
         y_label = self.index2label(y_index)
         return y_label, t_x, t_y
 
@@ -285,7 +294,7 @@ class MaskFeature(np.ndarray):
             return np.where(self.instance_properties.label == label)[0][0]
         else:
             data = self.instance_properties.copy()
-            data['arg'] = np.arange(0, data.shape[0])
+            # data['arg'] = np.arange(0, data.shape[0])
             return data.loc[label].arg
 
     def cost2matrix(self, source_x: Sequence = [], target_y: Sequence = []):
