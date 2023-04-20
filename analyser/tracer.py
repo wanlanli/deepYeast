@@ -163,7 +163,10 @@ class Tracer(np.ndarray):
     def index2label(self, index, frame):
         """Given identify return image label at frame.
         """
-        return int(self.trace_calendar.loc[index, self.__frame_name(frame)])
+        v = self.trace_calendar.loc[index, self.__frame_name(frame)]
+        if v is None:
+            v = -1
+        return v
 
     def label2index(self, label: int, frame: int):
         """Given image label at frame return identify.

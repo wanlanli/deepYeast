@@ -278,6 +278,18 @@ class MaskFeature(np.ndarray):
         else:
             return self.instance_properties.loc[labels, common.IMAGE_CENTER_LIST]
 
+    def get_orientation(self, labels: Sequence = []):
+        if not len(labels):
+            return self.instance_properties[common.IMAGE_ORIENTATION]
+        else:
+            return self.instance_properties.loc[labels, common.IMAGE_ORIENTATION]
+
+    def get_major_length(self, labels: Sequence = []):
+        if not len(labels):
+            return self.instance_properties[common.IMAGE_MAJOR_AXIS]
+        else:
+            return self.instance_properties.loc[labels, common.IMAGE_MAJOR_AXIS]
+
     def get_outline(self, labels: Sequence = []):
         if not len(labels):
             return self.instance_properties[common.IMAGE_COORDINATE]
