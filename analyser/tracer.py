@@ -99,7 +99,7 @@ class Tracer(np.ndarray):
             img = self.mask(frame)
             #  feed the [center_x, center_y, orientation, major_axis,
             #  minor_axis, label] into tracer
-            dets = img.instance_properties.iloc[:, list(range(1, 6))+[0]].values
+            dets = img.instance_properties.iloc[:, list(range(7, 11))+[6]+[0]].values
             total_frames += 1
             trackers = mot_tracker.update(np.array(dets))
             for d in trackers:
