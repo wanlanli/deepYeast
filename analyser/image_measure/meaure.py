@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from skimage.measure import regionprops_table, find_contours
 
-from analyser.distance import find_nearnest_points
+from analyser.image_measure.distance import find_nearnest_points
 from analyser.config import DIVISION, REGION_TABLE_VALUE, TRACE_IMAGE_PROPERTY
 import analyser.common as common
 
@@ -30,7 +30,13 @@ class ImageMeasure(np.ndarray):
             return
         self.instance_properties = self.init_instance_properties()
         # self.labels = self.instance_properties.label.values
-        self.__cost = None
+        self.__cost = self.init_cost_matrix()
+
+    def init_cost_matrix(self):
+        length = self.instance_properties.shape[0]
+        cost = np.zeros((length, length, 4))
+        cost[:,:,:] = -1
+        return cost
 
     def skregionprops_to_table(self, properties=REGION_TABLE_VALUE):
         """Return the values ​​of properties in the image as a table
@@ -122,7 +128,6 @@ class ImageMeasure(np.ndarray):
                 Warning("`index` and `label` cannot be None at the same time")
                 return None
             else:
-                print("aaa")
                 return self.label2index(label)
 
     def __label(self,
@@ -267,6 +272,15 @@ class ImageMeasure(np.ndarray):
     #         self.__cost = data
     #     return self.__cost
 
+    def __distance_exist(self, x, y)->bool:
+        if self.__cost is not None:
+            if self.__cost[x, y, 0] > 0:
+                return True
+            else:
+                return False
+        else:
+            return False
+
     def two_regions_distance(self, target: int, source: int):
         """Given two regions' label, return 2 types distance between 2 regions.
         Parameters
@@ -284,9 +298,28 @@ class ImageMeasure(np.ndarray):
             np.square(data.iloc[0, 0:2] - data.iloc[1, 0:2]).sum())
         return center_dist, nearnest_dis, ind_tgt, ind_src
 
-    def distance_matrix(self, targets, sources):
+    def ditance_matrix(self, sources: list, targets: list):
         """Given two regions' label, return 2 types distance between 2 regions.
         """
+        if self.__cost is None:
+            self.__cost = self.init_cost_matrix()
+        for index_x in sources:
+            for index_y in targets:
+                if self.__distance_exist(index_x, index_y):
+                    continue
+                else:
+                    center_dist, nearnest_dis, ind_x, ind_y = self.two_regions_distance(index_x, index_y)
+                    self.__cost[index_x, index_y, :] = [center_dist, nearnest_dis, ind_x, ind_y]
+                    self.__cost[index_y, index_x, :] = [center_dist, nearnest_dis, ind_y, ind_x]
+
+        data = self.__cost[sources]
+        data = data[:, targets]
+        return data
+
+
+
+    #def distance_matrix(self, targets, sources):
+      
     # def cost(self, source_x: Sequence = [], target_y: Sequence = [], **args):
     #     """
     #     source_x: index list
@@ -395,3 +428,7 @@ class ImageMeasure(np.ndarray):
     #         id_y = target_y.index(y)
     #         mx[id_x, id_y, :] = [d1, d2]
     #     return mx
+    
+    def instance_property(self, index=None, label=None):
+        index_rt = self.__index(index=index, label=label)
+        return self.instance_properties.loc[index_rt]

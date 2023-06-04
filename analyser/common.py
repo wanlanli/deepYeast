@@ -63,6 +63,9 @@ REGION_NAMES = ['label','centroid_0','centroid_1','orientation',
 PROP_NAMES = ['label','centroid_0','centroid_1','orientation','axis_major_length','axis_minor_length',
             'area','bbox_0', 'bbox_1', 'bbox_2', 'bbox_3', 'eccentricity', 'semantic', 'instance']
 
+CELL_PROP_COLUMNS = ['centroid_0','centroid_1','orientation','axis_major_length','axis_minor_length',
+            'area','bbox_0', 'bbox_1', 'bbox_2', 'bbox_3', 'eccentricity', 'coords']
+
 TRACING_FEATRUE_NAMES = ["indentity","generation", "mother", "father", 
                          "start_time", "end_time", #0-5
                         "is_divided", "sub_1", "sub_2", "is_fusioned", "spouse","son",#6-11
