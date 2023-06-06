@@ -4,6 +4,7 @@ from collections import Iterable
 
 import numpy as np
 import pandas as pd
+import math
 from skimage.measure import regionprops_table, find_contours
 
 from analyser.image_measure.distance import find_nearnest_points
@@ -272,7 +273,7 @@ class ImageMeasure(np.ndarray):
     #         self.__cost = data
     #     return self.__cost
 
-    def __distance_exist(self, x, y)->bool:
+    def __distance_exist(self, x, y) -> bool:
         if self.__cost is not None:
             if self.__cost[x, y, 0] > 0:
                 return True
@@ -316,10 +317,43 @@ class ImageMeasure(np.ndarray):
         data = data[:, targets]
         return data
 
+    def nearneast_point(self, target, source):
+        index = self.ditance_matrix([target], [source])[0, 0, 2:].astype(np.int_)
+        points = list(self.instance_properties.iloc[[target, source]][common.IMAGE_COORDINATE])
+        return points[0][:, index[0]], points[1][:, index[1]]
 
+    def two_regions_angle(self, target, source):
+        data = self.instance_properties.iloc[target][common.IMAGE_CENTER_LIST+[common.IMAGE_ORIENTATION]]
+        p_t, p_s = self.nearneast_point(target, source)
+        angel_x = self.angle_to_the_major_axis(data[0],
+                                               data[1],
+                                               p_t[0],
+                                               p_t[1],
+                                               data[2])
 
-    #def distance_matrix(self, targets, sources):
-      
+        data = self.instance_properties.iloc[source][common.IMAGE_CENTER_LIST+[common.IMAGE_ORIENTATION]]
+        angel_y = self.angle_to_the_major_axis(data[0],
+                                               data[1],
+                                               p_s[0],
+                                               p_s[1],
+                                               data[2])
+        return angel_x, angel_y
+
+    def angle_to_the_major_axis(self, x1, y1, x2, y2, angle2):
+        """
+        x1: center x
+        y1: center y
+        x2: target x
+        y2: target y
+        angle2: orientation
+        """
+        angle1 = math.atan2(y2-y1, x2-x1)
+        included_angle = angle1-angle2
+        included_angle = included_angle - np.pi*2*math.floor(included_angle/(2 * np.pi))
+        if abs(included_angle) > np.pi:
+            included_angle = included_angle-np.pi*2
+        return included_angle
+
     # def cost(self, source_x: Sequence = [], target_y: Sequence = [], **args):
     #     """
     #     source_x: index list
@@ -376,11 +410,9 @@ class ImageMeasure(np.ndarray):
     #         mk = np.isin(self.__array__(), labels)
     #         return self.__array__()*mk
 
-    # def get_centers(self, labels: Sequence = []):
-    #     if not len(labels):
-    #         return self.instance_properties[common.IMAGE_CENTER_LIST]
-    #     else:
-    #         return self.instance_properties.loc[labels, common.IMAGE_CENTER_LIST]
+    def centers(self, index=None, labels=None):
+        index = self.__index(index, labels)
+        return self.instance_properties.iloc[index][common.IMAGE_CENTER_LIST]
 
     # def get_orientation(self, labels: Sequence = []):
     #     if not len(labels):
