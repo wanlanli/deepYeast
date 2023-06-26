@@ -17,4 +17,3 @@ def step_1_init_cell_mating_class(merged_data, cells, n_components=3):
     cells.set_type(pred)
     cells.init_propoerties()
     return cells
-

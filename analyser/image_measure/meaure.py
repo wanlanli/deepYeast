@@ -32,11 +32,15 @@ class ImageMeasure(np.ndarray):
         self.instance_properties = self.init_instance_properties()
         # self.labels = self.instance_properties.label.values
         self.__cost = self.init_cost_matrix()
+        self.pixel_resolution = 1
+
+    def set_pixel_resolution(self, x):
+        self.pixel_resolution = x
 
     def init_cost_matrix(self):
         length = self.instance_properties.shape[0]
         cost = np.zeros((length, length, 4))
-        cost[:,:,:] = -1
+        cost[:, :, :] = -1
         return cost
 
     def skregionprops_to_table(self, properties=REGION_TABLE_VALUE):
@@ -297,6 +301,8 @@ class ImageMeasure(np.ndarray):
             data.iloc[0, 2].T, data.iloc[1, 2].T)
         center_dist = np.sqrt(
             np.square(data.iloc[0, 0:2] - data.iloc[1, 0:2]).sum())
+        center_dist = center_dist*self.pixel_resolution
+        nearnest_dis = nearnest_dis*self.pixel_resolution
         return center_dist, nearnest_dis, ind_tgt, ind_src
 
     def ditance_matrix(self, sources: list, targets: list):
@@ -353,6 +359,11 @@ class ImageMeasure(np.ndarray):
         if abs(included_angle) > np.pi:
             included_angle = included_angle-np.pi*2
         return included_angle
+
+    def neighbor():
+        """Return the first layer closed regions.
+        """
+        pass
 
     # def cost(self, source_x: Sequence = [], target_y: Sequence = [], **args):
     #     """
@@ -460,7 +471,7 @@ class ImageMeasure(np.ndarray):
     #         id_y = target_y.index(y)
     #         mx[id_x, id_y, :] = [d1, d2]
     #     return mx
-    
+
     def instance_property(self, index=None, label=None):
         index_rt = self.__index(index=index, label=label)
         return self.instance_properties.loc[index_rt]

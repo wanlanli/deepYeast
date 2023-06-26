@@ -37,11 +37,15 @@ class Mating(Cells):
     def neiber(self, k):
         s_time = self.cells[k].start
         e_time = self.cells[k].end
-        candidates = self.features.loc[(self.features['end'] > s_time) &
-                                       (self.features['start'] < e_time) &
-                                       (self.features.parents.isna())
+        candidates = self.features.loc[(self.features['end'] > s_time)
+                                       & (self.features['start'] < e_time)
+                                       # & (self.features.parents.isna())
                                        ]
         return candidates
+
+    def neiber_layer(self, layer=1):
+        # 最近点的连线若有其他细胞，则不算第一层
+        return 0
 
     def init_measure(self):
         for f in range(0, self.frame_number):
