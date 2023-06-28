@@ -33,12 +33,12 @@ def step_2(cell, life_span=5, shape=(150, 150)):
     """
     data = pd.DataFrame(columns=["start", "end"])
     for i in cell.keys():
-        if cell[i].is_out_of_border(shape):
-            continue
-        else:
-            cell[i].frames = list(cell[i].features.index)
-            cell[i].start = cell[i].features.index.min()
-            cell[i].end = cell[i].features.index.max()
+        # if cell[i].is_out_of_border(shape):
+        #     continue
+        # else:
+        cell[i].frames = list(cell[i].features.index)
+        cell[i].start = cell[i].features.index.min()
+        cell[i].end = cell[i].features.index.max()
         data.loc[i] = [cell[i].start, cell[i].end]
     data["life"] = data["end"] - data["start"]+1
     data = data[data.life > life_span]
