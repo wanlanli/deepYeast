@@ -36,6 +36,9 @@ class ImageMeasure(np.ndarray):
 
     def set_pixel_resolution(self, x):
         self.pixel_resolution = x
+        self.instance_properties[common.IMAGE_AREA] *= self.pixel_resolution**2
+        self.instance_properties[common.IMAGE_MAJOR_AXIS] *= self.pixel_resolution
+        self.instance_properties[common.IMAGE_MINOR_AXIS] *= self.pixel_resolution
 
     def init_cost_matrix(self):
         length = self.instance_properties.shape[0]
@@ -189,17 +192,16 @@ class ImageMeasure(np.ndarray):
                 Warning("Border coordinate conversion failed. %d to %d" % (len(contour), number))
                 return np.zeros(2, number)
 
-    # def __is_out_of_screen(self, data):
-    #     """
-    #     """
-    #     bbox = data.loc[:, common.IMAGE_BOUNDING_BOX_LIST]
-    #     shape = self.shape
-    #     min_row = bbox.iloc[:, 0] == 0
-    #     min_col = bbox.iloc[:, 1] == 0
-    #     max_row = bbox.iloc[:, 2] == shape[0]
-    #     max_col = bbox.iloc[:, 3] == shape[1]
-    #     out_of_border = min_row | min_col | max_row | max_col
-    #    return out_of_border
+    def is_border(self):
+        """
+        """
+        bbox = self.instance_properties.loc[:, common.IMAGE_BOUNDING_BOX_LIST]
+        min_row = bbox.iloc[:, 0] == 0
+        min_col = bbox.iloc[:, 1] == 0
+        max_row = bbox.iloc[:, 2] == self.shape[0]
+        max_col = bbox.iloc[:, 3] == self.shape[1]
+        border = min_row | min_col | max_row | max_col
+        return border
 
     def label_list(self):
         if self.instance_properties is None:
@@ -301,8 +303,8 @@ class ImageMeasure(np.ndarray):
             data.iloc[0, 2].T, data.iloc[1, 2].T)
         center_dist = np.sqrt(
             np.square(data.iloc[0, 0:2] - data.iloc[1, 0:2]).sum())
-        center_dist = center_dist*self.pixel_resolution
-        nearnest_dis = nearnest_dis*self.pixel_resolution
+        center_dist = center_dist  # *self.pixel_resolution
+        nearnest_dis = nearnest_dis  # *self.pixel_resolution
         return center_dist, nearnest_dis, ind_tgt, ind_src
 
     def ditance_matrix(self, sources: list, targets: list):

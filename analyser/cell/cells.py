@@ -28,6 +28,10 @@ class Cells():
         self.classifier = None
         self.__fluorescent_intensity = None
         self.features = None
+        self.pixel_resolution = 1
+
+    def set_pixel_resolution(self, x):
+        self.pixel_resolution = x
 
     def set_type(self, pred):
         for k, v in pred.items():

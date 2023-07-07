@@ -39,7 +39,6 @@ class Mating(Cells):
         e_time = self.cells[k].end
         candidates = self.features.loc[(self.features['end'] > s_time)
                                        & (self.features['start'] < e_time)
-                                       # & (self.features.parents.isna())
                                        ]
         return candidates
 
@@ -50,6 +49,7 @@ class Mating(Cells):
     def init_measure(self):
         for f in range(0, self.frame_number):
             self.measure[f] = ImageMeasure(self.image[f, :, :, 4])
+            self.measure[f].set_pixel_resolution(self.pixel_resolution)
 
     def angles(self, t, candidates):
         data = np.zeros((len(candidates), self.frame_number, 2))

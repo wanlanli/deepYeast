@@ -20,7 +20,7 @@ import math
 
 import numpy as np
 
-from shapely.geometry import Polygon
+# from shapely.geometry import Polygon
 from analyser.sort.kalman_filter import KalmanFilter
 from analyser.common import OVERLAP_VMIN, OVERLAP_VMAX, DIVISION_LABEL, FUSION_LABEL
 
