@@ -42,9 +42,41 @@ class Mating(Cells):
                                        ]
         return candidates
 
-    def neiber_layer(self, layer=1):
+    def neiber_first_layer(self, source):
         # 最近点的连线若有其他细胞，则不算第一层
-        return 0
+        neiber = self.neiber(source)
+        dist = self.distance(source, list(neiber.id))
+        # start_time = self.cells[source].start
+        flags = []
+        for target_index in range(0, neiber.shape[0]):
+            target = neiber.iloc[target_index].id
+            # frame = max(self.cells[target].fra, start_time)
+            frame_list = list(set(self.cells[target].frames).intersection(set(self.cells[source].frames)))
+            if frame_list:
+                frame = frame_list[0]
+                coord1 = self.cells[source].features['coords'][frame][:, int(dist[target_index, frame, 2])]
+                coord2 = self.cells[target].features['coords'][frame][:, int(dist[target_index, frame, 3])]
+                points = self._create_line(coord1, coord2)
+                img = self.image[frame, :, :, -1]
+                list1 = img[points[0], points[1]]
+                list2 = [source, target, 0]
+                flag = self._isin_first_layser(list1, list2)
+            else:
+                flag = False
+            flags.append(flag)
+        # neiber['is_first_layer'] = flags
+        neiber = neiber.loc[flags]
+        return neiber
+
+    def _create_line(self, point1, point2, steps: int = 5):
+        steps = steps
+        number = int(np.ceil(np.sqrt(np.sum(np.square(point1 - point2)))/steps))
+        x = np.linspace(point1[0], point2[0], number)[1:-1]
+        y = np.linspace(point1[1], point2[1], number)[1:-1]
+        return np.array([x, y], dtype=np.int_)
+
+    def _isin_first_layser(self, list1, list2):
+        return np.sum(~np.isin(list1, list2)) <= 0
 
     def init_measure(self):
         for f in range(0, self.frame_number):

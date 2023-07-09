@@ -133,10 +133,10 @@ def generate_cells(traced_image):
     return cells
 
 
-def clean_traced_image(cells, traced_image):
+def clean_traced_image(cells_id, traced_image):
     cleaned = traced_image.copy()
     labels = np.unique(traced_image)[1:]
     for label in labels:
-        if label not in cells.keys():
+        if label not in cells_id:
             cleaned[cleaned == label] = 0
     return cleaned
