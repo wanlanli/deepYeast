@@ -16,13 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from __future__ import absolute_import, division
-import math
 
 import numpy as np
 
-# from shapely.geometry import Polygon
+
 from analyser.sort.kalman_filter import KalmanFilter
-from analyser.common import OVERLAP_VMIN, OVERLAP_VMAX, DIVISION_LABEL, FUSION_LABEL
+
 
 np.random.seed(0)
 DIMENTION = 5
@@ -37,26 +36,6 @@ def linear_assignment(cost_matrix):
         from scipy.optimize import linear_sum_assignment
         x, y = linear_sum_assignment(cost_matrix)
         return np.array(list(zip(x, y)))
-
-
-# def iou_batch(bb_tests, bb_gts):
-#     """
-#     From SORT: Computes IOU between two bboxes in the form [x1,y1,x2,y2,x3,y3,x4,y4]
-#     """
-#     o = np.zeros((len(bb_tests), len(bb_gts)))
-#     for i, bb_test in enumerate(bb_tests):
-#         bb_test = convert_x_to_bbox(bb_test).reshape((4, 2), order='F')
-#         for j, bb_gt in enumerate(bb_gts):
-#             bb_gt = convert_x_to_bbox(bb_gt).reshape((4, 2), order='F')
-#             a_shape = Polygon(bb_test)
-#             b_shape = Polygon(bb_gt)
-#             interaction = a_shape.intersection(b_shape).area
-#             union = a_shape.union(b_shape).area
-#             if union == 0:
-#                 o[i, j] = 0
-#             else:
-#                 o[i, j] = interaction/union
-#     return (o)
 
 
 def iou_batch(bb_test, bb_gt):
@@ -79,43 +58,6 @@ def iou_batch(bb_test, bb_gt):
 
 def area_ratio_batch(ar_test, ar_gt):
     return np.expand_dims(ar_test, 1)/np.expand_dims(ar_gt, 0)
-
-# def convert_bbox_to_z(bbox):
-#     """
-#     Takes a bounding box in the form [x1, x2, x3, x4, y1,y2, y3, y4] and returns z in the form
-#       [center_x, center_y, theta, major_axis, minor_axis] where x,y is the centre of the box.
-#     """
-#     x1, x2, _, _, y1, y2, y3, y4 = bbox
-#     x = (x1+x2)/2
-#     y = (y1+y2)/2
-#     theta = math.atan((x2-x1)/(y1-y2))
-#     minor = (x2-x1)/math.sin(theta)
-#     major = (y3-y4)/math.sin(theta)
-#     return np.array([x, y, theta, major, minor]).reshape((DIMENTION, 1))
-
-
-# def convert_x_to_bbox(det):
-#     """
-#     Takes a det in the centre form [x,y,r,l,s] and returns it in the form
-#       [x1,x2,x3,x4,y1,y2,y3, y4] where 4 top points of the bounding box.
-#     """
-#     x, y, orientation, axis_major_length, axis_minor_length = det[0:5]
-
-#     sin = math.sin(orientation)
-#     cos = math.cos(orientation)
-
-#     x1 = x - sin*0.5*axis_minor_length
-#     y1 = y + cos*0.5*axis_minor_length
-
-#     x2 = x + sin*0.5*axis_minor_length
-#     y2 = y - cos*0.5*axis_minor_length
-
-#     x3 = x + cos*0.5*axis_major_length
-#     y3 = y + sin*0.5*axis_major_length
-
-#     x4 = x - cos*0.5*axis_major_length
-#     y4 = y - sin*0.5*axis_major_length
-#     return np.array([x1, x3, x2, x4, y1, y3, y2, y4]).reshape(1, 8)
 
 
 def convert_bbox_to_z(bbox):
@@ -344,7 +286,9 @@ class Sort(object):
         return np.empty((0, DIMENTION))
 
 
-def run(images, **args):
+def run_tracing(images: np.array, **args):
+    """
+    """
     mot_tracker = Sort(**args)  # create instance of the SORT tracker
     KalmanBoxTracker.count = 0
     total_frames = 0
@@ -358,8 +302,8 @@ def run(images, **args):
         trackers = mot_tracker.update(np.array(dets))
         for d in trackers:
             output_d.append([frame]+list(d))
-    output_d = np.array(output_d)
-    traced_image = _asgine_feature(output_d, images)
+    output_d = np.array(output_d).astype(np.uint16)
+    traced_image = _asgine_feature(output_d, images).astype(np.uint16)
     return output_d, traced_image
 
 
@@ -376,4 +320,4 @@ def _asgine_feature(output_d: np.array, data):
 if __name__ == "__main__":
     from skimage.io import imread
     images = imread("/home/wli6/006_0015.tif").astype(np.uint16)[:, :, :, 3]
-    output_d, traced_image = run(images)
+    output_d, traced_image = run_tracing(images)

@@ -5,7 +5,7 @@
 #SBATCH -p gpu
 #SBATCH -N 1
 #SBATCH --cpus-per-task 2 
-##########SBATCH -w dnagpu002
+##SBATCH -w dnagpu002
 #SBATCH --gres gpu:2
 #SBATCH --time=24:0:0
 #SBATCH --mem 64g

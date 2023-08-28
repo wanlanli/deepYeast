@@ -165,16 +165,16 @@ class ImageMeasure(np.ndarray):
         """
         coords = []
         if type(label) == int:
-            return self.__single_region_coordinate(label, **args)
+            return self.single_region_coordinate(label, **args)
         elif isinstance(label, Iterable):
             for label_i in label:
-                coord = self.__single_region_coordinate(label_i, **args)
+                coord = self.single_region_coordinate(label_i, **args)
                 coords.append(coord)
             return coords
         else:
             return coords
 
-    def __single_region_coordinate(self, label: int, number: int = common.IMAGE_CONTOURS_LENGTH):
+    def single_region_coordinate(self, label: int, number: int = common.IMAGE_CONTOURS_LENGTH):
         """Find iso-valued contours in a 2D array for a given level value(0.5).
         """
         if number <= 0:
