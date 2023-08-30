@@ -1,7 +1,7 @@
 import os
 import xml.dom.minidom as minidom
 from skimage.io import imread
-from analyser.mask_feature import MaskFeature
+from analyser.image_measure.meaure import MaskFeature
 from analyser.utils import file_traverse
 from absl import app
 from absl import flags

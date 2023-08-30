@@ -170,7 +170,8 @@ def main():
     tf.io.gfile.makedirs(FLAGS.output_dir)
     for dataset_split in ('train', 'val', 'test'):
         # logging.info('Starts to processing dataset split %s.', dataset_split)
-        _convert_dataset(FLAGS.image_root, dataset_split, FLAGS.output_dir, FLAGS.create_panoptic_data)
+        _convert_dataset(FLAGS.image_root, dataset_split, FLAGS.output_dir,
+                         FLAGS.create_panoptic_data)
 
 
 if __name__ == "__main__":
