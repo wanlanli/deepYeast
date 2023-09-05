@@ -92,3 +92,9 @@ class Cells():
         if self.__fluorescent_intensity is None:
             self.__fluorescent_intensity = self.instance_fluorescent_intensity(**args)
         return self.__fluorescent_intensity
+
+    def object_mask(self, label, frame=None):
+        if frame:
+            return self.image[frame, :, :, -1] == label
+        else:
+            return self.image[:, :, :, -1] == label

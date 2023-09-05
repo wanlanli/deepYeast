@@ -257,28 +257,6 @@ class ImageMeasure(np.ndarray):
                                 bbox[1]-crop_pad:bbox[3]+crop_pad]
                 return pad_mask
 
-    # def all_by_all_distance(self, radius=200):
-    #     """根据index索引
-    #     """
-    #     if self.__cost is None:
-    #         columns = common.DISTANCE_COLUMNS
-    #         data = pd.DataFrame(columns=columns)
-    #         flag = 0
-    #         for index_x in range(0, self.instance_properties.shape[0]):
-    #             neibor_labels = self.nearnest_radius(self.index2label(index_x),
-    #                                                  radius=radius)
-    #             neibor_index = self.label2index(neibor_labels).values
-    #             for index_y in range(index_x+1, self.instance_properties.shape[0]):
-    #                 if index_y not in neibor_index:
-    #                     center_dist, nearnest_dis, ind_x, ind_y = [-1, -1, -1, -1]
-    #                     data.loc[flag, columns] = [index_x, index_y, center_dist, nearnest_dis, ind_x, ind_y]
-    #                 else:
-    #                     center_dist, nearnest_dis, ind_x, ind_y = self.two_regions_distance(index_x, index_y)
-    #                     data.loc[flag, columns] = [index_x, index_y, center_dist, nearnest_dis, ind_x, ind_y]
-    #                 flag += 1
-    #         self.__cost = data
-    #     return self.__cost
-
     def __distance_exist(self, x, y) -> bool:
         if self.__cost is not None:
             if self.__cost[x, y, 0] > 0:
@@ -367,83 +345,9 @@ class ImageMeasure(np.ndarray):
         """
         pass
 
-    # def cost(self, source_x: Sequence = [], target_y: Sequence = [], **args):
-    #     """
-    #     source_x: index list
-    #     target_y: index list
-    #     """
-    #     if self.__cost is None:
-    #         self.__cost = self.all_by_all_distance(**args)
-    #     cost = self.__cost.copy()
-    #     a = cost.copy()
-    #     a[['index_x', 'index_y', 'nearnest_point_x_index', 'nearnest_point_y_index']] = cost[['index_y', 'index_x', 'nearnest_point_y_index', 'nearnest_point_x_index']]
-    #     cost = pd.concat([cost, a])
-    #     if len(source_x):
-    #         if not len(target_y):
-    #             return cost.loc[cost.index_x.isin(source_x)]
-    #         else:
-    #             return cost.loc[(cost.index_x.isin(source_x)) & (cost.index_y.isin(target_y))]
-    #     if len(target_y):
-    #         if not len(source_x):
-    #             return cost.loc[cost.index_y.isin(target_y)]
-    #         else:
-    #             return cost.loc[(cost.index_x.isin(source_x)) & (cost.index_y.isin(target_y))]
-    #     return cost
-
-    # def set_cost(self, cost):
-    #     self.__cost = cost
-
-    # def nearnestN(self, x_label: int, n: int = 1):
-    #     x_index = self.label2index(x_label)
-    #     x_cost = self.cost(source_x=[x_index])
-    #     x_cost = x_cost.loc[x_cost[common.CENTER_DISTANCE] > 0]
-    #     y_index, t_x, t_y = x_cost.iloc[
-    #         np.argsort(x_cost["nearnest_dis"])[0:n]
-    #         ][["index_y", 'nearnest_point_x_index', 'nearnest_point_y_index'
-    #            ]].astype(int).values.T
-    #     y_label = self.index2label(y_index)
-    #     return y_label, t_x, t_y
-
-    # def nearnest_radius(self, x_label, radius):
-    #     center = self.get_centers([x_label]).values[0]
-    #     mask = self.__generate_mask(center[0], center[1], radius=radius, w=self.shape[0], h=self.shape[1])
-    #     neighbors = np.unique(mask*self.__array__())
-    #     neighbors = neighbors[neighbors != 0]
-    #     return neighbors
-
-    # def __generate_mask(self, cx=50, cy=50, radius=10, w=100, h=100):
-    #     x, y = np.ogrid[0: w, 0: h]
-    #     mask = ((x-cx)**2 + (y-cy)**2) <= radius**2
-    #     return mask
-
-    # def get_cells(self, labels: Sequence = []):
-    #     if len(labels) == 0:
-    #         return self.__array__()
-    #     else:
-    #         mk = np.isin(self.__array__(), labels)
-    #         return self.__array__()*mk
-
     def centers(self, index=None, labels=None):
         index = self.__index(index, labels)
         return self.instance_properties.iloc[index][common.IMAGE_CENTER_LIST]
-
-    # def get_orientation(self, labels: Sequence = []):
-    #     if not len(labels):
-    #         return self.instance_properties[common.IMAGE_ORIENTATION]
-    #     else:
-    #         return self.instance_properties.loc[labels, common.IMAGE_ORIENTATION]
-
-    # def get_major_length(self, labels: Sequence = []):
-    #     if not len(labels):
-    #         return self.instance_properties[common.IMAGE_MAJOR_AXIS]
-    #     else:
-    #         return self.instance_properties.loc[labels, common.IMAGE_MAJOR_AXIS]
-
-    # def get_outline(self, labels: Sequence = []):
-    #     if not len(labels):
-    #         return self.instance_properties[common.IMAGE_COORDINATE]
-    #     else:
-    #         return self.instance_properties.loc[labels, common.IMAGE_COORDINATE]
 
     def index2label(self, index):
         return self.instance_properties.iloc[index].label
@@ -457,22 +361,6 @@ class ImageMeasure(np.ndarray):
         else:
             return list(self.instance_properties.loc[
                 self.instance_properties.label.isin(label)].index)
-
-    # def cost2matrix(self, source_x: Sequence = [], target_y: Sequence = []):
-    #     cost = self.cost(source_x, target_y)
-    #     if not len(source_x):
-    #         source_x = np.unique(cost.index_x)
-    #     if not len(target_y):
-    #         target_y = np.unique(cost.index_y)
-    #     mx = np.zeros((len(source_x), len(target_y), 2))
-    #     source_x = list(source_x)
-    #     target_y = list(target_y)
-    #     for i in range(0, cost.shape[0]):
-    #         x, y, d1, d2 = cost.iloc[i, 0:4]
-    #         id_x = source_x.index(x)
-    #         id_y = target_y.index(y)
-    #         mx[id_x, id_y, :] = [d1, d2]
-    #     return mx
 
     def instance_property(self, index=None, label=None):
         index_rt = self.__index(index=index, label=label)

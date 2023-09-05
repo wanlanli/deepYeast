@@ -53,30 +53,6 @@ def main(input_path, out_file):
     for f in range(0, len(file_path)):
         mask = imread(file_path[f])
         element = create_element(mask, dom, f, file_path[f])
-        # mf = ImageMeasure(mask)
-        # # mf.instance_properties = mf.init_instance_properties(number=100)
-        # #  add new image
-        # element = dom.createElement('image')
-        # element.setAttribute('id', str(f))
-        # element.setAttribute('name', os.path.basename(file_path[f]))
-        # element.setAttribute('width', str(mf.shape[0]))
-        # element.setAttribute('height', str(mf.shape[1]))
-        # for i in range(0, mf.instance_properties.shape[0]):
-        #     #  add new polygon
-        #     obj = mf.instance_properties.iloc[i]
-        #     semantic_label = int(obj.label/1000)
-        #     new_polygon = dom.createElement('polygon')
-        #     new_polygon.setAttribute('label', str(semantic_label))
-        #     new_polygon.setAttribute('occluded', "0")
-        #     new_polygon.setAttribute('source', "manual")
-        #     new_polygon.setAttribute('points', coordinates_to_string(
-        #         mf.instance_properties.iloc[i].coords))
-        #     new_polygon.setAttribute('z_order', "0")
-        #     attribute = dom.createElement('attribute')
-        #     attribute.setAttribute('name', str(semantic_label))
-        #     attribute.appendChild(dom.createTextNode(str(semantic_label)))
-        #     new_polygon.appendChild(attribute)
-        #     element.appendChild(new_polygon)
         root.appendChild(element)
     with open(out_file, 'w', encoding='utf-8') as f:
         dom.writexml(f, addindent='\t', newl='\n', encoding='utf-8')
