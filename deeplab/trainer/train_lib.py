@@ -19,8 +19,8 @@ from typing import Optional, Sequence
 import tensorflow as tf
 
 import deeplab.config_yml as config_yml
-from data import dataset
-from model import deeplab
+from deeplab.data import dataset
+from deeplab.model import deeplab
 
 
 # Use 1 channel as input (uint16).
