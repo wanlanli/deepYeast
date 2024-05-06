@@ -133,6 +133,7 @@ DatasetDescriptor = collections.namedtuple(
         'is_depth_dataset',
         # The ignore label for depth annotations.
         'ignore_depth',
+        'crop_size',
     ]
 )
 
@@ -149,6 +150,7 @@ CELL_FUSTION_PANOPTIC_INFOMATION = DatasetDescriptor(
   colormap=CITYSCAPES_COLORMAP,
   ignore_depth=None,
   is_video_dataset=False,
+  crop_size=512,
 
 )
 # CITYSCAPES_PANOPTIC_INFORMATION = DatasetDescriptor(

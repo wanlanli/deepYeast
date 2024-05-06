@@ -19,13 +19,6 @@ import config_yml as config_yml
 
 from model.encoder import axial_resnet_instances
 from model.decoder import panoptic_deeplab
-# from deeplab2.model.decoder import deeplabv3
-# from deeplab2.model.decoder import deeplabv3plus
-# from deeplab2.model.decoder import max_deeplab
-# from deeplab2.model.decoder import motion_deeplab_decoder
-# from deeplab2.model.decoder import panoptic_deeplab
-# from deeplab2.model.decoder import vip_deeplab_decoder
-# from deeplab2.model.encoder import mobilenet
 
 
 def create_encoder(backbone_options: config_yml.BackboneOptions,

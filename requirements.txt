@@ -2,8 +2,4 @@
 # $ conda create --name <env> --file <this file>
 numpy>=1.24.0
 tensorflow=2.10
-scikit-image
-scipy
-tqdm
 yaml
-matplotlib

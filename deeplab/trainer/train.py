@@ -24,15 +24,14 @@ import orbit
 from data import dataset
 from trainer import distribution_utils
 from model.deeplab import DeepLab
-from model.loss.loss_builder import DeepLabFamilyLoss
 from model import utils
-from trainer import trainer as trainer_lib
 from trainer import runner_utils
+from trainer.train_lib import build_deeplab_model
 from data.preprocessing import input_preprocessing
 
 
 class DeepCellModule(tf.Module):
-    def __init__(self, mode, config, num_gpus: int, model_dir: str) -> None:
+    def __init__(self, config, num_gpus: int, model_dir: str) -> None:
         global_step = orbit.utils.create_global_step()
         strategy = distribution_utils.create_strategy(num_gpus)
         dataset_name = config.train_dataset_options.dataset
@@ -41,30 +40,19 @@ class DeepCellModule(tf.Module):
         with strategy.scope():
             model = DeepLab(config, datasets)
 
-            losses = DeepLabFamilyLoss(
-                        loss_options=config.trainer_options.loss_options,
-                        num_classes=datasets.num_classes,
-                        ignore_label=datasets.ignore_label,
-                        ignore_depth=datasets.ignore_depth,
-                        thing_class_ids=datasets.class_has_instances_list)
-            trainer = None
+            # trainer = None
             evaluator = None
-            if "train" in mode:
-                trainer = trainer_lib.Trainer(config, model, losses, global_step)
-            if "evl" in mode:
-                from trainer import evaluator as evaluator_lib
-                evaluator = evaluator_lib.Evaluator(config, model, losses, global_step, model_dir)
-            if (trainer is None) and (evaluator is None):
-                from trainer import evaluator as evaluator_lib
-                evaluator = evaluator_lib.Evaluator(config, model, losses, global_step, model_dir)
+            from trainer import evaluator as evaluator_lib
+            evaluator = evaluator_lib.Evaluator(config, model, global_step)
 
             checkpoint_dict = dict(global_step=global_step)
 
         checkpoint_dict.update(model.checkpoint_items)
-        if trainer is not None:
-            checkpoint_dict['optimizer'] = trainer.optimizer
-            if trainer.backbone_optimizer is not None:
-                checkpoint_dict['backbone_optimizer'] = trainer.backbone_optimizer
+        crop_height = 513
+        crop_width = 513  # datasets.crop_size
+        input_shape = build_deeplab_model(model, (crop_height, crop_width), batch_size=1)
+        self._input_depth = input_shape[-1]
+
         checkpoint = tf.train.Checkpoint(**checkpoint_dict)
         init_dict = model.checkpoint_items
         if model_dir is None:
@@ -83,7 +71,7 @@ class DeepCellModule(tf.Module):
 
         self.controller = orbit.Controller(
             strategy=strategy,
-            trainer=trainer,
+            trainer=None,
             evaluator=evaluator,
             global_step=global_step,
             steps_per_loop=config.trainer_options.steps_per_loop,
