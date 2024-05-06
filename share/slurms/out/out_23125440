@@ -1,7 +1,0 @@
-
-Command to create ssh tunnel:
-ssh -NfL 8880:dnagpu003:8880 wli6@curnagl.dcsr.unil.ch
--
-Use a Browser on your local machine to go to:
-localhost:8880
-
