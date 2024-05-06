@@ -17,7 +17,7 @@
 import numpy as np
 import tensorflow as tf
 
-from data.preprocessing import autoaugment_utils
+# from data.preprocessing import autoaugment_utils
 from data.preprocessing import preprocess_utils
 
 # The probability of flipping the images and labels
@@ -357,10 +357,10 @@ def preprocess_image_and_label(image,
           prev_label, depth)
 
 
-def _autoaugment_helper(image, label, ignore_label, policy_name):
-  image = tf.cast(image, tf.uint16)
-  label = tf.cast(label, tf.int32)
-  image, label = autoaugment_utils.distort_image_with_autoaugment(
-      image, label, ignore_label, policy_name)
-  image = tf.cast(image, tf.float32)
-  return image, label
+# def _autoaugment_helper(image, label, ignore_label, policy_name):
+#   image = tf.cast(image, tf.uint16)
+#   label = tf.cast(label, tf.int32)
+#   image, label = autoaugment_utils.distort_image_with_autoaugment(
+#       image, label, ignore_label, policy_name)
+#   image = tf.cast(image, tf.float32)
+#   return image, label
