@@ -9,7 +9,7 @@ from deeplab.trainer.train import DeepCellModule
 from deeplab.postprocess.post_process_utils import post_process_panoptic
 
 
-def load_segment_model(model_dir: str = os.path.abspath("./models/v1.0.0/checkpoint/"),
+def load_segment_model(model_dir: str = os.path.abspath("./deepYeast//models/v1.0.0/checkpoint/"),
                        num_gpus: int = 0,
                        config_path: str = os.path.abspath("./deepYeast/deeplab/configs/config_wd.yaml")):
     """
