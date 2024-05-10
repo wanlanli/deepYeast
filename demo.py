@@ -2,11 +2,13 @@ import os
 import sys
 sys.path.append(os.path.abspath("./deeplab/"))
 import yaml
-
+import numpy as np
 
 from deeplab.config_yml import ExperimentOptions
 from deeplab.trainer.train import DeepCellModule
 from deeplab.postprocess.post_process_utils import post_process_panoptic
+from skimage.measure import find_contours
+from postprocess.post_process_utils import post_process_panoptic
 
 
 def load_segment_model(model_dir: str = os.path.abspath("./deepYeast//models/v1.0.0/checkpoint/"),
@@ -54,6 +56,24 @@ def load_segment_model(model_dir: str = os.path.abspath("./deepYeast//models/v1.
     model = DeepCellModule(configs, num_gpus, model_dir=model_dir)
     return model
 
+
+def to_contours(output):
+    masks = output["panoptic_pred"][0].numpy()
+    masks = post_process_panoptic(masks)
+    scores = output["instance_scores"][0].numpy()
+    labels = np.unique(masks)
+    labels = labels[labels!=0]
+    result = []
+    for label in labels:
+        contours = find_contours(masks==label)[0].flatten()
+        confidence = scores[masks==label].mean()
+        result.append({
+                "confidence": str(confidence),
+                "label": str(label//1000),
+                "points": contours,
+                "type": "polygon",
+            })
+    return result
 
 def main() -> None:
     import numpy as np
