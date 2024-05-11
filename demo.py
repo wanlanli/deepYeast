@@ -67,13 +67,13 @@ def to_contours(output):
         mask = masks == label
         polygon = to_cvat_polygon(mask)
         if polygon is not None:
-            cvat_mask = to_cvat_mask(mask)
+            # cvat_mask = to_cvat_mask(mask)
             result.append({
                 "confidence": "1",
-                "label": "cell",
+                "label": str(label//1000),
                 "points": polygon,
-                "mask": cvat_mask,
-                "type": "mask",
+                # "mask": cvat_mask,
+                "type": "polygon",
                 })
         else:
             continue
