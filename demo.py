@@ -76,9 +76,12 @@ def to_contours(output):
         polygon = to_cvat_polygon(mask)
         if polygon is not None:
             # cvat_mask = to_cvat_mask(mask)
+            label_name = LabelMap.get(label//1000)
+            if label_name is None:
+                label_name = "unknown"
             result.append({
                 "confidence": "0.9",
-                "label": LabelMap[label//1000],
+                "label": label_name,
                 "points": polygon,
                 # "mask": cvat_mask,
                 "type": "polygon",
