@@ -57,6 +57,14 @@ def load_segment_model(model_dir: str = os.path.abspath("./deepYeast/models/v_1.
     return model
 
 
+LabelMap = {
+    1: "cell",
+    2: "mating",
+    3: "fusion",
+    4: "tetrad"
+}
+
+
 def to_contours(output):
     masks = output["panoptic_pred"][0].numpy()
     masks = post_process_panoptic(masks)
@@ -70,7 +78,7 @@ def to_contours(output):
             # cvat_mask = to_cvat_mask(mask)
             result.append({
                 "confidence": "0.9",
-                "label": "cell",
+                "label": LabelMap[label//1000],
                 "points": polygon,
                 # "mask": cvat_mask,
                 "type": "polygon",
