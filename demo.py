@@ -81,8 +81,8 @@ def to_contours(output):
                 "confidence": "1",
                 "label": "cell",
                 "points": polygon,
-                # "mask": cvat_mask,
-                "type": "polygon",
+                "mask": cvat_mask,
+                "type": "mask",
                 })
         else:
             continue
