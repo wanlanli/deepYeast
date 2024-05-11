@@ -65,7 +65,7 @@ def to_contours(output):
     labels = labels[labels!=0]
     result = []
     for label in labels:
-        contours = find_contours(masks==label)[0].flatten()
+        contours = find_contours(masks==label)[0].flatten().tolist()
         confidence = scores[masks==label].mean()
         result.append({
                 "confidence": str(confidence),
