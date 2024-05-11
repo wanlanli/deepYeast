@@ -65,15 +65,6 @@ def to_contours(output):
     result = []
     for label in labels:
         mask = masks == label
-        # contours = find_contours(mask)[0]
-        # length = len(contours)
-        # number = 20
-        # if length != 0:
-        #     x = np.arange(0, length)
-        #     z = np.linspace(0, length, number)
-        #     cont_x = np.around(np.interp(z, x, contours[:, 0]), decimals=2)
-        #     cont_y = np.around(np.interp(z, x, contours[:, 1]), decimals=2)
-        # contours = (np.array([cont_y, cont_x]).T).flatten().tolist()
         polygon = to_cvat_polygon(mask)
         if polygon is not None:
             cvat_mask = to_cvat_mask(mask)
