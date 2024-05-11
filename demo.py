@@ -91,7 +91,7 @@ def to_contours(output):
 def to_cvat_mask(mask):
     x, y = np.where(mask)
     # bbox = [y.min(), x.min(), y.max(), x.max()]
-    xtl, ytl, xbr, ybr = [x.min(), y.min(), x.max(), y.max()]
+    xtl, ytl, xbr, ybr = [int(x.min()), int(y.min()), int(x.max()), int(y.max())]
     flattened = ((mask*1).astype(np.int8))[xtl:xbr + 1, ytl:ybr + 1].T.flat[:].tolist()
     flattened.extend([ytl, xtl, ybr, xbr])
     return flattened
