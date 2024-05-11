@@ -7,7 +7,7 @@ import numpy as np
 from deeplab.config_yml import ExperimentOptions
 from deeplab.trainer.train import DeepCellModule
 from deeplab.postprocess.post_process_utils import post_process_panoptic
-from skimage.measure import find_contours
+from skimage.measure import find_contours, approximate_polygon
 from postprocess.post_process_utils import post_process_panoptic
 
 
@@ -64,22 +64,49 @@ def to_contours(output):
     labels = labels[labels!=0]
     result = []
     for label in labels:
-        # contours = find_contours(masks==label)[0].flatten().tolist()
-        contours = find_contours(masks==label)[0]
-        length = len(contours)
-        number = 20
-        if length != 0:
-            x = np.arange(0, length)
-            z = np.linspace(0, length, number)
-            cont_x = np.around(np.interp(z, x, contours[:, 0]), decimals=2)
-            cont_y = np.around(np.interp(z, x, contours[:, 1]), decimals=2)
-        contours = (np.array([cont_y, cont_x]).T).flatten().tolist()
-        result.append({
-                "label": str(label//1000),
-                "points": contours,
-                "type": "polygon",
-            })
+        mask = masks == label
+        # contours = find_contours(mask)[0]
+        # length = len(contours)
+        # number = 20
+        # if length != 0:
+        #     x = np.arange(0, length)
+        #     z = np.linspace(0, length, number)
+        #     cont_x = np.around(np.interp(z, x, contours[:, 0]), decimals=2)
+        #     cont_y = np.around(np.interp(z, x, contours[:, 1]), decimals=2)
+        # contours = (np.array([cont_y, cont_x]).T).flatten().tolist()
+        polygon = to_cvat_polygon(mask)
+        if polygon is not None:
+            cvat_mask = to_cvat_mask(mask)
+            result.append({
+                    "label": str(label//1000),
+                    "points": polygon,
+                    "mask": cvat_mask,
+                    "type": "mask",
+                })
+        else:
+            continue
     return result
+
+
+def to_cvat_mask(mask):
+    x, y = np.where(mask)
+    # bbox = [y.min(), x.min(), y.max(), x.max()]
+    xtl, ytl, xbr, ybr = [x.min(), y.min(), x.max(), y.max()]
+    flattened = (mask*1)[xtl:xbr + 1, ytl:ybr + 1].T.flat[:].tolist()
+    flattened.extend([ytl, xtl, ybr, xbr])
+    return flattened
+
+
+def to_cvat_polygon(mask):
+    contour = find_contours(mask)[0]
+    contour = np.flip(contour, axis=1)
+    contour = approximate_polygon(contour, tolerance=2.5)
+
+    if len(contour) < 3:
+        return None
+    else:
+        return contour.ravel().tolist()
+
 
 def main() -> None:
     import numpy as np
