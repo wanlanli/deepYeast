@@ -35,7 +35,7 @@ experiment_name: "deepyeast_001"
 
 model_options:
   ## Set the initial checkpoint loading path here ###
-  initial_checkpoint: "/opt/nuclio/deepYeast/models/v1.0.0/checkpoint/"
+  initial_checkpoint: "/opt/nuclio/deepYeast/models/v1.0.0/checkpoint/ckpt-100000.index"
   backbone:
     name: "axial_swidernet"
     output_stride: 16
