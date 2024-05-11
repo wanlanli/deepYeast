@@ -60,16 +60,21 @@ def load_segment_model(model_dir: str = os.path.abspath("./deepYeast/models/v_1.
 def to_contours(output):
     masks = output["panoptic_pred"][0].numpy()
     masks = post_process_panoptic(masks)
-    scores = output["instance_scores"][0].numpy()
     labels = np.unique(masks)
     labels = labels[labels!=0]
     result = []
     for label in labels:
         # contours = find_contours(masks==label)[0].flatten().tolist()
-        contours = [str(x) for x in find_contours(masks==label)[0].flatten()]
-        confidence = scores[masks==label].mean()
+        contours = find_contours(masks==label)[0]
+        length = len(contours)
+        number = 20
+        if length != 0:
+            x = np.arange(0, length)
+            z = np.linspace(0, length, number)
+            cont_x = np.around(np.interp(z, x, contours[:, 0]), decimals=2)
+            cont_y = np.around(np.interp(z, x, contours[:, 1]), decimals=2)
+        contours = (np.array([cont_y, cont_x]).T).flatten().tolist()
         result.append({
-                "confidence": str(confidence),
                 "label": str(label//1000),
                 "points": contours,
                 "type": "polygon",
