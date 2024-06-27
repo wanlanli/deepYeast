@@ -10,6 +10,41 @@ from absl import app
 from absl import flags
 
 
+class CVAT_Formate():
+    def __init__(self) -> None:
+        pass
+
+    def xml2mask(self):
+        pass
+
+    def mask2xml(self, input: str, output):
+        if input.endwith(".zip"):
+            ??
+            upzip
+            newpath
+        elif:
+            is a folder??]
+        else:
+    
+            mask_path_list = file_traverse(input)
+            mask2xml(mask_path_list, output)
+
+    def upzip(self):
+        pass
+
+    def mask2training(self):
+        pass
+
+    def xml2training(self):
+        pass
+
+    def checkzip(self):
+        pass
+
+    def tozip(self):
+        pass
+
+
 DIVISION = 1000
 
 
@@ -134,7 +169,7 @@ def dump_xml(path: str, document: minidom.Document):
         document.writexml(file, addindent='\t', newl='\n', encoding='utf-8')
 
 
-def mask2xml(maks_path_list, out_file):
+def mask2xml(mask_path_list: list[str], out_file):
     """
     Convert a list of mask images to a CVAT XML format and save it.
 
@@ -146,36 +181,15 @@ def mask2xml(maks_path_list, out_file):
         Path to the output XML file.
     """
     dom, root = create_document_head()
-    for f in range(0, len(maks_path_list)):
-        mask = imread(maks_path_list[f])
+    for f in range(0, len(mask_path_list)):
+        mask = imread(mask_path_list[f])
         element = create_polygons(mask, dom)
         element.setAttribute('id', str(f))
-        element.setAttribute('name', os.path.basename(maks_path_list[f]))
+        element.setAttribute('name', os.path.basename(mask_path_list[f]))
         element.setAttribute('width', str(mask.shape[0]))
         element.setAttribute('height', str(mask.shape[1]))
         root.appendChild(element)
     dump_xml(out_file, dom)
-
-
-# def mask_to_cvat(input_path, out_file):
-#     dom = minidom.getDOMImplementation().createDocument(None, 'annotations', None)
-#     root = dom.documentElement
-#     version = dom.createElement("version")
-#     version.appendChild(dom.createTextNode('1.1'))
-#     root.appendChild(version)
-#     file_path = file_traverse(input_path, file_regular=".*.png$")
-#     for f in range(0, len(file_path)):
-#         mask = imread(file_path[f])
-#         element = create_polygons(mask, dom)
-#         element.setAttribute('id', str(f))
-#         element.setAttribute('name', os.path.basename(file_path[f]))
-#         element.setAttribute('width', str(mask.shape[0]))
-#         element.setAttribute('height', str(mask.shape[1]))
-#         root.appendChild(element)
-#     with open(out_file, 'w', encoding='utf-8') as file:
-#         dom.writexml(file, addindent='\t', newl='\n', encoding='utf-8')
-
-
 
 
 def single_region_coordinate(mask: np.array, number: int = 60):
@@ -239,7 +253,7 @@ def resample(contour, number: int) -> np.ndarray:
 
 
 def main(_):
-    mask_to_cvat(input_path=FLAGS.input, out_file=FLAGS.output)
+    mask2xml(input_path=FLAGS.input, out_file=FLAGS.output)
 
 
 if __name__ == '__main__':
