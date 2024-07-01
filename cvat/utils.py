@@ -2,10 +2,11 @@ import os
 import shutil
 import re
 from typing import List
+from pathlib import Path
 # from skimage.io import imread, imsave
 
 
-def file_traverse(file_path, file_regular=r'.*', **kwarg) -> List[str]:
+def file_traverse(file_path, file_regular=r'.*') -> List[str]:
     """
     Traverse a directory and return a list of file paths matching a regular expression.
 
@@ -21,16 +22,15 @@ def file_traverse(file_path, file_regular=r'.*', **kwarg) -> List[str]:
     List[str]
         A list of absolute file paths that match the given regular expression.
     """
-    path = os.path.abspath(file_path)
-    if (not os.path.isdir(path)):
+    path = Path(file_path).absolute()
+    if (not path.is_dir()):
         return [path]
     else:
         path_list = []
-        for root, _, files in os.walk(path, topdown=False):
-            for file in files:
-                abs_path = os.path.join(root, file)
-                if (not re.match(file_regular, abs_path) is None):
-                    path_list.append(abs_path)
+        for path_object in path.rglob('*'):
+            path_object = str(path_object)
+            if (not re.match(file_regular, path_object) is None):
+                path_list.append(path_object)
         path_list.sort()
         return path_list
 
