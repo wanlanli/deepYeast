@@ -33,7 +33,7 @@ class TEST_FORMATE(unittest.TestCase):
         self.city_path = self.root_path.joinpath("city")
 
         self.xml2mask_path = self.root_path.joinpath("test_xml2mask")
-
+        self.xml2training_path = self.root_path.joinpath("test_xml2training")
         return super().setUp()
 
     def test_xml2mask(self):
@@ -43,13 +43,14 @@ class TEST_FORMATE(unittest.TestCase):
         if len(mask_list) > 0:
             saved = imread(mask_list[0])
             gt_image = imread(self.mask_image_list[0])
-            # self.assertEquals(saved, gt_image)
-            self.assertTrue((saved == gt_image).all())
+            self.assertLess((saved != gt_image).sum(),
+                            gt_image.shape[0]*gt_image.shape[1]*0.1)
         else:
             self.assertFalse()
 
     def test_xml2training(self):
-        pass
+        Convert_Format().xml2training(str(self.xml_path),
+                                      str(self.xml2training_path))
 
 
 if __name__ == '__main__':

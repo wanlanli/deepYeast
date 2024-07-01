@@ -53,13 +53,17 @@ class Convert_Format():
         input_folder = target_file_list(input, format="folder")
         convert_cvat_to_trainingset(input_folder, output)
 
-    def mask2training(self):
-        gt_list = []
-        mask_list = []
-        # match_gt_mask
-        # copy_to_structure
+    def mask2training(self, input: str, output: str, folders=["train", "test", "val"]):
+        # for folder in folders:
+        #     gt_list = []
+        #     mask_list = []
+        #     # match_gt_mask
+        #     # copy_to_structure
+        pass
 
-    def xml2training(self):
+    def xml2training(self,  input: str, output: str):
+        self.xml2mask(input, output)
+        self.mask2training(output, output)
         # xml2mask
         # mask2training
         pass
