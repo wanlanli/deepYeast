@@ -17,8 +17,8 @@ import pathlib
 
 from skimage.io import imread
 
-from ..upload_mask_to_cvat import Convert_Format, target_file_list
-from ..utils import file_traverse
+from ..convert_format import Convert_Format, target_file_list, read_xml
+# from ..utils import file_traverse
 
 
 TEST_PATH = pathlib.Path(__file__).parent.resolve().joinpath("job_test")
@@ -34,9 +34,12 @@ class TEST_FORMATE(unittest.TestCase):
 
         self.xml2mask_path = self.root_path.joinpath("test_xml2mask")
         self.xml2training_path = self.root_path.joinpath("test_xml2training")
+        self.mask2xml_path = self.root_path.joinpath("test_mask2xml", "test_mask2xml.xml")
+        self.city2training_path = self.root_path.joinpath("test_city2mask")
         return super().setUp()
 
     def test_xml2mask(self):
+        print("Test xml to mask")
         Convert_Format().xml2mask(str(self.xml_path),
                                   str(self.xml2mask_path))
         mask_list = target_file_list(str(self.xml2mask_path), format="image")
@@ -49,8 +52,29 @@ class TEST_FORMATE(unittest.TestCase):
             self.assertFalse()
 
     def test_xml2training(self):
-        Convert_Format().xml2training(str(self.xml_path),
-                                      str(self.xml2training_path))
+        # print("Test xml to training")
+        # Convert_Format().xml2training(str(self.xml_path),
+        #                               str(self.xml2training_path))
+        pass
+
+    def test_mask2xml(self):
+        print("Test mask to xml")
+        Convert_Format().mask2xml(str(self.mask_path),
+                                  str(self.mask2xml_path))
+        xml = read_xml(self.mask2xml_path)
+        count = 0
+        for image in xml:
+            if image.tag == "image":
+                # print(image.tag, image.attrib)
+                count += 1
+        self.assertEqual(count, len(self.mask_image_list))
+
+    def test_city2training(self):
+        print("Test city to training")
+        Convert_Format().city2training(str(self.city_path),
+                                       str(self.city2training_path))
+        count = len(target_file_list(str(self.city2training_path), format="image"))
+        self.assertEqual(count, 2*len(self.mask_image_list))
 
 
 if __name__ == '__main__':

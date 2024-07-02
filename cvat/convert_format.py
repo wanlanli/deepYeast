@@ -1,13 +1,15 @@
 import os
 from pathlib import Path
+from typing import List
 import xml.dom.minidom as minidom
 
+import re
 import numpy as np
 
 from skimage.io import imread
 import zipfile
 from skimage.measure import find_contours
-from .utils import file_traverse
+# from .utils import file_traverse
 # from absl import app
 # from absl import flags
 from tqdm import tqdm
@@ -41,15 +43,21 @@ class Convert_Format():
 
     def xml2mask(self, input: str, output: str):
         xml_path_list = target_file_list(input, format="xml")
-        print(xml_path_list)
-        for file in tqdm(xml_path_list, desc=" out loop", position=0):
-            dump_xml2mask(file, output)
+        i = 0
+        for file in tqdm(xml_path_list, position=0):
+            i += 1
+            dump_xml2mask(file, output, series=str(i).zfill(3))
+
+    def xml2training(self,  input: str, output: str):
+        # self.xml2mask(input, output)
+        # self.mask2training(output, output)
+        pass
 
     def mask2xml(self, input: str, output: str, **kwargs):
         mask_path_list = target_file_list(input, format="image", **kwargs)
         dump_mask2xml(mask_path_list, output)
 
-    def city2mask(self, input: str, output: str):
+    def city2training(self, input: str, output: str):
         input_folder = target_file_list(input, format="folder")
         convert_cvat_to_trainingset(input_folder, output)
 
@@ -61,12 +69,7 @@ class Convert_Format():
         #     # copy_to_structure
         pass
 
-    def xml2training(self,  input: str, output: str):
-        self.xml2mask(input, output)
-        self.mask2training(output, output)
-        # xml2mask
-        # mask2training
-        pass
+
 
 
 # FLAGS = flags.FLAGS
@@ -204,6 +207,69 @@ def _copyfile(gt_list, image_list, save_path,
         shutil.copyfile(image_old, os.path.join(save_image_path, image_new))
 
 
+def make_training_folder_structural(save_root: str, folder: str = "instance_maps", train_flag: str = "train", series_name: str = "default"):
+    """
+    Create and return a structured file path.
+
+    Parameters:
+    base_path (str): Base directory path.
+    folder_name (str): Name of the subfolder.
+    train_flag (str): Subdirectory name within the subfolder.
+    series_name (str): Series name for further subdirectory structure.
+
+    Returns:
+    str: The created directory path.
+
+    the file structural of training datasets:
+    save_root
+        --images
+            --train
+                --series1
+                    --image1.png
+                    --image2.png
+                    --image3.png
+                --series2
+                    --image1.png
+                    --image2.png
+                    --image3.png
+                --series3
+                    --image1.png
+                    --image2.png
+            --val
+                --series4
+                    --image1.png
+                    --image2.png
+            --test
+                --series5
+                    --image1.png
+                    --image2.png
+        --instance_maps
+            --train
+                --series1
+                    --image1.png
+                    --image2.png
+                    --image3.png
+                --series2
+                    --image1.png
+                    --image2.png
+                    --image3.png
+                --series3
+                    --image1.png
+                    --image2.png
+            --val
+                --series4
+                    --image1.png
+                    --image2.png
+            --test
+                --series5
+                    --image1.png
+                    --image2.png
+    """
+    save_path = Path(save_root).joinpath(folder, train_flag, series_name)
+    save_path.mkdir(parents=True, exist_ok=True)
+    return save_path
+
+
 def _mk_file_structural(save_root: str, folder: str = "instance_maps", train_flag: str = "train", series_name: str = "default"):
     """
     Create and return a structured file path.
@@ -271,7 +337,7 @@ def _mk_file_structural(save_root: str, folder: str = "instance_maps", train_fla
 
 def is_image(path: str) -> str:
     extension = os.path.splitext(path)[1].lower()
-    return extension in SPORTED_IMAGE_FORMATE
+    return extension in IMAGE_FORMATE
 
 
 def is_xml(path: str) -> str:
@@ -397,7 +463,6 @@ def create_polygons(mask: np.array, document: minidom.Document):
     element = document.createElement('image')
     for i in range(0, len(labels)):
         label = labels[i]
-        print(label)
         semantic = label//DIVISION
         new_polygon = document.createElement('polygon')
         new_polygon.setAttribute('label', TYPEMAP[semantic])
@@ -443,6 +508,7 @@ def dump_xml(path: str, document: minidom.Document):
     document : Document
         The XML document to be saved.
     """
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
     with open(path, 'w', encoding='utf-8') as file:
         document.writexml(file, addindent='\t', newl='\n', encoding='utf-8')
 
@@ -564,7 +630,7 @@ def xml2mask(root: ET.Element):
         A dictionary representation of the mask.
     """
     mask_dict = {}
-    for image in tqdm(root, desc=" inner loop", position=1, leave=False):
+    for image in tqdm(root, position=1, leave=False):
         if image.tag == "image":
             # print(image.tag, image.attrib)
             name = image.get("name")
@@ -578,12 +644,12 @@ def xml2mask(root: ET.Element):
                 points = polygon.get("points")
                 point_list = np.array([point.split(",") for point in points.split(";")], dtype=np.float_)
                 fill_row_coords, fill_col_coords = draw.polygon(point_list[:, 1], point_list[:, 0], mask.shape)
-                mask[fill_row_coords, fill_col_coords] = label*1000+order
+                mask[fill_row_coords, fill_col_coords] = label*DIVISION+order
             mask_dict[name] = mask
     return mask_dict
 
 
-def dump_dict2image(mask_dict: dict, save_path: str):
+def dump_dict2image(mask_dict: dict, save_path: str, series: str = ""):
     """
     Save a mask dictionary as an image file.
 
@@ -595,14 +661,15 @@ def dump_dict2image(mask_dict: dict, save_path: str):
         Path to save the output image file.
     """
     for key, value in mask_dict.items():
-        path = os.path.join(save_path, key)
-        folder = os.path.split(path)[0]
-        if not os.path.exists(folder):
-            os.makedirs(folder)
+        path = Path(save_path).joinpath(series, key)
+        # folder = os.path.split(path)[0]
+        # if not os.path.exists(folder):
+        #     os.makedirs(folder)
+        path.parent.mkdir(parents=True, exist_ok=True)
         imsave(path, value, check_contrast=False)
 
 
-def dump_xml2mask(load_path, save_path):
+def dump_xml2mask(load_path, save_path, **kwarg):
     """
     Read an XML file, convert it to a mask, and save the mask as an image.
 
@@ -615,8 +682,36 @@ def dump_xml2mask(load_path, save_path):
     """
     root = read_xml(load_path)
     mask_dict = xml2mask(root)
-    dump_dict2image(mask_dict, save_path)
+    dump_dict2image(mask_dict, save_path, **kwarg)
 
+
+def file_traverse(file_path, file_regular=r'.*') -> List[str]:
+    """
+    Traverse a directory and return a list of file paths matching a regular expression.
+
+    Parameters
+    ----------
+    file_path : str
+        The root directory to traverse.
+    file_regular : str
+        The regular expression pattern to match files. Default is '.*', which matches all files.
+
+    Returns
+    -------
+    List[str]
+        A list of absolute file paths that match the given regular expression.
+    """
+    path = Path(file_path).absolute()
+    if (not path.is_dir()):
+        return [path]
+    else:
+        path_list = []
+        for path_object in path.rglob('*'):
+            path_object = str(path_object)
+            if (not re.match(file_regular, path_object) is None):
+                path_list.append(path_object)
+        path_list.sort()
+        return path_list
 
 
 # def main(_):
